@@ -1,0 +1,838 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Kingdom of None, a turn-based roguelite card RPG in development: the Veth, the 36 territories, the card engine and how the game was made. Portfolio of Tomás Becerra, narrative and systems designer.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Kingdom of None · Tomás Becerra">
+<meta property="og:description" content="Kingdom of None, a turn-based roguelite card RPG in development: the Veth, the 36 territories, the card engine and how the game was made. Portfolio of Tomás Becerra, narrative and systems designer.">
+<meta property="og:url" content="https://tomas22becerra-bit.github.io/">
+<meta property="og:image" content="https://tomas22becerra-bit.github.io/img/hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<title>Kingdom of None</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Alegreya+SC:wght@500;700&family=Alegreya+Sans+SC:wght@500;700&family=Pirata+One&display=swap">
+<style>
+/* Layout: a night-sea chart table. Full-bleed in-engine hero; the continent as a map with a reading panel; the card engine laid out like a hand on the table; the making, in plain words. */
+:root{
+  --sea:#0d161d; --stone:#141f28; --stone-2:#1b2833; --line:#2f3f4b; --line-soft:#24323d;
+  --ink:#ebe2cd; --ink-dim:#a59f8f; --ink-faint:#7c7769;
+  --brass:#c69a5a; --brass-hi:#e6c184;
+  --parch:#e7dabd; --parch-2:#d9c9a5; --parch-ink:#2a2117; --parch-dim:#6a5b44;
+  --pherion:#7fa94a; --orthal:#e38b2f; --yrei:#dd8c9d; --hillaru:#bcc2cb;
+  --k-gold:#8d5f0e; --k-blue:#2d5b8a; --k-red:#962c20;
+  --f-display:"Pirata One","UnifrakturCook",Georgia,serif;
+  --f-body:"Alegreya",Georgia,"Times New Roman",serif;
+  --f-sc:"Alegreya SC","Alegreya",Georgia,serif;
+  --f-label:"Alegreya Sans SC","Alegreya Sans",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{background:var(--sea);color:var(--ink);font-family:var(--f-body);font-size:18px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1240px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+a{color:var(--brass-hi)}
+img{height:auto}
+:focus-visible{outline:2px solid var(--brass-hi);outline-offset:3px}
+h1,h2,h3{text-wrap:balance;margin:0;font-weight:400}
+p{margin:0}
+.eyebrow{font-family:var(--f-label);font-size:.8rem;letter-spacing:.14em;color:var(--brass);text-transform:lowercase}
+.lede{color:var(--ink-dim);max-width:62ch}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- hero ---------- */
+.hero{position:relative;background:var(--sea);isolation:isolate}
+.hero-img{position:absolute;inset:0;z-index:-1;background:var(--sea) url(img/hero.jpg) right top/auto 100% no-repeat}
+.hero-img::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--sea) 0%,var(--sea) 34%,rgba(13,22,29,.6) 56%,rgba(13,22,29,.05) 82%),linear-gradient(180deg,transparent 80%,var(--sea) 100%)}
+.hero-cap{position:absolute;right:max(16px,env(safe-area-inset-right,0px));bottom:14px;font-size:.78rem;font-style:italic;color:var(--ink-faint)}
+.hero nav{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-block:20px}
+.hero nav .mark{font-family:var(--f-display);font-size:1.35rem;color:var(--ink);text-decoration:none;text-shadow:0 1px 8px rgba(0,0,0,.6)}
+.hero nav ul{display:flex;gap:20px;list-style:none;margin:0;padding:0;flex-wrap:wrap}
+.hero nav a{font-family:var(--f-label);letter-spacing:.1em;color:var(--ink);text-decoration:none;font-size:.95rem;text-shadow:0 1px 6px rgba(0,0,0,.7)}
+.hero nav a:hover{color:var(--brass-hi)}
+.hero-title{padding-block:clamp(96px,18vw,220px) 28px}
+.hero-title h1{font-family:var(--f-display);font-size:clamp(3.2rem,10vw,7.4rem);line-height:.92;letter-spacing:.01em;text-shadow:0 2px 24px rgba(0,0,0,.55)}
+.hero-title .sub{margin-top:14px;font-family:var(--f-sc);font-size:clamp(1rem,2.2vw,1.25rem);color:var(--ink);letter-spacing:.04em;text-shadow:0 1px 10px rgba(0,0,0,.7)}
+.hero-title .by{margin-top:6px;color:var(--brass-hi);font-family:var(--f-label);letter-spacing:.12em;font-size:.95rem}
+.opening{padding-block:8px 72px;display:grid;grid-template-columns:minmax(0,620px);gap:48px;align-items:end}
+.opening .text{display:grid;gap:18px;max-width:62ch;font-size:1.12rem;text-shadow:0 1px 12px rgba(13,22,29,.8)}
+.opening .text .q{color:var(--ink);font-style:italic}
+.opening .text p:first-child{font-size:1.32rem;line-height:1.5;color:var(--ink)}
+.opening .text p:first-child::first-letter{font-family:var(--f-display);float:left;font-size:3.6em;line-height:.82;padding:6px 10px 0 0;color:var(--brass-hi)}
+.opening .text .turn{color:var(--brass-hi);font-style:italic}
+.opening figure{margin:0;display:grid;gap:8px}
+.opening figure img{width:100%;aspect-ratio:3/2;object-fit:cover;border:1px solid var(--line);border-radius:2px}
+.opening figcaption{font-size:.85rem;color:var(--ink-faint);font-style:italic}
+.facts{border-block:1px solid var(--line);background:var(--stone)}
+.facts ul{list-style:none;margin:0;padding-block:18px;display:flex;flex-wrap:wrap;gap:10px 36px;justify-content:space-between}
+.facts li{display:flex;align-items:baseline;gap:10px}
+.facts b{font-family:var(--f-display);font-weight:400;font-size:1.9rem;color:var(--brass-hi);font-variant-numeric:tabular-nums}
+.facts span{font-family:var(--f-label);letter-spacing:.08em;color:var(--ink-dim);font-size:.9rem}
+
+/* ---------- section scaffolding ---------- */
+section.band{padding-block:clamp(56px,8vw,96px)}
+.sec-head{display:grid;gap:12px;margin-bottom:32px}
+.sec-head h2{font-family:var(--f-display);font-size:clamp(2.2rem,5vw,3.4rem);line-height:1;color:var(--ink)}
+
+/* ---------- the game ---------- */
+#game{background:var(--sea);border-bottom:1px solid var(--line-soft)}
+.sys{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:36px 34px}
+.sys article{display:grid;gap:10px;align-content:start;min-width:0}
+.sys article.wide{grid-column:1/-1;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:28px;align-items:center}
+.sys img{width:100%;aspect-ratio:16/9;object-fit:cover;border:1px solid var(--line);border-radius:3px;box-shadow:0 12px 28px rgba(0,0,0,.4)}
+.sys .lbl{font-family:var(--f-label);letter-spacing:.14em;color:var(--brass);font-size:.8rem}
+.sys h3{font-family:var(--f-sc);font-weight:500;font-size:1.4rem;line-height:1.2}
+.sys p{color:var(--ink-dim);font-size:1rem}
+.sys .txt{display:grid;gap:8px;min-width:0}
+.wip{margin-top:44px;border:1px dashed var(--brass);border-radius:3px;padding:16px 20px;max-width:72ch;display:grid;gap:4px}
+.wip b{font-family:var(--f-label);letter-spacing:.12em;color:var(--brass);font-weight:500;font-size:.82rem}
+.wip p{font-style:italic;font-size:1.05rem}
+@media (max-width:760px){.sys{grid-template-columns:minmax(0,1fr)}.sys article.wide{grid-template-columns:minmax(0,1fr)}}
+
+/* ---------- continent ---------- */
+#continent{background:var(--sea)}
+.atlas{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:28px;align-items:start}
+.map-col{display:grid;gap:14px;min-width:0}
+.map{position:relative;border:1px solid var(--line);border-radius:3px;overflow:hidden;background:#20313d;box-shadow:0 18px 40px rgba(0,0,0,.45)}
+.map img{display:block;width:100%;height:auto}
+.pin{position:absolute;transform:translate(-50%,-50%);width:clamp(13px,1.6vw,20px);height:clamp(13px,1.6vw,20px);border-radius:50%;border:2px solid #2b2012;background:var(--c);box-shadow:0 1px 3px rgba(0,0,0,.6),inset 0 0 0 2px rgba(255,240,210,.35);cursor:pointer;padding:0;transition:transform .15s ease}
+.pin:hover,.pin:focus-visible{transform:translate(-50%,-50%) scale(1.35);z-index:3}
+.pin[aria-pressed="true"]{transform:translate(-50%,-50%) scale(1.45);box-shadow:0 0 0 3px var(--brass-hi),0 0 18px 4px rgba(230,193,132,.55);z-index:4}
+.pin .tip{position:absolute;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%);white-space:nowrap;background:rgba(13,22,29,.92);color:var(--ink);border:1px solid var(--line);font-family:var(--f-label);letter-spacing:.06em;font-size:.78rem;padding:3px 8px;border-radius:2px;pointer-events:none;opacity:0;transition:opacity .12s}
+.pin:hover .tip,.pin:focus-visible .tip{opacity:1}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;font-family:var(--f-label);font-size:.85rem;letter-spacing:.08em;color:var(--ink-dim)}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:50%;background:var(--c);margin-right:7px;vertical-align:-1px;border:1px solid #2b2012}
+.chips{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.chips .col{display:grid;gap:6px;align-content:start}
+.chips .col>span{font-family:var(--f-label);font-size:.78rem;letter-spacing:.12em;color:var(--c);padding-left:2px}
+.chip{appearance:none;background:var(--stone);color:var(--ink);border:1px solid var(--line-soft);border-left:3px solid var(--c);font-family:var(--f-body);font-size:.95rem;padding:5px 10px;text-align:left;cursor:pointer;border-radius:2px}
+.chip:hover{background:var(--stone-2)}
+.chip[aria-pressed="true"]{background:var(--stone-2);border-color:var(--brass);border-left-color:var(--c);color:var(--brass-hi)}
+.chip small{color:var(--ink-faint);font-family:var(--f-label);letter-spacing:.06em;margin-left:6px}
+
+.panel{background:var(--stone);border:1px solid var(--line);border-top:3px solid var(--c,var(--brass));border-radius:3px;min-width:0;position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px)}
+.panel-head{padding:20px 22px 8px;display:grid;gap:4px}
+.panel-head .meta{font-family:var(--f-label);letter-spacing:.12em;font-size:.82rem;color:var(--c,var(--brass))}
+.panel-head h3{font-family:var(--f-display);font-size:2.4rem;line-height:1}
+.epi{padding:6px 22px 14px;font-style:italic;color:var(--ink-dim);font-size:1rem;border-bottom:1px solid var(--line-soft)}
+.tabs{display:flex;gap:0;padding:12px 22px 0}
+.tab{appearance:none;flex:1;background:transparent;border:1px solid var(--line);color:var(--ink-dim);font-family:var(--f-label);letter-spacing:.1em;font-size:.88rem;padding:7px 6px;cursor:pointer}
+.tab+.tab{border-left:none}
+.tab[aria-selected="true"]{background:var(--stone-2);color:var(--brass-hi);border-bottom-color:var(--stone-2)}
+.terr{padding:14px 22px 22px;display:grid;gap:12px}
+.terr figure{margin:0;display:grid;gap:6px}
+.terr img{width:100%;aspect-ratio:1297/991;object-fit:cover;border:1px solid var(--line-soft);border-radius:2px;background:var(--stone-2)}
+.terr figcaption{font-size:.78rem;color:var(--ink-faint);font-family:var(--f-label);letter-spacing:.06em}
+.terr h4{margin:0;font-family:var(--f-sc);font-weight:500;font-size:1.3rem;letter-spacing:.02em;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.terr h4 .dg{font-family:var(--f-label);font-size:.74rem;letter-spacing:.1em;color:var(--sea);background:var(--brass);padding:1px 7px;border-radius:2px}
+.terr .flav{font-size:1.04rem;line-height:1.55}
+.terr dl{margin:0;display:grid;grid-template-columns:max-content minmax(0,1fr);gap:4px 14px;font-size:.93rem;border-top:1px solid var(--line-soft);padding-top:10px}
+.terr dt{font-family:var(--f-label);letter-spacing:.1em;color:var(--ink-faint);font-size:.8rem;padding-top:2px}
+.terr dd{margin:0;color:var(--ink-dim)}
+.verse{white-space:pre-line;font-style:italic}
+
+.lang{display:inline-flex;align-items:center;gap:8px;font-family:var(--f-label);letter-spacing:.08em;font-size:.85rem;color:var(--ink-dim);cursor:pointer;user-select:none}
+.lang input{accent-color:var(--brass)}
+
+/* ---------- engine ---------- */
+#engine{background:linear-gradient(180deg,var(--sea),#111c24 30%,#111c24 70%,var(--sea))}
+.layers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;margin-bottom:28px}
+.layer{display:grid;gap:8px;align-content:start;padding-top:14px;border-top:1px solid var(--line)}
+.layer .n{font-family:var(--f-label);letter-spacing:.14em;color:var(--brass);font-size:.82rem}
+.layer h3{font-family:var(--f-sc);font-weight:500;font-size:1.45rem}
+.layer p{color:var(--ink-dim);font-size:1rem}
+.chain{display:grid;grid-template-columns:minmax(0,1.1fr) auto minmax(0,1.6fr) auto minmax(0,1.2fr);gap:14px;align-items:center;background:var(--stone);border:1px solid var(--line);border-radius:3px;padding:22px;margin-bottom:56px}
+.chain .arrow{font-family:var(--f-display);font-size:2rem;color:var(--brass)}
+.chain .two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.chain-cap{grid-column:1/-1;font-size:.9rem;color:var(--ink-faint);font-style:italic}
+.lane{display:grid;gap:8px}
+.lane .tokens{display:flex;gap:8px;flex-wrap:wrap}
+.lane .lbl{font-family:var(--f-label);letter-spacing:.1em;font-size:.8rem;color:var(--ink-dim)}
+.token{width:74px;display:grid;gap:4px;justify-items:center;background:var(--parch);border:2px solid #7a5530;border-radius:6px;padding:6px 4px 5px;box-shadow:0 4px 10px rgba(0,0,0,.35)}
+.token img{width:56px;height:56px;object-fit:cover;border-radius:3px}
+.token span{font-family:var(--f-label);font-size:.7rem;letter-spacing:.06em;color:var(--parch-ink);line-height:1.1;text-align:center}
+
+/* card faces */
+.card{background:linear-gradient(180deg,var(--parch),var(--parch-2));color:var(--parch-ink);border:2px solid #8a6a3d;border-radius:10px;box-shadow:0 10px 24px rgba(0,0,0,.45),inset 0 0 0 3px rgba(255,248,230,.35);display:grid;grid-template-rows:auto auto auto 1fr;overflow:hidden;font-size:.9rem;line-height:1.42;min-width:0}
+.card .top{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 10px 6px}
+.card .name{font-family:var(--f-sc);font-weight:700;font-size:1.02rem;letter-spacing:.01em;line-height:1.15}
+.card .cost{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#fff7e3,#cdb48a);border:2px solid #6d5232;font-family:var(--f-sc);font-weight:700;font-size:.95rem;color:var(--parch-ink)}
+.card .art{margin:0 8px;aspect-ratio:4/3;border:1px solid #6d5232;border-radius:3px;overflow:hidden;background:#2a2117}
+.card .art img{width:100%;height:100%!important;object-fit:cover;display:block}
+.card .type{margin:6px 8px 0;text-align:center;font-family:var(--f-label);letter-spacing:.08em;font-size:.74rem;color:var(--parch-dim);border-block:1px solid rgba(106,91,68,.35);padding:3px 0}
+.card .body{padding:8px 11px 11px;display:grid;gap:7px;align-content:start}
+.card .fl{font-style:italic;color:var(--parch-dim);font-size:.85rem}
+.card.q-elite{border-color:#a07a2c;box-shadow:0 10px 24px rgba(0,0,0,.45),inset 0 0 0 3px rgba(255,236,190,.55),0 0 0 1px #d8b46a}
+.card.q-special{border-color:#5f7896}
+.card.combat{background:linear-gradient(180deg,#eef0ef,#d9e1e5);border-color:#5b7f9b}
+.card.combat .type{color:#3f5a70;border-color:rgba(63,90,112,.35)}
+.k-g{color:var(--k-gold);font-weight:700;font-style:normal}
+.k-b{color:var(--k-blue);font-weight:700;font-style:normal}
+.k-r{color:var(--k-red);font-weight:700;font-style:normal}
+.note{font-size:.88rem;color:var(--ink-dim);border-left:2px solid var(--brass);padding-left:10px;line-height:1.45}
+
+.gallery-head{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin:8px 0 18px}
+.gallery-head h3{font-family:var(--f-sc);font-weight:500;font-size:1.6rem}
+.moves{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:26px 22px;margin-bottom:64px}
+.moves .item-slot{display:grid;gap:10px;align-content:start;min-width:0}
+.items{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.itemcard{display:grid;grid-template-columns:120px minmax(0,1fr);gap:16px;background:var(--stone);border:1px solid var(--line);border-radius:3px;padding:14px;min-width:0}
+.itemcard img{width:120px;aspect-ratio:2/3;object-fit:cover;border:1px solid #6d5232;border-radius:2px}
+.itemcard .meta{font-family:var(--f-label);letter-spacing:.1em;font-size:.76rem;color:var(--c,var(--brass))}
+.itemcard h4{margin:2px 0 6px;font-family:var(--f-sc);font-weight:500;font-size:1.2rem;line-height:1.2}
+.itemcard .fl{font-style:italic;font-size:.98rem;line-height:1.45}
+.itemcard ul{margin:10px 0 0;padding:0;list-style:none;display:grid;gap:3px;font-size:.84rem;color:var(--ink-dim)}
+.itemcard li b{font-family:var(--f-sc);font-weight:500;color:var(--ink)}
+.itemcard li em{font-style:normal;font-family:var(--f-label);letter-spacing:.05em;color:var(--ink-faint);font-size:.76rem}
+
+/* ---------- making ---------- */
+#making{position:relative;isolation:isolate;background:var(--sea)}
+#making::before{content:"";position:absolute;inset:0;z-index:-1;background:url(img/thessunar2.jpg) right center/auto 100% no-repeat;opacity:.22;mask-image:linear-gradient(90deg,transparent 30%,#000 80%);-webkit-mask-image:linear-gradient(90deg,transparent 30%,#000 80%)}
+.making{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px}
+.who{display:grid;gap:0;margin:0}
+.who div{display:grid;grid-template-columns:150px minmax(0,1fr);gap:16px;padding:12px 0;border-top:1px solid var(--line-soft)}
+.who dt{font-family:var(--f-label);letter-spacing:.1em;color:var(--brass);font-size:.86rem;padding-top:3px}
+.who dd{margin:0;color:var(--ink-dim);font-size:1rem}
+.tools{display:grid;gap:16px;align-content:start}
+.tools h3{font-family:var(--f-display);font-size:2rem}
+.tools p{font-size:1.12rem;line-height:1.6;max-width:56ch}
+.tools .sig{font-family:var(--f-sc);color:var(--brass-hi);letter-spacing:.04em}
+
+/* ---------- contact ---------- */
+#contact{border-top:1px solid var(--line);background:var(--stone)}
+.contact{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:40px;align-items:start}
+.contact h2{font-family:var(--f-display);font-size:clamp(2.2rem,5vw,3.2rem);line-height:1}
+.contact .role{font-family:var(--f-sc);font-size:1.25rem;color:var(--brass-hi);margin-top:8px}
+.contact p{color:var(--ink-dim);margin-top:14px;max-width:56ch}
+.contact dl{margin:0;display:grid;grid-template-columns:max-content minmax(0,1fr);gap:8px 18px;font-size:1rem}
+.contact dt{font-family:var(--f-label);letter-spacing:.1em;color:var(--ink-faint);font-size:.84rem;padding-top:3px}
+.contact dd{margin:0}
+.mail{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.mail code{font-family:var(--f-body);font-size:1.05rem;user-select:all;color:var(--ink)}
+.btn{appearance:none;background:transparent;border:1px solid var(--brass);color:var(--brass-hi);font-family:var(--f-label);letter-spacing:.1em;font-size:.82rem;padding:4px 10px;border-radius:2px;cursor:pointer}
+.btn:hover{background:rgba(198,154,90,.12)}
+footer{padding-block:28px;color:var(--ink-faint);font-size:.85rem;border-top:1px solid var(--line-soft);background:var(--sea)}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+/* ---------- responsive ---------- */
+@media (max-width:1100px){.moves{grid-template-columns:repeat(3,minmax(0,1fr))}.items{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:960px){
+  .atlas{grid-template-columns:minmax(0,1fr)}
+  .panel{position:static}
+  .opening{grid-template-columns:minmax(0,1fr)}
+  .hero-img{background-size:100% auto;background-position:center top}
+  .hero-img::after{background:linear-gradient(180deg,rgba(13,22,29,.15) 0px,rgba(13,22,29,.55) 300px,var(--sea) 560px)}
+  .hero-cap{display:none}
+  .chain{grid-template-columns:minmax(0,1fr)}
+  .chain .arrow{transform:rotate(90deg);justify-self:center;line-height:1}
+  .making,.contact{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:760px){
+  body{font-size:17px}
+  .layers{grid-template-columns:minmax(0,1fr)}
+  .moves{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 14px}
+  .items{grid-template-columns:minmax(0,1fr)}
+  .chips{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .who div{grid-template-columns:minmax(0,1fr);gap:2px}
+  .hero nav ul{gap:14px}
+}
+@media (max-width:440px){
+  .itemcard{grid-template-columns:88px minmax(0,1fr)}
+  .itemcard img{width:88px}
+  .card{font-size:.84rem}
+}
+</style>
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}.docs{display:flex;gap:10px;flex-wrap:wrap}.docs a{display:inline-block;border:1px solid var(--brass);color:var(--brass-hi);font-family:var(--f-label);letter-spacing:.1em;font-size:.82rem;padding:5px 12px;border-radius:2px;text-decoration:none}.docs a:hover{background:rgba(198,154,90,.12)}</style>
+</head>
+<body>
+
+
+<header class="hero" id="top">
+  <div class="hero-img" role="img" aria-label="Concept painting: a fortress on the summit of a snowy mountain range under a storm sky, with a few travellers on the rocks below."></div>
+  <p class="hero-cap">Concept art</p>
+  <div class="wrap">
+    <nav aria-label="Sections">
+      <a class="mark" href="#top">KoN</a>
+      <ul>
+        <li><a href="#game">The game</a></li>
+        <li><a href="#continent">The continent</a></li>
+        <li><a href="#engine">The engine</a></li>
+        <li><a href="#making">The making</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="hero-title">
+      <h1>Kingdom<br>of None</h1>
+      <p class="sub">A turn-based roguelite card RPG · in development in Godot 4</p>
+      <p class="by">Tomás Becerra · narrative &amp; systems design</p>
+    </div>
+    <div class="opening">
+      <div class="text">
+        <p>Four peoples share a continent, and under it runs a mineral called the Veth. Wear a ring set with it, look into a mirror and say: I look good today. You will feel that it is true.</p>
+        <p>The stone seems to agree with whoever holds it. It also carries heat, and under the right conditions it makes the wings of dead griffins fly. With those wings the Hilläru, the last people to arrive and the fewest in number, took the sky, and from the sky they took the continent: its tribute, its archives, its law. The same process, with a different measure of Veth, makes gunpowder. The stone that gave them their power also makes the weapon that can bring them down.</p>
+        <p>Everyone needs the Veth, and no two peoples agree on what it is. For the Orthal of the Father it is a voice that demands labour; for the Orthal of the Mother, a stone that does not speak. The Yrei hear in it a dialect of the sea. The Pherion guilds put it to work. The Hilläru treat it as engineering and decline to give it a theology. Each reading has its own politics, and every one of them is a reason to fight.</p>
+        <p>Even the world's own records describe the Veth in two vocabularies that cannot both be true. In one, it perceives, waits and chooses. In the other, it chooses nothing and only registers what the world was always able to become. <span class="q">If the stone that agrees with you has no will of its own, whose will has been moving the continent?</span></p>
+        <p class="turn">Kingdom of None does not answer. It is a game, and it asks the question where a game can: in the rules. What you are, what you carry and what you draw decide what you can do. Whether the choice that follows is yours is the question the game keeps asking.</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="facts" aria-label="The game in numbers">
+  <ul class="wrap">
+    <li><b>4</b><span>peoples</span></li>
+    <li><b>12</b><span>playable archetypes</span></li>
+    <li><b>36</b><span>territories in 3D</span></li>
+    <li><b>108</b><span>signature moves</span></li>
+    <li><b>200+</b><span>cards</span></li>
+    <li><b>6</b><span>kinds of impact</span></li>
+  </ul>
+</div>
+
+<main>
+<section class="band" id="game" aria-labelledby="h-game">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">from a card roguelite to a world</p>
+      <h2 id="h-game">The game</h2>
+      <p class="lede">Kingdom of None started as a 2D pixel-art card roguelite with fixed dungeons. It grew into a semi-open 3D world: thirty-six territories to cross, settlements to walk into, and people whose interests pull against each other. Its story is told through their errands. The player does not direct it and is not its hero; the player watches it from inside, and takes part.</p>
+    </div>
+    <div class="sys">
+      <article class="wide">
+        <img src="img/ui/settlement.jpg" alt="In-game: the player standing in a 3D village square, with the settlement menu open on the left." width="1200" height="675">
+        <div class="txt"><p class="lbl">settlements</p><h3>Places you walk into</h3><p>Settlements are 3D spaces composed for the player's camera, never for the aerial view. The player walks their streets, talks to their people and uses their services: the smithy, the inn, the gate, the lodging and the mission board.</p></div>
+      </article>
+      <article>
+        <img src="img/ui/company.jpg" alt="In-game: the company screen, with recruitable characters and their portraits." width="1200" height="675">
+        <div class="txt"><p class="lbl">the company</p><h3>A company, not a hero</h3><p>The player recruits characters from the twelve archetypes and sends them out on runs. They level up, carry trauma and die. The company keeps what it learned: its missions, its journal and the lore it gathered.</p></div>
+      </article>
+      <article>
+        <img src="img/ui/board.jpg" alt="In-game: a mission board with pinned parchment notices." width="1200" height="675">
+        <div class="txt"><p class="lbl">missions</p><h3>The mission board</h3><p>Every settlement offers three main missions and two rotating tasks. One main mission conquers the settlement and opens the next difficulty; at least one sends the player into a neighbouring province. Missions are official errands for the settlement's government, so each one serves some interests at the expense of others.</p></div>
+      </article>
+      <article>
+        <img src="img/ui/journal.jpg" alt="In-game: the journal, open on a card entry." width="1200" height="675">
+        <div class="txt"><p class="lbl">events</p><h3>Events, situations, threads</h3><p>On the road, events remember the player across runs, branch, and offer options only some bodies can take: reading what a stranger leaves unsaid takes Cosmopolitanism. Situations are smaller and forget. Named threads tie events together across provinces in the journal.</p></div>
+      </article>
+      <article>
+        <img src="img/ui/reputation.jpg" alt="In-game: the reputation screen, twelve heraldic shields grouped by people." width="1200" height="675">
+        <div class="txt"><p class="lbl">reputation</p><h3>Nobody loves everyone</h3><p>Reputation runs on sixteen counters, the four peoples and their twelve subfactions, each with five levels named in its own culture's words. Since missions set factions against each other, a perfect standing with all of them is out of reach. A good standing with everyone carries no penalty.</p></div>
+      </article>
+      <article>
+        <img src="img/ui/travel.jpg" alt="In-game: the travel map of the continent with route markers." width="1200" height="675">
+        <div class="txt"><p class="lbl">biomes and travel</p><h3>The land bites back</h3><p>Every step between nodes costs travel energy, and thirty-four of the thirty-six territories press on the traveller with one or more of fourteen hostilities, from cold to thin air. A character who runs out of energy faints and wakes at the refuge with one more trauma and half the bag. Nobody gets stranded.</p></div>
+      </article>
+      <article>
+        <img src="img/ui/smithy.jpg" alt="In-game: the smithy, with weapons for sale and their prices." width="1200" height="675">
+        <div class="txt"><p class="lbl">economy and crafting</p><h3>Scarce gold, honest recipes</h3><p>Gold is meant to be scarce and worth finding. Prices derive from recipes, so buying finished goods costs more than buying ingredients, and crafting from loot costs least, by construction. Each province's smithy forges its own culture's equipment; universal pieces can be made anywhere.</p></div>
+      </article>
+    </div>
+    <div class="wip">
+      <b>work in progress</b>
+      <p>Everything in-game shown here is work in progress, built on a 2018 laptop without a graphics card. It has never looked better, and it will never look worse.</p>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="continent" aria-labelledby="h-cont">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">the run map · october 2026</p>
+      <h2 id="h-cont">The continent</h2>
+      <p class="lede">Four peoples, twelve provinces, thirty-six territories. Each province is played at three difficulties, D1 to D3. Provinces open in three blocks, and a block opens only after the previous one is complete in all four peoples, so every run pushes the player across cultures. Choose a settlement on the map.</p>
+    </div>
+    <div class="atlas">
+      <div class="map-col">
+        <div class="map" id="map">
+          <img src="img/map.jpg" alt="Painted map of the continent: the four peoples' provinces in green, orange, coral and silver around a blue sea." width="1672" height="941">
+        </div>
+        <div class="legend" id="legend"></div>
+        <div class="chips" id="chips"></div>
+      </div>
+      <article class="panel" id="panel" aria-live="polite">
+        <div class="panel-head">
+          <p class="meta" id="p-meta"></p>
+          <h3 id="p-name"></h3>
+        </div>
+        <p class="epi" id="p-epi"></p>
+        <div class="tabs" role="tablist" aria-label="Difficulty" id="p-tabs"></div>
+        <div class="terr" id="p-terr"></div>
+        <div style="padding:0 22px 18px"><label class="lang"><input type="checkbox" id="lang"> Show the original Spanish</label></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="engine" aria-labelledby="h-eng">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">combat system</p>
+      <h2 id="h-eng">The engine</h2>
+      <p class="lede">Kingdom of None is a card game in shape only. Its engine sits one layer below the surface, where three different objects work together. Each answers one question: who the body is, what it carries, and what the hand can do this turn.</p>
+    </div>
+    <div class="layers">
+      <div class="layer"><p class="n">the body</p><h3>Archetype moves</h3><p>Twelve archetypes, one per subfaction. Each has six fixed stats and nine signature moves: four common, three special, two elite. The moves are the subfaction's cultural property, and each body works a resource no item can grant: the Wanderer's cycle, the Okrosh's fury, the Reader's echo.</p></div>
+      <div class="layer"><p class="n">what it carries</p><h3>Equipment cards</h3><p>Over the body, six slots. Each item adds its own combat cards to the deck, gated by stats. No item is locked to a faction; a body raised far from it simply reads it less deeply.</p></div>
+      <div class="layer"><p class="n">what lands</p><h3>Impacts</h3><p>Combat cards do not strike. They drop impacts into a separate lane of the hand: cutting, piercing, blunt, control, block, dodge. Impacts sit outside the deck, the discard and the reshuffle. The body sets up; the equipment lands.</p></div>
+    </div>
+    <div class="chain" aria-label="Example: one item, its combat cards and their impacts">
+      <div id="chain-item"></div>
+      <div class="arrow" aria-hidden="true">›</div>
+      <div class="two" id="chain-cards"></div>
+      <div class="arrow" aria-hidden="true">›</div>
+      <div class="lane"><p class="lbl">the impact lane, after Tear</p><div class="tokens" id="chain-tokens"></div></div>
+      <p class="chain-cap">A Sharp Knife puts two combat cards in the deck. Playing Tear drops three cutting impacts into the hand, where archetype moves can then change them before they land.</p>
+    </div>
+
+    <div class="gallery-head">
+      <h3>Signature moves</h3>
+      <p class="lede" style="font-size:.95rem">Eight of the 108, one per archetype shown. Rules text from the game; flavour from inside the world.</p>
+    </div>
+    <div class="moves" id="moves"></div>
+
+    <div class="gallery-head">
+      <h3>Items, in their own words</h3>
+      <p class="lede" style="font-size:.95rem">Every item carries one line from someone in the world. The register changes with the people who made it.</p>
+    </div>
+    <div class="items" id="items"></div>
+  </div>
+</section>
+
+<section class="band" id="making" aria-labelledby="h-make">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">team of two</p>
+      <h2 id="h-make">The making</h2>
+      <p class="lede">The game is built and playable: combat, equipment, events, missions, reputation, crafting, the 3D run map and its settlements. What is still in progress: the enemy response system, the combat presentation and the narrative content of the later provinces.</p>
+    </div>
+    <div class="making">
+      <dl class="who">
+        <div><dt>Tomás Becerra</dt><dd>Creative direction and canon. World, factions and history. Game and systems design: archetypes, cards, items, economy, progression, events and missions. The in-world text, written by him or drafted with Claude and rewritten by him. Settlement layout and UI composition in the Godot editor.</dd></div>
+        <div><dt>Claude (Anthropic)</dt><dd>All code, in Godot 4 and GDScript. Technical production of the 3D run map and its tools. Design and writing proposals, which Tomás accepts, rewrites or discards. The English versions of the texts on this page, reviewed by Tomás.</dd></div>
+        <div><dt>Art and sound</dt><dd>Concept and card art generated with Midjourney under Tomás's direction. 3D settlements built from purchased low-poly asset packs. Music generated with Suno; sound effects from free libraries.</dd></div>
+      </dl>
+      <div class="tools">
+        <h3>On tools</h3>
+        <p>Kingdom of None was directed by one person and built with machines: a language model for the code and for drafts, an image model for the art, a music model for the score. None of them decides what the game is. Direction is the work: choosing, rejecting, rewriting, and knowing why. It is said here plainly because it is true, and because the work should be judged for what it is.</p>
+        <p class="sig">Tomás Becerra</p>
+        <h3 style="margin-top:18px">Thanks</h3>
+        <p>To Juan, Fran, Ginevra, Mini and Morcilla. I am one, but without them I am less.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="contact" aria-labelledby="h-contact">
+  <div class="wrap contact">
+    <div>
+      <h2 id="h-contact">Tomás Becerra</h2>
+      <p class="role">Narrative &amp; Systems Designer</p>
+      <p>Former judicial and NGO writer and immersive-installation author, trained in international relations and law. Looking for narrative, game or systems design work in Europe, remote or on site.</p>
+    </div>
+    <dl>
+      <dt>Documents</dt><dd><span class="docs"><a href="files/KoN_Narrative_Portfolio_TomasBecerra.pdf" target="_blank" rel="noopener">Narrative portfolio (PDF)</a><a href="files/CV_TomasBecerra.pdf" target="_blank" rel="noopener">CV (PDF)</a></span></dd>
+      <dt>Email</dt><dd><span class="mail"><code id="mail">tomas22becerra@gmail.com</code><button class="btn" id="copy" type="button">Copy</button></span></dd>
+      <dt>Based in</dt><dd>Rome, Italy. Open to relocation anywhere in Europe.</dd>
+      <dt>Languages</dt><dd>Spanish (native) · English (C1) · Italian (B1) · German (A2)</dd>
+    </dl>
+  </div>
+</section>
+</main>
+<footer>
+  <div class="wrap">
+    <span>Kingdom of None · 2026. In-world dates: AR and DR, before and after the Refoundation.</span>
+    <span>Map, territories and interface: in-game captures. Paintings and card art: concept art made for the game.</span>
+  </div>
+</footer>
+
+<script>
+(() => {
+const F = {
+  pherion:{name:'Pherion', c:'var(--pherion)'},
+  orthal:{name:'Orthal', c:'var(--orthal)'},
+  yrei:{name:'Yrei', c:'var(--yrei)'},
+  hillaru:{name:'Hilläru', c:'var(--hillaru)'}
+};
+const B = {1:'P1 · open from the start', 2:'P2 · opens after all four P1', 3:'P3 · opens after all four P2'};
+
+const P = [
+{id:'crossfen', name:'Crossfen', f:'pherion', p:1,
+ epi:{en:`“Sorry, friend, but…” he said without stopping. “Crime is older than justice, and you should know it.”`,
+      es:`“Perdón amigo, pero…” dijo sin detenerse “El crimen es más viejo que la justicia, y deberías saberlo.”`},
+ t:[
+ {x:.3248,y:.4835, n:{en:'Greyleaf Forest',es:'Bosque Hojagris'},
+  tx:{en:`Oaks with silver-grey leaves. Overcast most of the year. Humble but functional houses. The roads are good, but not all of them are on the maps. The Brokerage reminds everyone that “free circulation” does not mean circulation without a record.`,
+      es:`Robles de hoja gris plateada. Nublado la mayor parte del año. Casas humildes pero funcionales. Los caminos son buenos, pero no todos están en los mapas. La Correduría recuerda que ‘de libre circulación’ no significa circulación sin registro.`},
+  cap:{en:'Igde Landing',es:'Embarcadero del Igde'}, gov:{en:'Rhuvin of the Brokerage',es:'Rhuvin de la Correduría'}, loy:{en:'The Brokerage',es:'Correduría'}},
+ {x:.2961,y:.3985, n:{en:'The Dáiren Delta',es:'Delta del Dáiren'},
+  tx:{en:`Before it reaches the sea, the Dáiren splits in three: the Igde, the Hánid and the Oshnid, the last being the most populated. In the rainy season the delta smells of mud and rotten wood. In harder times, it smells of salt. The Yrei influence on the cooking of the delta villages is impossible to miss.`,
+      es:`El Dáiren se divide en tres antes de llegar al mar: el Igde, el Hánid y el Oshnid, siendo el último el más poblado. En época de lluvias, el delta huele a barro y madera podrida. En momentos más duros, huele a sal. La influencia culinaria Yrei en los pueblos del delta es imposible de pasar de largo.`},
+  cap:{en:'Old Edóvan',es:'Viejo Edóvan'}, gov:{en:'House Dovan',es:'Casa Dovan'}, loy:{en:'Principality of the Griffin',es:'Principado del Grifo'}},
+ {x:.3989,y:.4176, n:{en:'The Crossing',es:'El cruce'},
+  tx:{en:`Raised during the reign of Éod the Broad. The west bridge was destroyed a few months ago in an explosion that no official record attributes to anyone. House Lerend classifies it as an infrastructure accident. The east bridge still stands.`,
+      es:`Erguidos durante el reinado de Éod el Ancho. El puente oeste fue destruido en una explosión hace unos meses que ningún registro oficial atribuye a nadie. La Casa Lerend lo clasifica como accidente de infraestructura. El puente Este sigue en pie.`},
+  cap:{en:'Stone Bridge',es:'Puente de piedra'}, gov:{en:'House Lerend',es:'Casa Lerend'}, loy:{en:'Seignory of the Three Thrones',es:'Señorío de los tres tronos'}}
+ ]},
+{id:'thornval', name:'Thornval', f:'pherion', p:2,
+ epi:{en:`The griffin myth tells of an eagle inseminating a horse. It is not particularly elaborate.`,
+      es:`El mito del grifo habla de un águila inseminando a un caballo. No es particularmente elaborado.`},
+ t:[
+ {x:.3756,y:.5611, n:{en:'The Royal Valley',es:'El Valle Real'},
+  tx:{en:`Dry hills of short grass and reddish earth. Fine artisans and high-quality horses. Cobbled roads laid with visible sweat. The name comes from before the guilds.`,
+      es:`Colinas secas de pasto corto y tierra rojiza. Artesanos finos y caballos de alta calidad. Caminos de adoquines labrados con sudor visible. El nombre viene de antes de los gremios.`},
+  cap:{en:'Kent of the Valley',es:'Kent del valle'}, gov:{en:'House Torlend',es:'Casa Torlend'}, loy:{en:'Seignory of the Three Thrones',es:'Señorío de los tres tronos'}},
+ {x:.4061,y:.492, n:{en:'The Duchy of Fedrow-Shaft',es:'Ducado Fedrow-Shaft'},
+  tx:{en:`The village and the fields that peer out of the valley's steepest gorge. Low roofs, except for the great theatre, which takes up most of the habitable land. It is for public combat. Every weekend. And private meetings. Once a year.`,
+      es:`El pueblo y los campos que asoman en el desfiladero más pronunciado del valle. Techos bajos, a excepción del gran teatro, que ocupa la mayor parte del territorio habitable. Es para combates públicos. Cada fin de semana. Y reuniones privadas. Una vez al año.`},
+  cap:{en:'The Broken Helm of the Border',es:'Yelmo roto de la frontera'}, gov:{en:'House Fedrow-Shaft',es:'Casa Fedrow-Shaft'}, loy:{en:'Rhuvin of the Brokerage',es:'Rhuvin de la Correduría'}},
+ {x:.3248,y:.6132, n:{en:'The Fief of Thornval',es:'Feudo de Thornval'},
+  tx:{en:`The central barracks of the army of the Pherion Griffin Crown burned for weeks after the impalement of the Count of Taens and his family. The castle's botanical garden keeps the largest collection of griffin fangs in the region.`,
+      es:`Los cuarteles centrales del ejército de la Corona Pherion del grifo ardieron durante semanas tras el empalamiento del Conde de Taens y su familia. El jardín botánico del castillo conserva la mayor colección de colmillos de grifo en la región.`},
+  cap:{en:'Castle Thorn',es:'Castillo Thorn'}, gov:{en:'House Thorn',es:'Casa Thorn'}, loy:{en:'Principality of the Griffin',es:'Principado del Grifo'}}
+ ]},
+{id:'ashford', name:'Ashford', f:'pherion', p:3,
+ epi:{en:`“Lord Faldurs of the Council has sent another dove. He insists on knowing what we spend so much sulphur on.” “Fireworks, for his next visit.” The scribe looked at the paper. “The winter is hard, my lord…”`,
+      es:`“El señor Faldurs del Concilio ha enviado otra paloma. Insiste en saber en qué gastamos tanto azufre.” “Fuegos artificiales, para su próxima visita.” El escribiente miró el papel. “El invierno es fuerte, mí señor…”`},
+ t:[
+ {x:.3571,y:.6918, n:{en:'The Principality of the Griffin',es:'Principado del Grifo'},
+  tx:{en:`The Pherion found the griffins before anyone else. They put them on their emblems, weapons and banners. The Hilläru harvested them to make capes, and drove them to extinction. The Principality has three statues of the beast at its entrance, replacing the originals. None of the figures has mechanical wings.`,
+      es:`Los Pherion encontraron los grifos antes que nadie. Los pusieron en sus emblemas, armas y estandartes. Los Hilläru los cosecharon para producir capas, llevándolos a la extinción. El Principado tiene tres estatuas de la bestia en la entrada, en reemplazo de los originales. Ninguna de las figuras tiene alas mecánicas.`},
+  cap:{en:'The Fortress of Ánmer Tol',es:'Fortaleza de Ánmer Tol'}, gov:{en:'House Swynn',es:'Casa Swynn'}, loy:{en:'Principality of the Griffin',es:'Principado del Grifo'}},
+ {x:.3589,y:.7726, n:{en:'The Marches of Léndo',es:'Las marcas de Léndo'},
+  tx:{en:`Wide fields crossed by deep furrows and constant traffic. The battle of Léndo took place here. There was no room to bury them all. The land, in consequence, became unusually fertile.`,
+      es:`Campos extensos cruzados por surcos profundos y tráfico continuo. La batalla de Léndo tuvo lugar aquí. No hubo espacio para enterrarlos a todos. La tierra, en consecuencia, se volvió inusualmente fértil.`},
+  cap:{en:'Léndo Village',es:'Villa Léndo'}, gov:{en:'House Jónav',es:'Casa Jónav'}, loy:{en:'Seignory of the Three Thrones',es:'Señorío de los tres tronos'}},
+ {x:.4187,y:.7365, dun:1, n:{en:'The Seignory of the Three Thrones',es:'Señorío de los tres tronos'},
+  tx:{en:`Everyone in Ashford knows what the word “gunpowder” means. Even so, no one would admit to knowing someone who knows an alchemist.`,
+      es:`Todos en Ashford saben lo que significa la palabra ‘pólvora’. Aún asi, nadie admitiría que conoce a alguien que conoce a un alquimista.`},
+  cap:{en:'Fort Ashford',es:'Fuerte Ashford'}, gov:{en:'House Ashford',es:'Casa Ashford'}, loy:{en:'Seignory of the Three Thrones, Principality of the Griffin',es:'Señorío de los tres tronos, Principado del Grifo'}}
+ ]},
+{id:'surath', name:'Sûrath', f:'orthal', p:1,
+ epi:{en:`The historians of the reef abandoned the task of recording the Orthal origin around 1894 AR, after piling up stacks of papyrus holding contradictory versions.`,
+      es:`Los historiadores del arrecife abandonaron la tarea de registrar el origen orthal alrededor del 1894 AR luego de acumular pilas de papiro conteniendo versiones contradictorias.`},
+ t:[
+ {x:.4755,y:.4591, n:{en:'The Sûra Desert',es:'Desierto de Sûra'},
+  tx:{en:`“Hgar, idez?”, or “Sand, what did you expect?”, is both greeting and warning in the local dialect. Foreign merchant caravans move by night or do not move. Orthal humour turns almost entirely on this foreign incapacity.`,
+      es:`‘Hgar, idez?’ o —Arena, ¿qué esperabas?— en el dialecto local refiere tanto al saludo como a la advertencia. Las caravanas mercantes foráneas se mueven de noche o no se mueven. El humor Orthal gira casi exclusivamente en torno a esta incapacidad extranjera.`},
+  cap:{en:'Vethnuk’um, or the Veth Road',es:'Vethnuk’um o la ruta del Veth'}, gov:{en:'None',es:'Ninguno'}, loy:{en:'Peoples of the Mother, the Brokerage',es:'Pueblos de la madre, Correduría'}},
+ {x:.5413,y:.5494, n:{en:'The Blue Dunes',es:'Las dunas azules'},
+  tx:{en:`Celestial quartz, or “Fool's Veth”, is a bright stone with hallucinogenic properties, famous among caravaners whose pockets are fuller than their heads. House Khêmur controls every smoking sanctuary in the region.`,
+      es:`El cuarzo celeste o 'Veth de los tontos' es una piedra brillante con propiedades alucinógenas famosa entre caravaneros con bolsillos mas llenos que la cabeza. La Casa Khêmur controla todos los santuarios humeantes de la región.`},
+  cap:{en:'The Drowned Well Enclave',es:'Enclave de Pozo Ahogado'}, gov:{en:'Clan Khêmur',es:'Clan Khêmur'}, loy:{en:'Peoples of the Father, the Lectorate',es:'Pueblos del padre, Lectorado'}},
+ {x:.4934,y:.3528, n:{en:'The Oasis of Jah’el-um',es:'Oasis jah’el-um'},
+  tx:{en:`The poet Dhimnu composed most of his work when the settlement was barely an inn, a well and an altar. Among the texts that survived the purge is The Dispute Between the Young Man and His Weeping: “Her beauty took away his thirst. His skin gave way beneath the sun. She fell asleep at his feet. Oh, mother.”`,
+      es:`El poeta Dhimnu compuso la mayor parte de su obra cuando en el asentamiento apenas asomaba una posada, un pozo y un altar. Entre los textos que sobrevivieron a la purga se encuentra La Disputa entre el joven y su llanto: “Su belleza le quitó la sed. Su piel cedió bajo el sol. Ella se durmió a sus pies. Oh, madre.”`},
+  cap:{en:'The Mother’s Womb',es:'El vientre de la madre'}, gov:{en:'The Oracle of Niû',es:'Oráculo de Niû'}, loy:{en:'Peoples of the Mother',es:'Pueblos de la madre'}}
+ ]},
+{id:'drakhul', name:'Drakh’ul', f:'orthal', p:2,
+ epi:{en:`The first foreign delegation to visit the Vertebrae asked about the cave paintings, and what they meant. The Orthal said they did not know: when they arrived, the paintings were already there.`,
+      es:`La primer delegación extranjera en visitar las vértebras preguntó por las pinturas de las cuevas, y su significado. Los Orthal dijeron no saber, que cuando ellos llegaron, ya estaban ahí.`},
+ t:[
+ {x:.5562,y:.4304, n:{en:'The Vertebrae of Drakh’ul',es:'Vértebras del Drakh\'ul'},
+  tx:{en:`“It rises like an insult to our march. Two weeks without sign of the rift. (…) the meat is impossible to chew, and I can see the men's spirit go out with every step (…) I fear for our lives, Ari.” Correspondence between Commander Hol Stórde and his wife, Ariënda Vael.`,
+      es:`Se alza como un insulto a nuestro andar. Dos semanas sin señales de la grieta. (…) la carne es imposible de masticar, y puedo ver la moral de los hombres apagarse con cada paso (…) Temo por nuestras vidas, Ari’ —correspondencia entre el Comandante Hol Stórde y su esposa Ariënda Vael.`},
+  cap:{en:'The Okrosh Bastion',es:'Bastión Okrosh'}, gov:{en:'Clan Okrosh',es:'Clan Okrosh'}, loy:{en:'Peoples of the Father, the Lectorate of Umbrakhad',es:'Pueblos del padre, Lectorado de Umbrakhad'}},
+ {x:.6089,y:.5228, n:{en:'The Father’s Massif',es:'Macizo del Padre'},
+  tx:{en:`The Father is the name, not the person, nor the thing. Readers who spend more than two consecutive cycles at the high posts develop, with a regularity no one discusses openly, the habit of talking to the rock.`,
+      es:`El Padre es el nombre, no la persona, ni la cosa. Los Lectores que pasan más de dos ciclos consecutivos en los puestos de altura desarrollan, con una regularidad que no se comenta abiertamente, el hábito de hablarle a la roca.`},
+  cap:{en:'The Lower Caves',es:'Cuevas del bajo'}, gov:{en:'The lesser tribes of the Drakh and the Ûl',es:'Tribus menores del Drakh y el Ûl'}, loy:{en:'Peoples of the Mother and of the Father',es:'Pueblos de la madre y del padre'}},
+ {x:.5502,y:.6854, n:{en:'The Sanctuaries in Shadow',es:'Santuarios a la sombra'},
+  tx:{en:`The Júnek of the shadow are the Father's most devout faithful. They are also the only ones with special access to the Dûr when the volcano expresses itself. The Lectorate ordered the temple enlarged for the growing number of visitors.`,
+      es:`Los Júnek a la sombra son los fieles más acérrimos del Padre. Son también los únicos con acceso especial al Dûr durante épocas de expresión del volcán. El Lectorado dispuso la expansión del templo por la creciente afluencia de visitantes.`},
+  cap:{en:'K’nph in Ruins',es:'K\'nph en ruinas'}, gov:{en:'The Júnek of the shadow',es:'Júnek a la sombra'}, loy:{en:'Peoples of the Father, the Lectorate of Umbrakhad',es:'Pueblos del padre, Lectorado de Umbrakhad'}}
+ ]},
+{id:'umbrakhad', name:'Umbrakhad', f:'orthal', p:3,
+ epi:{en:`They dug deep in search of something they did not know they were looking for, until they found it. The one who strayed claims the tradition has the order backwards.`,
+      es:`Cavaron profundo en búsqueda de algo que no sabían que buscaban hasta que lo encontraron. El extraviado afirma que la tradición tiene el orden al revés.`},
+ t:[
+ {x:.631,y:.6961, n:{en:'The Galleries of Umbrakhad',es:'Galerías de Umbrakhad'},
+  tx:{en:`Black stone balconies facing the abyss. Wide tunnels, vaults where no inscription enters. Candles on the stairs. The Regent's rift appears on no map drawn after the second century of the record.`,
+      es:`Balcones de piedra negra mirando hacia el abismo. Túneles anchos, bóvedas donde no entra una inscripción. Velas en las escaleras. La grieta del regente no figura en ningún mapa posterior al segundo siglo del registro.`},
+  cap:{en:'The Temples of the High Lectorate',es:'Templos del Lectorado Superior'}, gov:{en:'The High Lectorate of Umbrakhad',es:'Lectorado Superior de Umbrakhad'}, loy:{en:'The Lectorate of Umbrakhad',es:'Lectorado de Umbrakhad'}},
+ {x:.5472,y:.7917, n:{en:'Dûr, the Smoking One',es:'Dûr, el humeante'},
+  tx:{en:`The young people of the seven houses to be given to the Father at the summer solstice go through a strict selection, under the sole direction of the High Lectorate. For generations this has been more than enough for most of their families. The volcano, for its part, has attended every celebration.`,
+      es:`Los jóvenes de las siete casas a ser concedidos al Padre durante el solsticio de verano atraviesan un proceso de selección estricto y bajo la sola dirección del Lectorado superior. Esto ha sido, por generaciones, más que suficiente para la mayoría de sus familias. El volcán, por su parte, ha asistido a todas las celebraciones.`},
+  cap:{en:'Uzc of the Sacrifice',es:'Uzc del sacrificio'}, gov:{en:'The Júnek of the shadow',es:'Júnek a la sombra'}, loy:{en:'Peoples of the Father, the Lectorate of Umbrakhad',es:'Pueblos del Padre, Lectorado de Umbrakhad'}},
+ {x:.6728,y:.6089, dun:1, n:{en:'The Rift of the Fifth Regent',es:'La grieta del quinto regente'},
+  tx:{en:`Umbrakhad is governed; of that there is no doubt. The question is a different one.`,
+      es:`Umbrakhad es gobernado, de eso no hay dudas. La pregunta es otra.`},
+  cap:{en:'The Rift',es:'La grieta'}, gov:{en:'The High Lectorate of Umbrakhad',es:'Lectorado Superior de Umbrakhad'}, loy:{en:'None',es:'Ninguna'}}
+ ]},
+{id:'oreya', name:'Oreya', f:'yrei', p:1,
+ epi:{en:`Turquoise blue, emerald green, sky violet, sad pink, circular orange. L’erinilie counts at least sixty colours, for the corals alone.`,
+      es:`Azul turquesa, verde esmeralda, violeta del cielo, rosa triste, aranjado circular. L'erinilie contabiliza al menos sesenta colores, solo para los corales.`},
+ t:[
+ {x:.1884,y:.5877, n:{en:'The Reef Gardens',es:'Jardines del Arrecife'},
+  tx:{en:`Named for a word that in Tóna comes close to “to remember bitterly”. The translation is imprecise: the word does not describe the act of remembering, but the sustained effort of not forgetting. The temple gardens and the nearby islets have borne that name since before the Argument, when Oreya was the capital of the world.`,
+      es:`En los jardines de una palabra que en Tóna se aproxima a 'recordar amargamente'. La traducción es imprecisa: la palabra no describe el acto de recordar, sino el esfuerzo sostenido de no olvidar. Los jardines del templo y los islotes aledaños llevan ese nombre desde antes del Argumento, cuando Oreya era la capital del mundo.`},
+  cap:{en:'Ancient Oreya',es:'Antigua Oreya'}, gov:{en:'The Óaedori Parliament of the Reef',es:'Parlamento Óaedori del arrecife'}, loy:{en:'Pro-Veth Yrei',es:'Yrei pro veth'}},
+ {x:.2434,y:.7024, n:{en:'The Grotto of the Óaedori Heroes',es:'Gruta de los héroes Óaedori'}, verse:1,
+  tx:{en:`From the shore it is still possible to read the inscription on the rusted plaque:\n“Eai lin'e dothérao,\nInnil thûn nureo,\nMedíleas, t'uleir Óaedori,\nMedin ille áenir, Óaedori eour l'ihm”`,
+      es:`Desde la costa, todavía es posible leer la inscripción en la placa oxidada:\n"Eai lin'e dothérao,\nInnil thûn nureo,\nMedíleas, t'uleir Óaedori,\nMedin ille áenir, Óaedori eour l'ihm"`},
+  cap:{en:'Édas Pier',es:'Muelle Édas'}, gov:{en:'The Áhnarei Circle',es:'Círculo Áhnarei'}, loy:{en:'Pro-Veth Yrei, the Brokerage',es:'Yrei pro veth, Correduría'}},
+ {x:.1764,y:.7832, n:{en:'The Singing Isles',es:'Las Islas Cantantes'},
+  tx:{en:`The fame of the Yrei fishermen comes from their devotion to music. The stories say that the largest conch ever found weighed some eight anchors and gave off a deep, almost irregular echo, unlike the singing of the ocean.`,
+      es:`La fama de los pescadores Yrei tiene su origen en su devoción por la música. Las historias cuentan que la pieza de caracol más grande jamás encontrada pesaba unas ocho anclas y que emitía un eco profundo, casi irregular, distinto del cantar del océano.`},
+  cap:{en:'Áhnareië Atoll',es:'Atolón Áhnareië'}, gov:{en:'The Áhnarei Circle',es:'Círculo Áhnarei'}, loy:{en:'Pro-Veth Yrei, the Parliament of the Reef',es:'Yrei pro veth, parlamento del Arrecife'}}
+ ]},
+{id:'auvaelis', name:'Auvaelis', f:'yrei', p:2,
+ epi:{en:`The simplest and most honest truth is that the Óaedori were a complicated family.`,
+      es:`La verdad más simple y más honesta es que es que los Óaedori eran una familia complicada.`},
+ t:[
+ {x:.1776,y:.2657, n:{en:'The Faded Bay',es:'Bahía desteñida'},
+  tx:{en:`The swell runs for kilometres before it breaks on the cliffs of the bay, drawing curves that serve ships of every draught, coming in and going out. The northerners do not waste time explaining to outsiders that the colour of the water is always the same; the difference comes from where the observer stands and how high the ship rides.`,
+      es:`El oleaje se extiende por kilómetros antes de romper en los acantilados de la bahía, dibujando curvas útiles para el ingreso y egreso de todo tipo de calados. Los norteños no pierden tiempo explicando a los forasteros que el color del agua siempre es el mismo, que la diferencia emerge de la posición del observador y la altura del barco.`},
+  cap:{en:'Auvael, or the Bay Port',es:'Auvael o puerto de la bahía'}, gov:{en:'House Óaedori of the North',es:'Casa Óaedori del norte'}, loy:{en:'Anti-Veth Yrei, moderate',es:'Yrei anti-veth razonable'}},
+ {x:.2548,y:.0935, n:{en:'Éluar Imai',es:'Éluar Imai'},
+  tx:{en:`The Path of the Birds follows the migration of the great birds of the polar sea. The hunters who walk it do so in silence. They have no better choice: the wind is the surest sign of a shift in the folds of the snow, which can fill the paths between the ice in an instant.`,
+      es:`El Camino de los Pájaros sigue el patrón de migración de las grandes aves del mar polar. Los cazadores que la caminan lo hacen en silencio. No tienen mejor alternativa: el viento es la mejor indicación de un cambio en los pliegues de las capas nevadas, capaces de llenar los caminos entre el hielo en apenas un instante.`},
+  cap:{en:'Ynx of the Birds',es:'Ynx de los pájaros'}, gov:{en:'The Xe’rei nomads',es:'Nómades Xe’rei'}, loy:{en:'Anti-Veth Yrei, not hostile',es:'Yrei anti-veth no hostil'}},
+ {x:.4456,y:.0765, n:{en:'The Blizzard Ridge',es:'Dorsal de la ventisca'},
+  tx:{en:`In Auvaelis it is said that the remains of the crown prince Eriü and his crew lie somewhere between the first and the third spine of the lower Ridge. None of those directions makes any sense to the sailors of Crossfen.`,
+      es:`En Auvaelis se dice que los restos del príncipe heredero Eriü y su tripulación yacen en algún lugar entre la primera y tercera espina del Dorsal inferior. Ninguna de esas indicaciones tienen sentido para los marineros de Crossfen.`},
+  cap:{en:'The Xu’atteq Camp',es:'Campamento Xu\'atteq'}, gov:{en:'The Xu’atteq of the Ridge',es:'Xu’atteq del dorsal'}, loy:{en:'Anti-Veth Yrei, hostile',es:'Yrei anti-veth hostil'}}
+ ]},
+{id:'thessunar', name:'Thessunar', f:'yrei', p:3,
+ epi:{en:`“No one keeps more secrets than the sea, but perhaps the mountain has something to say.” First meeting to deliberate on the nature of the Veth, Ûmte.`,
+      es:`"Nadie tiene más secretos que el mar, pero quizá la montaña tiene algo para decir." - Primer encuentro para deliberar sobre la naturaleza del veth, Umte.`},
+ t:[
+ {x:.7147,y:.8502, n:{en:'Äimeni, the Calm Sea',es:'Äimeni, el mar tranquilo'},
+  tx:{en:`After the civil war, the prostitution ring of the Iynä was funded by the Priesthood of Ûmte to solve the problem of the orphans, who paid the Brokerage for its discretion, who, guided by the Dashvé, finished carrying Yrei blood to every corner of the continent.`,
+      es:`Luego de la guerra civil, la red de prostitución del Iyna fue financiada por el Sacerdocio de Ûmte para resolver el problema de los huérfanos, quienes pagaron a la correduría por su discreción, quienes, guiados por la Dashvé, terminaron de llevar la sangre Yrei a cada esquina del continente.`},
+  cap:{en:'The Stilt Houses of the Iynä',es:'Palafitos del Iynä'}, gov:{en:'Viceroy Challier',es:'Virrey Challier'}, loy:{en:'The Thessunar institution, the Brokerage',es:'Thessunar institución, Correduría'}},
+ {x:.8911,y:.7141, n:{en:'Ûmte, Between the Waves',es:'Ûmte, entre las olas'},
+  tx:{en:`The swell is violent and the sky gives no respite. But the hand holds firm, and from its fingers rises the so-called “pearl of the seas”, for it still keeps the last remains of pre-Argument Yrei architecture in perfect condition. Visitors say there is nothing like it in the world. Not even on the floating islands.`,
+      es:`El oleaje es tempestivo y el cielo no dan tregua. Pero la mano se mantiene firme, y en los dedos asoma la llamada "perla de los mares", pues aún conserva los últimos vestigios de arquitectura Yrei pre-argumento en perfectas condiciones. Los visitantes dicen que no hay nada igual en el mundo. Ni siquiera en las islas flotantes.`},
+  cap:{en:'The Fingers of Ûmte',es:'Los dedos de Ûmte'}, gov:{en:'The Thessunar institution',es:'Thessunar institución'}, loy:{en:'The Thessunar institution',es:'Thessunar institución'}},
+ {x:.9001,y:.8533, dun:1, n:{en:'The Lower Chamber',es:'La cámara baja'},
+  tx:{en:`No Priest has seen the rift with his own eyes. And no Reader has ever entered the lower chamber in person.`,
+      es:`Ningún Sacerdote vió la grieta con sus propios ojos. Y ningún Lector entró personalmente a la cámara baja.`},
+  cap:{en:'The Deep',es:'Lo profundo'}, gov:{en:'The Thessunar institution',es:'Thessunar institución'}, loy:{en:'The Thessunar institution',es:'Thessunar institución'}}
+ ]},
+{id:'seld', name:'Seld', f:'hillaru', p:1,
+ epi:{en:`“It is not enough to write history. It must also be defended. Lie when necessary. Silence the noise. Peace is quiet for a reason.”`,
+      es:`“No basta con escribir la historia. También hay que defenderla. Mentir cuando sea necesario. Callar el ruido. Que por algo la paz es silenciosa.”`},
+ t:[
+ {x:.4593,y:.6217, n:{en:'The Burgh of Seld',es:'Burgo de Seld Capital'},
+  tx:{en:`Seld began using the title “Regia” in its decrees from 258 DR, at about the same time as the Hilläru aristocracy left the city to settle the floating islands.`,
+      es:`Seld comenzó a emplear el título de “Regia” en sus decretos a partir del 258 DR, aproximadamente al mismo tiempo en el que la aristocracia Hilläru abandonaba la ciudad para poblar las Islas flotantes.`},
+  cap:{en:'The Regia City of Seld',es:'Regia Ciudad de Seld'}, gov:{en:'House Ghalan',es:'Casa Ghalan'}, loy:{en:'Pro-Dorath',es:'Pro Dorath'}},
+ {x:.4426,y:.5547, n:{en:'The Plains of Phaenseld',es:'Llanuras de Phaenseld'},
+  tx:{en:`The wheat stretches as far as the eye can see. Hope does not reach that far.`,
+      es:`El trigo se extiende hasta donde alcanza la vista. La esperanza no llega tan lejos.`},
+  cap:{en:'Ranël, the People’s Farms',es:'Ranël, Las granjas del pueblo'}, gov:{en:'House Lünral',es:'Casa Lünral'}, loy:{en:'Pro-Dorath, the Brokerage',es:'Pro Dorath, Correduría'}},
+ {x:.5012,y:.6132, dun:1, n:{en:'The Municipal Archives',es:'Archivos municipales'},
+  tx:{en:`The maesters and the archivists have a dispute over reputation that has gone unresolved for centuries. The archives, say the former, are the latter's consolation prize.`,
+      es:`Los maestres y los archivistas tienen una histórica disputa reputacional que lleva siglos sin resolverse. Los archivos, dicen los primeros, son el premio de consuelo de los segundos.`},
+  cap:{en:'The Library',es:'La biblioteca'}, gov:{en:'House Vael',es:'Casa Vael'}, loy:{en:'Pro-Dorath',es:'Pro Dorath'}}
+ ]},
+{id:'karathos', name:'Karathos', f:'hillaru', p:2,
+ epi:{en:`Some have everything and still look up, rubbing their hands.`,
+      es:`Algunos lo tienen todo y aun así miran hacia arriba, frotándose las manos.`},
+ t:[
+ {x:.6627,y:.2869, n:{en:'The Myr Dominion, or the Vine',es:'Dominio Myr o La enredadera'},
+  tx:{en:`Named for the deep thicket on which the known east of the world rests. The maesters of Veliornath reckon the oceans are better charted.`,
+      es:`Bautizada así por la profunda espesura sobre la que se sostiene el este conocido del mundo. Los maestres de Veliornath estiman que los océanos están mejor cartografiados.`},
+  cap:{en:'Ehaníldras',es:'Ehaníldras'}, gov:{en:'House Stórde',es:'Casa Stórde'}, loy:{en:'Anti-Dorath',es:'Anti Dorath'}},
+ {x:.7775,y:.3082, n:{en:'Cèlennith',es:'Cèlennith'},
+  tx:{en:`“Nest of the birds”, in Thaunë.`, es:`“Nido de las aves” en Thaunë.`},
+  cap:{en:'The Mhadiniri Centre',es:'Centro Mhadiniri'}, gov:{en:'The Mhadiniri',es:'Mhadiniri'}, loy:{en:'Takes no side',es:'Sin posición'}},
+ {x:.8283,y:.4357, n:{en:'Féllore, the Heights',es:'Féllore, Las alturas'},
+  tx:{en:`Cold in winter. Warm in summer. The best wine on the continent is made on the balconies of Féllore.`,
+      es:`Frio en invierno. Cálido en verano. El mejor vino del continente se produce en los balcones de Féllore.`},
+  cap:{en:'Karathos of the Heights',es:'Karathos de las alturas'}, gov:{en:'House Vael',es:'Casa Vael'}, loy:{en:'Anti-Dorath',es:'Anti Dorath'}}
+ ]},
+{id:'veliornath', name:'Veliornath', f:'hillaru', p:3,
+ epi:{en:`Nänn of Veliornath gave up everything for a poor woman and a humble life on the rivers. His father never forgave him.`,
+      es:`Nänn de Veliornath lo abandonó todo por una mujer pobre y una vida humilde en los ríos. Su padre nunca lo perdonó.`},
+ t:[
+ {x:.7614,y:.1945, n:{en:'The Towers of the Zephyr',es:'Las torres del Céfiro'},
+  tx:{en:`The Hilläru were quick to understand the value of natural borders. What they never expected was that the clouds would be the hardest border to cross.`,
+      es:`Los Hilläru entendieron rápidamente el valor de las fronteras naturales. Lo que nunca hubieran esperado, es que las nubes fuera la frontera más difícil de cruzar.`},
+  cap:{en:'Ihnäwen, or the Clouds',es:'Ihnäwen o las nubes'}, gov:{en:'House Llunera',es:'Casa Llunera'}, loy:{en:'Pro-Dorath',es:'Pro Dorath'}},
+ {x:.8421,y:.1722, n:{en:'The Solar Archipelago',es:'El archipiélago Solar'},
+  tx:{en:`The crystal Citadel is the finest structure the history of the known world has ever seen.`,
+      es:`La Ciudadela de cristal es la estructura más fina que jamás vio la historia del mundo conocido.`},
+  cap:{en:'The Citadel of Veliornath',es:'Ciudadela de Veliornath'}, gov:{en:'House Riethral',es:'Casa Riethral'}, loy:{en:'Pro-Dorath',es:'Pro Dorath'}},
+ {x:.8774,y:.0786, dun:1, n:{en:'Veliornathirië',es:'Veliornathirië'},
+  tx:{en:`“Truth and power are the same thing.”`, es:`“La verdad y el poder son la misma cosa”`},
+  cap:{en:'The Palaces of the Upper Chamber',es:'Palacios de la cámara Alta'}, gov:{en:'House Dorath',es:'Casa Dorath'}, loy:{en:'Pro-Dorath',es:'Pro Dorath'}}
+ ]}
+];
+
+const $ = s => document.querySelector(s);
+const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+let lang = 'en';
+try { if (localStorage.getItem('kon-lang') === 'es') lang = 'es'; } catch(e) {}
+let cur = {pi: P.findIndex(p => p.id === 'thessunar'), d: 1};
+const pins = [];
+
+/* map pins */
+const map = $('#map');
+P.forEach((p, pi) => p.t.forEach((t, d) => {
+  const b = document.createElement('button');
+  b.className = 'pin'; b.type = 'button';
+  b.style.left = (t.x*100)+'%'; b.style.top = (t.y*100)+'%';
+  b.style.setProperty('--c', F[p.f].c);
+  b.setAttribute('aria-label', `${p.name} D${d+1}: ${t.n.en}`);
+  b.innerHTML = `<span class="tip">${esc(p.name)} · D${d+1}</span>`;
+  b.addEventListener('click', () => select(pi, d));
+  map.appendChild(b); pins.push({b, pi, d});
+}));
+
+/* legend + chips */
+$('#legend').innerHTML = Object.values(F).map(f => `<span style="--c:${f.c}"><i></i>${f.name}</span>`).join('') + '<span style="margin-left:auto">P1 · P2 · P3: progression blocks</span>';
+const chips = $('#chips');
+Object.entries(F).forEach(([k, f]) => {
+  const col = document.createElement('div'); col.className = 'col'; col.style.setProperty('--c', f.c);
+  col.innerHTML = `<span>${f.name}</span>`;
+  P.forEach((p, pi) => { if (p.f !== k) return;
+    const c = document.createElement('button'); c.type='button'; c.className='chip'; c.dataset.pi = pi;
+    c.innerHTML = `${esc(p.name)}<small>P${p.p}</small>`;
+    c.addEventListener('click', () => select(pi, 0));
+    col.appendChild(c);
+  });
+  chips.appendChild(col);
+});
+
+function select(pi, d){ cur = {pi, d}; render(); }
+
+function render(){
+  const p = P[cur.pi], t = p.t[cur.d], L = lang;
+  const panel = $('#panel'); panel.style.setProperty('--c', F[p.f].c);
+  $('#p-meta').textContent = `${F[p.f].name} · ${B[p.p]}`;
+  $('#p-name').textContent = p.name;
+  $('#p-epi').textContent = p.epi[L];
+  $('#p-tabs').innerHTML = p.t.map((x, i) => `<button class="tab" role="tab" type="button" aria-selected="${i===cur.d}" data-d="${i}">D${i+1}</button>`).join('');
+  $('#p-tabs').querySelectorAll('.tab').forEach(b => b.addEventListener('click', () => select(cur.pi, +b.dataset.d)));
+  const img = `img/t/${p.id}_d${cur.d+1}.jpg`;
+  $('#p-terr').innerHTML = `
+    <figure><img src="${img}" alt="In-engine render of ${esc(t.n.en)}, ${esc(p.name)}." width="1297" height="991"><figcaption>${esc(p.name)} D${cur.d+1} · in-game render of the run map</figcaption></figure>
+    <h4>${esc(t.n[L])}${t.dun ? '<span class="dg">dungeon</span>' : ''}</h4>
+    <p class="flav${t.verse ? ' verse' : ''}">${esc(t.tx[L])}</p>
+    <dl><dt>${L==='es'?'capital':'capital'}</dt><dd>${esc(t.cap[L])}</dd><dt>${L==='es'?'gobierno':'government'}</dt><dd>${esc(t.gov[L])}</dd><dt>${L==='es'?'lealtad':'loyalty'}</dt><dd>${esc(t.loy[L])}</dd></dl>`;
+  pins.forEach(o => o.b.setAttribute('aria-pressed', o.pi===cur.pi && o.d===cur.d));
+  chips.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', +c.dataset.pi===cur.pi));
+  renderCards();
+}
+
+/* ---------- cards ---------- */
+const K = s => s.replace(/\[g\](.*?)\[\/g\]/g,'<i class="k-g">$1</i>').replace(/\[b\](.*?)\[\/b\]/g,'<i class="k-b">$1</i>').replace(/\[r\](.*?)\[\/r\]/g,'<i class="k-r">$1</i>');
+const MOVES = [
+ {img:'m_apuesta_justa', q:'common', c:1, arch:'Wanderer · Crossfen', f:'pherion',
+  n:{en:'Fair Bet',es:'Apuesta justa'},
+  t:{en:'Pay 2 [g]cycle[/g]. Draw a card. If it is an [b]attack[/b] card, its first [b]impact[/b] causes [r]bleed[/r] and gets +2 damage. If it is a [b]defence[/b] card, its first [b]impact[/b] gains +3 [r]block[/r]. Otherwise, discard it.',
+     es:'Paga 2 [g]ciclos[/g]. Roba una carta. Si es una carta de [b]ataque[/b], su primer [b]impacto[/b] produce [r]sangrado[/r] y tiene +2 de daño. Si era de [b]defensa[/b], su primer [b]impacto[/b] gana +3 [r]bloqueo[/r]. De lo contrario, se descarta.'},
+  fl:{en:'That’s how it is.',es:'Así es.'}},
+ {img:'m_en_nombre_del_padre', q:'elite', c:3, arch:'Okrosh · Drakh’ul', f:'orthal',
+  n:{en:'In the Father’s Name',es:'En nombre del padre'},
+  t:{en:'Requires 6 [g]fury[/g]: instantly kill any target (bosses: at 20% HP or less).',
+     es:'Requiere 6 [g]furias[/g] acumuladas: mata instantáneamente a cualquier objetivo (Bosses requiere HP al 20%).'},
+  fl:{en:'“Give me back my cavalry, Stórde! You damned idiot!” Shouts in the Great Palace of Veliornath, 98 DR.',es:'"¡Devuélveme mi caballería, Stórde! ¡Maldito idiota!" Gritos en el Palacio Mayor de Veliornath, 98 DR'}},
+ {img:'m_gastronomia_para_muertos', q:'elite', c:3, arch:'Apothecary · Thessunar', f:'yrei',
+  n:{en:'Gastronomy for the Dead',es:'Gastronomía para muertos'},
+  t:{en:'Pay 3 [g]extract[/g]: damage 3, +2 for each stack of [r]poison[/r] on the target. Recover HP equal to 50% of the damage dealt.',
+     es:'Paga 3 [g]concentrados[/g]: daño 3 + 2 por cada acumulación de [r]envenenado[/r] en el objetivo. Recupera X HP donde X = 50% del daño infligido.'},
+  fl:{en:'“Lack of appetite is the worst symptom.”',es:'"La falta de apetito es el peor síntoma."'}},
+ {img:'m_voz_del_dur', q:'elite', c:3, arch:'Reader · Umbrakhad', f:'orthal',
+  n:{en:'Voice of the Dûr',es:'Voz del Dûr'},
+  t:{en:'[g]Echo[/g] damage 2, +1 per [g]echo[/g] on the Reader, +1 per [g]echo[/g] on the target. Consumes all echoes on both. If the target dies, its stacks pass to the nearest enemy (the Reader’s do not).',
+     es:'Daño de [g]eco[/g] 2 + 1 por cada [g]eco[/g] del Lector + 1 por cada [g]eco[/g] del objetivo. Consume todos los ecos de ambos. Si el objetivo muere, sus acumulaciones pasan al enemigo más cercano (los del Lector no).'},
+  fl:{en:'A volcano does not need to repeat itself.',es:'Un volcán no necesita repetirse.'}},
+ {img:'m_desde_arriba', q:'special', c:0, arch:'Cape Bearer · Karathos', f:'hillaru',
+  n:{en:'From Above',es:'Desde arriba'},
+  t:{en:'Pay 1 [g]height[/g]: if the top card of your deck is revealed, recover 2 energy. Otherwise, recover 1 energy.',
+     es:'Paga 1 [g]altura[/g]: Si la carta superior de tu mazo está revelada, recupera 2 energía. De lo contrario, recupera 1 energía.'},
+  fl:{en:'“The world seems to lie at your feet.”',es:'“El mundo parece a tus pies.”'}},
+ {img:'m_protocolo_gris', q:'elite', c:1, arch:'Agent · Seld', f:'hillaru',
+  n:{en:'Grey Protocol',es:'Protocolo gris'},
+  t:{en:'Deal 4 damage to the target enemy. Removed after use.',
+     es:'Causa 4 de daño al enemigo objetivo. Se quita.'},
+  fl:{en:'“It’s the law,” he said, with a smile.',es:'"Es la ley" dijo, con una sonrisa.'}},
+ {img:'m_explosion_no_controlada', q:'elite', c:3, arch:'Alchemist · Ashford', f:'pherion',
+  n:{en:'Uncontrolled Explosion',es:'Explosión no controlada'},
+  t:{en:'Damage 4, +1 per [g]reagent[/g] you hold, to all enemies. Consumes all reagents. 25% chance to [r]burn[/r] yourself.',
+     es:'Daño 4 + 1 por [g]reactivo[/g] que tengas acumulado a todos los enemigos. Consume todos los reactivos. 25% de posibilidades de [r]quemarte[/r] a ti mismo.'},
+  fl:{en:'The incident report is clear: alchemical exhaustion, condolences to the guild, and a request to the domain to fund a new wall for the east wing.',es:'El acta del incidente es clara: agotamiento alquímico, condolencias al gremio, y un requerimiento al dominio para financiar un nuevo muro para el ala este.'}},
+ {img:'m_envoltura_de_la_corriente', q:'elite', c:3, arch:'Sailor · Oreya', f:'yrei',
+  n:{en:'Wrapped in the Current',es:'Envoltura de la corriente'},
+  t:{en:'Apply [r]immobilised[/r] to all enemies and deal 3 damage to all enemies.',
+     es:'Aplica [r]inmovilizado[/r] a todos los enemigos, causa daño 3 a todos los enemigos.'},
+  fl:{en:'“Sleep, my child, you are water in the sea, / and the wind knows where it will carry thee.” Yrei lullaby.',es:'"Duerme, mi niño, eres agua en el mar / Que el viento conoce, dónde te ha de llevar." Canción de cuna Yrei'}}
+];
+const NOTES = {
+  m_en_nombre_del_padre:'The flavour moves a Roman anecdote, Augustus shouting for Varus’s lost legions, into a Hilläru palace: the elite move that kills anything is captioned by the man who lost an army.',
+  m_explosion_no_controlada:'The flavour is a bureaucratic record of the mechanic’s own risk, and a quiet warning about how Ashford ends.'
+};
+const QN = {common:'Common', special:'Special', elite:'Elite'};
+const QES = {common:'Común', special:'Especial', elite:'Élite'};
+
+function moveCard(m, L){
+  return `<div class="card q-${m.q}"><div class="top"><span class="name">${esc(m.n[L])}</span><span class="cost" aria-label="Cost ${m.c}">${m.c}</span></div>
+  <div class="art"><img src="img/c/${m.img}.jpg" alt="" width="760" height="570"></div>
+  <p class="type">${(L==='es'?QES:QN)[m.q]} · ${esc(m.arch)}</p>
+  <div class="body"><p>${K(m.t[L])}</p><p class="fl">${esc(m.fl[L])}</p></div></div>`;
+}
+const KNIFE_CARDS = [
+ {img:'e_rasgar', c:1, n:{en:'Tear',es:'Rasgar'}, t:{en:'Add three [b]impacts[/b] (damage 1) to your hand.',es:'Agrega tres [b]impactos[/b] (daño 1) a tu mano.'}},
+ {img:'e_punzada', c:1, n:{en:'Stab',es:'Punzada'}, t:{en:'Add two [b]impacts[/b] (damage 0–2) to your hand.',es:'Agrega dos [b]impactos[/b] (daño 0-2) a tu mano.'}}
+];
+function combatCard(m, L){
+  return `<div class="card combat"><div class="top"><span class="name">${esc(m.n[L])}</span><span class="cost">${m.c}</span></div>
+  <div class="art"><img src="img/c/${m.img}.jpg" alt="" width="700" height="525"></div>
+  <p class="type">${L==='es'?'Combate · Cuchillo afilado':'Combat · Sharp Knife'}</p>
+  <div class="body"><p>${K(m.t[L])}</p></div></div>`;
+}
+const ITEMS = [
+ {img:'i_cuchillo', f:'universal', meta:'Universal · one hand · cutting', n:{en:'Sharp Knife',es:'Cuchillo afilado'},
+  fl:{en:'For bread, rope and long conversations.',es:'Para el pan, la cuerda y las conversaciones largas.'},
+  cards:[['Tear','common, cost 1'],['Stab','common, cost 1']]},
+ {img:'i_lanza_comun', f:'universal', meta:'Universal · one hand · piercing', n:{en:'Common Spear',es:'Lanza común'},
+  fl:{en:'Four peoples, twelve wars, one design.',es:'Cuatro pueblos, doce guerras, un solo diseño.'},
+  cards:[['Thrust','Agility 1, cost 2'],['Haft Blow','Agility 1, cost 1']]},
+ {img:'i_arponyrei', f:'yrei', meta:'Yrei · Oreya · piercing, cutting', n:{en:'Whaling Harpoon',es:'Arpón cazaballenas'},
+  fl:{en:'It never stopped being a weapon, however much it wanted to.',es:'Nunca dejó de ser un arma, por más que quiso.'},
+  cards:[['Thrust','Agility 1, cost 2'],['Haft Blow','Agility 1, cost 1'],['Turbulent Drag','Agility 3, special']]},
+ {img:'i_ballesta', f:'pherion', meta:'Pherion · Thornval · two hands · ranged', n:{en:'Griffin Crossbow',es:'Ballesta de grifo'},
+  fl:{en:'Crossbows were not invented to fight the Hilläru in flight, but they found their use.',es:'Las ballestas no se inventaron para combatir a los Hilläru en vuelo, pero encontraron su utilidad.'},
+  cards:[['True Shot','Strength 2, Agility 2'],['Reload','Strategy 2, cost 0'],['Marksman','Agility 3, special'],['Firing School','Strategy 3, special']]},
+ {img:'i_latigo_de_gestor', f:'hillaru', meta:'Hilläru · Seld · one hand · control', n:{en:'Phaenseld Overseer’s Whip',es:'Látigo de gestor de Phaenseld'},
+  fl:{en:'He closed the book with his usual calm. He put out the candles. The sunset let them be seen from the window: on their knees, in chains, in the mud.',es:'Cerró el libro con la tranquilidad de siempre. Apagó las velas. El atardecer dejaba verlos desde la ventana: de rodillas, encadenados, en el barro.'},
+  cards:[['Lashes','Strategy 2'],['Subjugate','Strategy 3, special'],['Cruelty','Agility 2, Strategy 3, elite']]},
+ {img:'i_cimitarra_surath', f:'orthal', meta:'Orthal · Sûrath · one hand · cutting', n:{en:'Curved Scimitar',es:'Cimitarra curva'},
+  fl:{en:'“The quickest way to untie a knot is to cut it.” Xérsh the Eyeless to his disciples, 1791 AR.',es:'"La forma más rápida de desatar un nudo es cortarlo" Xérsh sin ojos a sus discípulos, 1791 AR'},
+  cards:[['Cut','Strength 1, cost 2'],['Half Moon','Agility 2, cost 3'],['Hilt Backhand','Strength 2, Agility 1'],['Merciless','Strength 2, Agility 2, special']]}
+];
+const FC = {universal:'var(--brass)', pherion:'var(--pherion)', orthal:'var(--orthal)', yrei:'var(--yrei)', hillaru:'var(--hillaru)'};
+
+function renderCards(){
+  const L = lang;
+  $('#moves').innerHTML = MOVES.map(m => `<div class="item-slot">${moveCard(m, L)}${NOTES[m.img] ? `<p class="note">${esc(NOTES[m.img])}</p>` : ''}</div>`).join('');
+  $('#chain-cards').innerHTML = KNIFE_CARDS.map(m => combatCard(m, L)).join('');
+  const knife = ITEMS[0];
+  $('#chain-item').innerHTML = `<div class="itemcard" style="grid-template-columns:minmax(0,1fr);--c:${FC.universal}"><img src="img/c/${knife.img}.jpg" alt="Concept art of a sharp knife." style="width:100%;aspect-ratio:3/4" width="560" height="840"><div><p class="meta">${esc(knife.meta)}</p><h4>${esc(knife.n[L])}</h4><p class="fl">${esc(knife.fl[L])}</p></div></div>`;
+  $('#chain-tokens').innerHTML = [1,2,3].map(() => `<div class="token"><img src="img/c/impacto_cortante.jpg" alt=""><span>${L==='es'?'cortante · 1':'cutting · 1'}</span></div>`).join('') +
+    `<div class="token" style="opacity:.55"><img src="img/c/impacto_bloqueo.jpg" alt=""><span>${L==='es'?'bloqueo':'block'}</span></div>`;
+  $('#items').innerHTML = ITEMS.map(i => `<article class="itemcard" style="--c:${FC[i.f]}"><img src="img/c/${i.img}.jpg" alt="Concept art: ${esc(i.n.en)}." width="560" height="840"><div style="min-width:0"><p class="meta">${esc(i.meta)}</p><h4>${esc(i.n[L])}</h4><p class="fl">${esc(i.fl[L])}</p><ul>${i.cards.map(c => `<li><b>${esc(c[0])}</b> <em>${esc(c[1])}</em></li>`).join('')}</ul></div></article>`).join('');
+}
+
+const lt = $('#lang');
+lt.checked = lang === 'es';
+lt.addEventListener('change', () => { lang = lt.checked ? 'es' : 'en'; try { localStorage.setItem('kon-lang', lang); } catch(e) {} render(); });
+
+$('#copy').addEventListener('click', () => {
+  const t = $('#mail').textContent, b = $('#copy');
+  const done = () => { b.textContent = 'Copied'; setTimeout(() => b.textContent = 'Copy', 1600); };
+  const sel = () => { const r = document.createRange(); r.selectNodeContents($('#mail')); const s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = 'Selected'; setTimeout(() => b.textContent = 'Copy', 1600); };
+  try { navigator.clipboard.writeText(t).then(done, sel); } catch(e) { sel(); }
+});
+
+render();
+})();
+</script>
+
+</body>
+</html>
