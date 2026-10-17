@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Kingdom of None, a turn-based roguelite card RPG in development: the Veth, the 36 territories, the card engine and how the game was made. Portfolio of Tomás Becerra, narrative and systems designer.">
+<meta name="description" content="Kingdom of None, a turn-based roguelite card RPG in development: the Veth, the 36 territories, the card engine, a codex of every move, item and enemy built so far, and how the game was made. Portfolio of Tomás Becerra, narrative and systems designer.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Kingdom of None · Tomás Becerra">
-<meta property="og:description" content="Kingdom of None, a turn-based roguelite card RPG in development: the Veth, the 36 territories, the card engine and how the game was made. Portfolio of Tomás Becerra, narrative and systems designer.">
+<meta property="og:description" content="Kingdom of None, a turn-based roguelite card RPG in development: the Veth, the 36 territories, the card engine, a codex of every move, item and enemy built so far, and how the game was made. Portfolio of Tomás Becerra, narrative and systems designer.">
 <meta property="og:url" content="https://tomas22becerra-bit.github.io/">
 <meta property="og:image" content="https://tomas22becerra-bit.github.io/img/hero.jpg">
 <meta name="twitter:card" content="summary_large_image">
@@ -217,6 +217,60 @@ section.band{padding-block:clamp(56px,8vw,96px)}
 footer{padding-block:28px;color:var(--ink-faint);font-size:.85rem;border-top:1px solid var(--line-soft);background:var(--sea)}
 footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 
+
+/* ---------- codex ---------- */
+#codex{background:var(--sea);border-top:1px solid var(--line-soft)}
+.cx-bar{display:flex;gap:10px 28px;flex-wrap:wrap;align-items:center;margin-top:4px}
+.cx-gen{font-family:var(--f-label);letter-spacing:.08em;font-size:.82rem;color:var(--ink-faint)}
+details.cx{border:1px solid var(--line);border-radius:3px;background:var(--stone);margin-bottom:14px}
+details.cx>summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:baseline;gap:6px 20px;flex-wrap:wrap;padding:18px 22px}
+details.cx>summary::-webkit-details-marker,details.sub>summary::-webkit-details-marker{display:none}
+details.cx>summary:hover .cx-t{color:var(--brass-hi)}
+.cx-t{font-family:var(--f-display);font-size:clamp(1.6rem,3.4vw,2.2rem);line-height:1.1;color:var(--ink)}
+.cx-t::before{content:"›";display:inline-block;width:.6em;margin-right:8px;color:var(--brass);transition:transform .15s}
+details[open]>summary .cx-t::before{transform:rotate(90deg)}
+.cx-n{font-family:var(--f-label);letter-spacing:.1em;font-size:.86rem;color:var(--ink-dim)}
+.cx-body{padding:0 22px 20px}
+.cx-intro{color:var(--ink-dim);font-size:.98rem;max-width:74ch;margin-bottom:10px}
+details.sub{border-top:1px solid var(--line-soft)}
+details.sub>summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:2px 10px;align-items:baseline;padding:12px 0}
+details.sub>summary::before{content:"›";color:var(--c,var(--brass));font-family:var(--f-display);font-size:1.35rem;line-height:1;transition:transform .15s;justify-self:center}
+details.sub[open]>summary::before{transform:rotate(90deg)}
+details.sub>summary:hover .sub-n{color:var(--brass-hi)}
+.sub-n{font-family:var(--f-sc);font-weight:500;font-size:1.22rem;line-height:1.25;color:var(--ink)}
+.sub-m{font-family:var(--f-label);letter-spacing:.1em;font-size:.8rem;color:var(--c,var(--brass));text-align:right}
+.sub-fl{grid-column:2/-1;font-style:italic;color:var(--ink-dim);font-size:.95rem;line-height:1.45}
+.sub-b{padding:4px 0 24px 32px;display:grid;gap:16px}
+.pot{font-size:.92rem;color:var(--ink-dim)}
+.pot b{font-family:var(--f-label);letter-spacing:.08em;color:var(--brass-hi);font-weight:500}
+.cx-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(205px,1fr));gap:20px 16px}
+.cx-cards .card{font-size:.86rem}
+.card .fl{white-space:pre-line}
+.cxi{display:grid;grid-template-columns:140px minmax(0,1fr);gap:18px;padding-top:18px;border-top:1px dashed var(--line-soft)}
+.cxi:first-child{border-top:none;padding-top:0}
+.cxi>img{width:140px;aspect-ratio:2/3;object-fit:cover;border:1px solid #6d5232;border-radius:2px;background:var(--stone-2);grid-row:span 2}
+.cxi .meta{font-family:var(--f-label);letter-spacing:.1em;font-size:.76rem;color:var(--c,var(--brass))}
+.cxi h4{margin:2px 0 6px;font-family:var(--f-sc);font-weight:500;font-size:1.25rem;line-height:1.2}
+.cxi .fl{font-style:italic;font-size:.98rem;line-height:1.45;max-width:70ch}
+.cxi>.cx-cards{grid-column:2;grid-template-columns:repeat(auto-fill,minmax(185px,1fr))}
+.cx-cards .card:not(:has(.art)){align-self:start}
+.foes-h{font-family:var(--f-sc);font-weight:500;font-size:1.2rem;color:var(--c,var(--brass));margin:18px 0 10px;padding-top:12px;border-top:1px solid var(--line-soft)}
+.foes-h:first-of-type{border-top:none;padding-top:0;margin-top:4px}
+.foes{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
+.foe{display:grid;grid-template-columns:120px minmax(0,1fr);gap:14px;background:var(--stone-2);border:1px solid var(--line-soft);border-left:3px solid var(--c);border-radius:3px;padding:12px;min-width:0}
+.foe video{width:120px;aspect-ratio:5/8;object-fit:cover;border-radius:2px;background:#0b1217;display:block}
+.foe .meta{font-family:var(--f-label);letter-spacing:.1em;font-size:.76rem;color:var(--c)}
+.foe h4{font-family:var(--f-sc);font-weight:500;font-size:1.15rem;line-height:1.2;margin:2px 0 4px}
+.foe .st{display:flex;gap:14px;font-family:var(--f-label);letter-spacing:.08em;font-size:.84rem;color:var(--ink)}
+.foe .st span{color:var(--brass-hi)}
+.foe ul{list-style:none;margin:8px 0;padding:0;display:grid;gap:5px;font-size:.86rem;color:var(--ink-dim);line-height:1.4}
+.foe li b{font-family:var(--f-sc);font-weight:500;color:var(--ink)}
+.foe li i{font-style:normal;font-family:var(--f-label);letter-spacing:.06em;font-size:.72rem;color:var(--brass);margin-left:4px}
+.foe li small{display:block;font-size:.8rem;color:var(--ink-faint)}
+.foe .fl{font-style:italic;font-size:.9rem;line-height:1.45;white-space:pre-line;border-top:1px solid var(--line-soft);padding-top:8px}
+.k-g,.k-b,.k-r{font-style:inherit}
+.cx-body .card .k-g,.cx-body .card .k-b,.cx-body .card .k-r{font-style:normal}
+
 /* ---------- responsive ---------- */
 @media (max-width:1100px){.moves{grid-template-columns:repeat(3,minmax(0,1fr))}.items{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:960px){
@@ -243,6 +297,18 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   .itemcard{grid-template-columns:88px minmax(0,1fr)}
   .itemcard img{width:88px}
   .card{font-size:.84rem}
+  .cx-body{padding:0 14px 16px}
+  details.cx>summary{padding:16px 14px}
+  .sub-b{padding-left:0}
+  .sub-m{grid-column:2/-1;text-align:left}
+  .cxi{grid-template-columns:96px minmax(0,1fr);gap:12px}
+  .cxi>img{width:96px}
+  .cxi>img{grid-row:auto}
+  .cxi>.cx-cards{grid-column:1/-1}
+  .foes{grid-template-columns:minmax(0,1fr)}
+  .foe{grid-template-columns:96px minmax(0,1fr)}
+  .foe video{width:96px}
+  .cx-cards,.cxi>.cx-cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 10px}
 }
 </style>
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}.docs{display:flex;gap:10px;flex-wrap:wrap}.docs a{display:inline-block;border:1px solid var(--brass);color:var(--brass-hi);font-family:var(--f-label);letter-spacing:.1em;font-size:.82rem;padding:5px 12px;border-radius:2px;text-decoration:none}.docs a:hover{background:rgba(198,154,90,.12)}</style>
@@ -261,6 +327,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         <li><a href="#continent">The continent</a></li>
         <li><a href="#engine">The engine</a></li>
         <li><a href="#making">The making</a></li>
+        <li><a href="#codex">Codex</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>
@@ -425,6 +492,20 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   </div>
 </section>
 
+<section class="band" id="codex" aria-labelledby="h-codex">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">appendix · built from the game&rsquo;s own data</p>
+      <h2 id="h-codex">Codex</h2>
+      <p class="lede">Everything made so far that already has its art: the archetypes and their 108 moves, the equipment of the first two blocks with its combat cards, and the animated enemies of the first four provinces. A script reads the game&rsquo;s data files and art folders and writes this appendix, so it grows with the game. Costs, damage and hit points are alpha values and will move with the next combat revision.</p>
+      <div class="cx-bar"><label class="lang"><input type="checkbox" class="lang-t"> Show the original Spanish</label><span class="cx-gen" id="cx-gen"></span></div>
+    </div>
+    <details class="cx" data-k="moves"><summary><span class="cx-t">Archetypes and their moves</span><span class="cx-n" id="cx-n-moves"></span></summary><div class="cx-body" id="cx-moves"></div></details>
+    <details class="cx" data-k="items"><summary><span class="cx-t">Equipment</span><span class="cx-n" id="cx-n-items"></span></summary><div class="cx-body" id="cx-items"></div></details>
+    <details class="cx" data-k="foes"><summary><span class="cx-t">Enemies of the first block</span><span class="cx-n" id="cx-n-foes"></span></summary><div class="cx-body" id="cx-foes"></div></details>
+  </div>
+</section>
+
 <section class="band" id="contact" aria-labelledby="h-contact">
   <div class="wrap contact">
     <div>
@@ -448,6 +529,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   </div>
 </footer>
 
+<script src="codex/data.js"></script>
 <script>
 (() => {
 const F = {
@@ -819,9 +901,168 @@ function renderCards(){
   $('#items').innerHTML = ITEMS.map(i => `<article class="itemcard" style="--c:${FC[i.f]}"><img src="img/c/${i.img}.jpg" alt="Concept art: ${esc(i.n.en)}." width="560" height="840"><div style="min-width:0"><p class="meta">${esc(i.meta)}</p><h4>${esc(i.n[L])}</h4><p class="fl">${esc(i.fl[L])}</p><ul>${i.cards.map(c => `<li><b>${esc(c[0])}</b> <em>${esc(c[1])}</em></li>`).join('')}</ul></div></article>`).join('');
 }
 
-const lt = $('#lang');
-lt.checked = lang === 'es';
-lt.addEventListener('change', () => { lang = lt.checked ? 'es' : 'en'; try { localStorage.setItem('kon-lang', lang); } catch(e) {} render(); });
+
+/* ---------- codex (data: codex/data.js, written by construir_codex.py) ---------- */
+const CX = window.KON_CODEX;
+const PN = {universal:'Universal'}, PF = {universal:'universal'};
+P.forEach(p => { PN[p.id] = p.name; PF[p.id] = p.f; });
+const FN = {pherion:'Pherion', orthal:'Orthal', yrei:'Yrei', hillaru:'Hilläru', universal:'Universal'};
+const tr = s => (lang === 'en' && CX && CX.en[s]) || s;
+const escA = s => esc(s).replace(/"/g, '&quot;');
+const QK = {comun:'common', especial:'special', elite:'elite'};
+const W = { // [en, es]
+  common:['Common','Común'], special:['Special','Especial'], elite:['Elite','Élite'],
+  fuerza:['Strength','Fuerza'], agilidad:['Agility','Agilidad'], estrategia:['Strategy','Estrategia'],
+  una_mano:['one hand','una mano'], dos_manos:['two hands','dos manos'], mano_principal:['main hand','mano principal'],
+  mano_secundaria:['off hand','mano secundaria'], pecho:['chest','pecho'], cabeza:['head','cabeza'], pies:['feet','pies'],
+  cortante:['cutting','cortante'], perforante:['piercing','perforante'], contundente:['blunt','contundente'], control:['control','control'],
+  cuerpo_a_cuerpo:['melee','cuerpo a cuerpo'], a_distancia:['ranged','a distancia'],
+  fauna:['Fauna','Fauna'], humanoide:['Humanoid','Humanoide'], combat:['Combat','Combate'],
+  armour:['Armour','Armadura'], dmg:['damage','de daño'], applies:['applies','aplica'], spec:['special','especial'],
+  moves:['moves','movimientos'], archetypes:['archetypes','arquetipos'], items:['items','ítems'], cards:['combat cards','cartas de combate'],
+  foes:['enemies','enemigos'], animated:['animated','animados'], cost:['Cost','Costo'],
+  data:['Data generated','Datos generados'], universal:['Universal','Universal']
+};
+const w = k => W[k] ? W[k][lang === 'es' ? 1 : 0] : String(k).replace(/_/g, ' ');
+const ACT = {ataque:['Attack','Ataque'], espera:['Wait','Espera'], carga:['Charge','Carga'], esquive:['Dodge','Esquive'],
+  bloqueo:['Block','Bloqueo'], robo:['Steal','Robo'], aguijon:['Sting','Aguijón'], pinzas:['Pincers','Pinzas'],
+  picotazo:['Peck','Picotazo'], cura:['Heal','Cura'], escudo:['Shield','Escudo'], zarpazo:['Claw','Zarpazo'],
+  pinza:['Pincer','Pinza'], tenaza:['Crushing Claw','Tenaza'], caparazon:['Shell','Caparazón'], urticaria:['Nettle Sting','Urticaria'],
+  tajo_sucio:['Dirty Slash','Tajo sucio'], medir:['Measure','Medir'], indicar:['Point Out','Indicar'], mordisco:['Bite','Mordisco'],
+  mordisco_infecto:['Infected Bite','Mordisco infecto'], mordida:['Bite','Mordida'], golpe_seco:['Sharp Blow','Golpe seco'],
+  expediente:['Case File','Expediente']};
+const EF = {debilidad:['weakened','debilitado'], confusion:['confusion','confusión'], roba_oro:['steals gold','roba oro'],
+  veneno:['poison','veneno'], inmovilizacion:['immobilised','inmovilizado'], sangrado:['bleed','sangrado'], trabado:['jammed','trabado']};
+const pick = (o, k) => o[k] ? o[k][lang === 'es' ? 1 : 0] : String(k).replace(/_/g, ' ');
+const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+
+/* keyword colours, as on the cards in the game: resources gold, impacts blue, conditions red */
+const KW = {
+  en: [[/(?<![\p{L}])(cycles?|patience|tides?|combos?|fury|camouflage|height|reagents?|echo(?:es)?|extracts?|calibration|exposed)(?![\p{L}])/giu,'k-g'],
+       [/(?<![\p{L}])(impacts?)(?![\p{L}])/giu,'k-b'],
+       [/(?<![\p{L}])(bleed|burn(?:ed)?|poison|immobilised|weakened|confusion|fear|reveal(?:ed)?)(?![\p{L}])/giu,'k-r']],
+  es: [[/(?<![\p{L}])(ciclos?|paciencia|mareas?|combos?|furias?|camuflajes?|altura|reactivos?|ecos?|concentrados?|calibración|expuestos?)(?![\p{L}])/giu,'k-g'],
+       [/(?<![\p{L}])(impactos?)(?![\p{L}])/giu,'k-b'],
+       [/(?<![\p{L}])(sangrado|quemad[oa]s?|quemarte|quemadura|veneno|envenenad[oa]s?|inmovilizad[oa]s?|inmovilización|debilitad[oa]s?|confusión|miedo|revelad[oa]s?|revelación)(?![\p{L}])/giu,'k-r']]
+};
+const KX = s => { let o = s; try { KW[lang].forEach(([re, c]) => { o = o.replace(re, `<i class="${c}">$1</i>`); }); } catch(e) {} return o; };
+
+function cxCard(c, type, combat){
+  const q = QK[c.q] || 'common';
+  return `<div class="card q-${q}${combat ? ' combat' : ''}"><div class="top"><span class="name">${esc(tr(c.n))}</span><span class="cost" aria-label="${w('cost')} ${c.c}">${c.c}</span></div>
+  ${c.img ? `<div class="art"><img src="codex/img/${c.img}" alt="" loading="lazy" width="520" height="391"></div>` : ''}
+  <p class="type">${type}</p><div class="body"><p>${KX(esc(tr(c.t)))}</p>${c.fl ? `<p class="fl">${esc(tr(c.fl))}</p>` : ''}</div></div>`;
+}
+const gates = g => Object.entries(g || {}).map(([k, v]) => `${w(k)} ${v}`).join(', ');
+
+function cxMoves(){
+  return CX.datos.arquetipos.map(a => {
+    const c = F[a.faccion] ? F[a.faccion].c : 'var(--brass)', po = a.potencia;
+    return `<details class="sub" data-k="a-${a.id}" style="--c:${c}"><summary><span class="sub-n">${esc(tr(a.n))}</span><span class="sub-m">${FN[a.faccion] || ''} · ${esc(PN[a.provincia] || a.provincia)} · P${a.bloque}</span><span class="sub-fl">${esc(tr(a.fl))}</span></summary>
+    <div class="sub-b"><p class="pot"><b>${esc(tr(po.n))}</b> · ${esc(tr(po.canon))} · ${esc(tr(po.duracion))}</p>
+    <div class="cx-cards">${a.moves.map(m => cxCard(m, w(QK[m.q] || 'common'), false)).join('')}</div></div></details>`;
+  }).join('');
+}
+
+function cxItems(){
+  const groups = [];
+  CX.datos.items.forEach(it => {
+    const key = `${it.tier}|${it.faccion}|${it.provincia}`;
+    let g = groups.find(x => x.key === key);
+    if (!g) { g = {key, tier: it.tier, f: it.faccion, prov: it.provincia, items: []}; groups.push(g); }
+    g.items.push(it);
+  });
+  const fo = ['universal','pherion','orthal','yrei','hillaru'];
+  groups.sort((a, b) => a.tier - b.tier || fo.indexOf(a.f) - fo.indexOf(b.f));
+  return groups.map(g => {
+    const c = F[g.f] ? F[g.f].c : 'var(--brass)';
+    const title = g.f === 'universal' ? w('universal') : `${esc(PN[g.prov] || g.prov)}`;
+    const ncards = g.items.reduce((n, i) => n + i.cartas.length, 0);
+    return `<details class="sub" data-k="g-${g.key}" style="--c:${c}"><summary><span class="sub-n">${title}</span><span class="sub-m">P${g.tier} · ${FN[g.f] || ''} · ${g.items.length} ${w('items')} · ${ncards} ${w('cards')}</span></summary>
+    <div class="sub-b">${g.items.map(it => {
+      const meta = [FN[it.faccion], it.provincia ? PN[it.provincia] : '', w(it.slot), it.tipos.map(w).join(', '), it.entrega ? w(it.entrega) : ''].filter(Boolean).join(' · ');
+      return `<article class="cxi"><img src="codex/img/${it.img}" alt="${escA(lang === 'es' ? it.n : 'Concept art: ' + tr(it.n))}" loading="lazy" width="380" height="570">
+      <div style="min-width:0"><p class="meta">${esc(meta)}</p><h4>${esc(tr(it.n))}</h4>${it.fl ? `<p class="fl">${esc(tr(it.fl))}</p>` : ''}</div>
+      <div class="cx-cards">${it.cartas.map(cd => cxCard(cd, [w(QK[cd.q] || 'common'), gates(cd.g)].filter(Boolean).join(' · '), true)).join('')}</div></article>`;
+    }).join('')}</div></details>`;
+  }).join('');
+}
+
+function cxFoes(){
+  const order = ['universal','crossfen','surath','oreya','seld'];
+  const byP = {};
+  CX.datos.enemigos.forEach(e => (byP[e.provincia] = byP[e.provincia] || []).push(e));
+  const provs = Object.keys(byP).sort((a, b) => (order.indexOf(a) + 99) % 99 - (order.indexOf(b) + 99) % 99);
+  return provs.map(pv => {
+    const f = PF[pv] || 'universal', c = F[f] ? F[f].c : 'var(--brass)';
+    return `<h4 class="foes-h" style="--c:${c}">${esc(pv === 'universal' ? w('universal') : PN[pv] || pv)}</h4><div class="foes">${byP[pv].map(e => {
+      const acts = e.acciones.map(a => {
+        const name = ACT[a.id] ? pick(ACT, a.id) : (a.efecto ? cap(pick(EF, a.efecto)) : cap(a.id.replace(/_/g, ' ')));
+        const bits = [];
+        if (a.dmg) bits.push(`${a.dmg[0] === a.dmg[1] ? a.dmg[0] : a.dmg[0] + '–' + a.dmg[1]} ${w('dmg')}`);
+        if (a.pct) bits.push(`${a.pct}%`);
+        if (a.valor) bits.push(`${a.valor}`);
+        if (a.efecto && ACT[a.id] && a.efecto !== 'roba_oro') bits.push(`${w('applies')} ${pick(EF, a.efecto)}`);
+        return `<li><b>${esc(name)}</b>${a.tipo === 'ataque_especial' ? `<i>${w('spec')}</i>` : ''}${bits.length ? ' · ' + esc(bits.join(' · ')) : ''}${a.detalle ? `<small>${esc(tr(a.detalle))}</small>` : ''}</li>`;
+      }).join('');
+      return `<article class="foe" style="--c:${c}"><video muted loop playsinline preload="none" poster="codex/${e.poster}" aria-label="${escA(tr(e.n))}, animation loop" width="240" height="384"><source src="codex/${e.vid}" type="video/mp4"></video>
+      <div style="min-width:0"><p class="meta">${w(e.tipo)}${e.faccion ? ' · ' + (FN[e.faccion] || '') : ''}</p><h4>${esc(tr(e.n))}</h4>
+      <p class="st">HP <span>${e.hp}</span> ${w('armour')} <span>${e.armadura}</span></p><ul>${acts}</ul>${e.fl ? `<p class="fl">${esc(tr(e.fl))}</p>` : ''}</div></article>`;
+    }).join('')}</div>`;
+  }).join('');
+}
+
+const reduceMotion = (() => { try { return matchMedia('(prefers-reduced-motion: reduce)').matches; } catch(e) { return false; } })();
+let vio = null;
+try { vio = new IntersectionObserver(es => es.forEach(en => { const v = en.target; if (en.isIntersecting) { const p = v.play(); if (p && p.catch) p.catch(() => {}); } else v.pause(); }), {rootMargin: '120px'}); } catch(e) {}
+function wireVideos(root){
+  root.querySelectorAll('video').forEach(v => {
+    if (reduceMotion || !vio) { v.controls = true; v.preload = 'none'; return; }
+    vio.observe(v);
+  });
+}
+
+const CXR = {moves: cxMoves, items: cxItems, foes: cxFoes};
+const cxDone = {};
+function cxRender(k){
+  const box = document.getElementById('cx-' + k);
+  const open = [...box.querySelectorAll('details.sub[open]')].map(d => d.dataset.k);
+  if (vio) box.querySelectorAll('video').forEach(v => vio.unobserve(v));
+  box.innerHTML = CXR[k]();
+  open.forEach(dk => { const d = box.querySelector(`details.sub[data-k="${dk}"]`); if (d) d.open = true; });
+  wireVideos(box);
+  cxDone[k] = true;
+}
+function cxCounts(){
+  const D = CX.datos;
+  $('#cx-n-moves').textContent = `${D.arquetipos.length} ${w('archetypes')} · ${D.arquetipos.reduce((n, a) => n + a.moves.length, 0)} ${w('moves')}`;
+  $('#cx-n-items').textContent = `${D.items.length} ${w('items')} · ${D.items.reduce((n, i) => n + i.cartas.length, 0)} ${w('cards')}`;
+  $('#cx-n-foes').textContent = `${D.enemigos.length} ${w('foes')} · ${w('animated')}`;
+  $('#cx-gen').textContent = `${w('data')} ${CX.generado}`;
+}
+function renderCodex(){
+  if (!CX) return;
+  cxCounts();
+  Object.keys(cxDone).forEach(cxRender);
+}
+if (CX) {
+  document.querySelectorAll('details.cx').forEach(d => d.addEventListener('toggle', () => { if (d.open && !cxDone[d.dataset.k]) cxRender(d.dataset.k); }));
+  cxCounts();
+} else {
+  const sec = document.getElementById('codex'); if (sec) sec.hidden = true;
+  const nl = document.querySelector('nav a[href="#codex"]'); if (nl) nl.parentElement.hidden = true;
+}
+
+const lts = document.querySelectorAll('#lang, .lang-t');
+lts.forEach(x => {
+  x.checked = lang === 'es';
+  x.addEventListener('change', () => {
+    lang = x.checked ? 'es' : 'en';
+    lts.forEach(y => { y.checked = x.checked; });
+    try { localStorage.setItem('kon-lang', lang); } catch(e) {}
+    render(); renderCodex();
+  });
+});
 
 $('#copy').addEventListener('click', () => {
   const t = $('#mail').textContent, b = $('#copy');
