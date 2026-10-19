@@ -8,146 +8,109 @@
 <meta property="og:title" content="Why Tomás Becerra?">
 <meta property="og:description" content="From the judiciary and modern-slavery reports to immersive rooms and Kingdom of None: a narrative and systems designer on power, categories and the constraints that make play possible.">
 <meta property="og:url" content="https://tomas22becerra-bit.github.io/why.html">
-<meta property="og:image" content="https://tomas22becerra-bit.github.io/img/og.jpg">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="628">
-<meta property="og:image:alt" content="Kingdom of None, in gold letters over green and brown smoke.">
-<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://tomas22becerra-bit.github.io/img/tomas.jpg">
+<meta property="og:image:alt" content="Tomás Becerra in a black bucket hat, smiling and making a peace sign.">
+<meta name="twitter:card" content="summary">
+<meta name="color-scheme" content="light dark">
 <title>Why Tomás Becerra?</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Alegreya+SC:wght@500;700&family=Alegreya+Sans+SC:wght@500;700&family=Pirata+One&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Alegreya+SC:wght@500;700&family=Alegreya+Sans+SC:wght@500;700&display=swap">
 <style>
-/* Layout: the same world as the portfolio. One worn sheet beside the writer's desk, hung in the game's wooden frame;
-   the text set as a manuscript in movements, a gilt diamond between them. On a phone the painting sits above the sheet. */
+/* Layout: the author's pages, apart from the kingdom. A printed page like the writing samples: white paper, one
+   measure of text, the photo held in the margin column on wide screens (above the text on a phone), the text set in
+   movements with a short rubric rule between them. Same system as Unfinished Paragraphs. */
 :root{
-  --night:#0e0b08; --gold:#e6c184; --bronze:#a47b43;
-  --vellum:#e9dbb8; --gall:#2e1f12; --rubric:#932c18; --lapis:#2a4a78;
-  --ink:#efe4cc; --ink-dim:#cbbd9f;
-  --f-display:"Pirata One","UnifrakturCook",Georgia,serif;
+  --paper:#ffffff; --ink:#231b14; --ink-2:#5f5446; --ink-3:#8a7d6c; --rule:#e6dfd5;
+  --rubric:#932c18; --link:#932c18; --focus:#2a4a78;
   --f-body:"Alegreya",Georgia,"Times New Roman",serif;
   --f-sc:"Alegreya SC","Alegreya",Georgia,serif;
   --f-label:"Alegreya Sans SC","Alegreya Sans",system-ui,sans-serif;
-  --tx-hoja:url(img/tx/hoja.jpg); --tx-borde:url(img/tx/deckle.webp); --tx-marco:url(img/tx/marco.svg);
-  --tx-orla:url(img/tx/orla.svg); --tx-orla-r:url(img/tx/orla_r.svg); --tx-grano:url(img/tx/grano.png);
-  --bar-h:62px;
-  color-scheme:dark;
-  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  --measure:34rem;
+}
+@media (prefers-color-scheme:dark){
+  :root{--paper:#15120f; --ink:#ece4d8; --ink-2:#b3a796; --ink-3:#8c8172; --rule:#2e2924; --rubric:#e07b5f; --link:#e8907a; --focus:#9db8e6}
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--night);color:var(--ink);font-family:var(--f-body);font-size:1.125rem;line-height:1.6;-webkit-font-smoothing:antialiased}
-body::after{content:"";position:fixed;inset:0;z-index:80;pointer-events:none;background:var(--tx-grano) 0 0/256px 256px;opacity:.85}
-img{height:auto;max-width:100%}
-:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:1.15rem;line-height:1.62;-webkit-font-smoothing:antialiased;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+a{color:var(--link);text-decoration-thickness:1px;text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--focus);outline-offset:3px}
 h1,p{margin:0}
+img{max-width:100%;height:auto;display:block}
+.wrap{max-width:62rem;margin:0 auto;padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
 
-/* the bar, as on the main page */
-.bar{position:absolute;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;gap:8px 20px;flex-wrap:wrap;
-  padding-block:calc(env(safe-area-inset-top,0px) + 12px) 16px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
-  background:linear-gradient(180deg,rgba(6,5,4,.98),rgba(13,10,7,.96))}
-.bar::after{content:"";position:absolute;left:0;right:0;bottom:-12px;height:24px;pointer-events:none;
-  background:var(--tx-orla) center/240px 24px no-repeat,linear-gradient(90deg,transparent,rgba(200,156,86,.55) 18%,rgba(244,214,152,.95) 50%,rgba(200,156,86,.55) 82%,transparent) center 11.5px/100% 1px no-repeat;
-  filter:drop-shadow(0 2px 3px rgba(0,0,0,.8))}
-.bar .mark{font-family:var(--f-display);font-size:2rem;line-height:1;color:var(--gold);text-decoration:none;text-shadow:0 1px 0 #000,0 0 18px rgba(230,193,132,.3)}
-.bar ul{display:flex;align-items:center;flex-wrap:wrap;gap:4px 0;list-style:none;margin:0;padding:0}
-.bar li{display:flex;align-items:center}
-.bar li+li::before{content:"";flex:none;width:6px;height:6px;margin:0 clamp(9px,1.25vw,20px);transform:rotate(45deg);
-  background:linear-gradient(135deg,#f6dca0,#8a6328);box-shadow:0 0 6px rgba(240,200,120,.5),0 0 0 1px rgba(0,0,0,.5)}
-.bar ul a{position:relative;display:block;padding:6px 2px;text-decoration:none;white-space:nowrap;
-  font-family:var(--f-sc);font-weight:500;font-size:1.06rem;letter-spacing:.07em;line-height:1.1;color:rgba(238,224,195,.76);
-  text-shadow:0 1px 0 #000,0 0 10px rgba(0,0,0,.7);transition:color .2s ease,text-shadow .2s ease}
-.bar ul a::after{content:"";position:absolute;left:-12px;right:-12px;bottom:-1px;height:1px;transform:scaleX(0);transition:transform .3s ease;
-  background:linear-gradient(90deg,transparent,rgba(244,212,150,.95),transparent)}
-.bar ul a:hover,.bar ul a:focus-visible{color:#f8ead0;text-shadow:0 1px 0 #000,0 0 12px rgba(240,200,120,.55)}
-.bar ul a:hover::after,.bar ul a:focus-visible::after{transform:scaleX(.55)}
-@media (max-width:640px){.bar ul a{font-size:.9rem;padding:4px 1px}.bar li+li::before{width:5px;height:5px;margin:0 8px}.bar .mark{font-size:1.6rem}}
+/* top line */
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:6px 20px;padding-block:20px 14px;border-bottom:1px solid var(--rule)}
+.top .name{font-family:var(--f-sc);font-weight:500;font-size:1.05rem;letter-spacing:.04em;color:var(--ink)}
+.top ul{display:flex;flex-wrap:wrap;gap:4px 18px;list-style:none;margin:0;padding:0}
+.top ul a{font-family:var(--f-label);font-weight:500;font-size:.86rem;letter-spacing:.08em;color:var(--ink-2);text-decoration:none}
+.top ul a:hover,.top ul a:focus-visible{color:var(--rubric)}
 
-/* the painting and the sheet: one scroll on a phone */
-.page{position:relative;padding-bottom:clamp(40px,9vw,80px)}
-.page>.bg{display:none}
-.art{margin:0;position:relative}
-.art img{display:block;width:100%;height:min(62vh,118vw);object-fit:cover;object-position:50% 0%}
-.art::after{content:"";position:absolute;inset:auto 0 0 0;height:50%;background:linear-gradient(180deg,transparent,var(--night))}
-.art figcaption{position:absolute;right:max(16px,env(safe-area-inset-right,0px));bottom:96px;z-index:2;font-size:.72rem;font-style:italic;color:rgba(239,228,204,.75);text-shadow:0 1px 4px #000}
+/* the photo */
+.photo{margin:clamp(24px,6vw,40px) 0 0}
+.photo img{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:50% 22%;border-radius:2px}
+.photo figcaption{margin-top:8px;font-style:italic;font-size:.88rem;color:var(--ink-3)}
 
-.folio{position:relative;z-index:1;margin:-84px max(6px,env(safe-area-inset-right,0px)) 0 max(6px,env(safe-area-inset-left,0px));
-  padding:clamp(24px,4.4vw,48px) clamp(16px,3.8vw,44px) clamp(28px,4.4vw,48px);
-  --ink:var(--gall); --ink-dim:#5b462d; --ink-faint:#7d6849; color:var(--ink);
-  border:20px solid transparent;border-image:var(--tx-borde) 40 / 20px / 0 round;
-  background:radial-gradient(70% 60% at 50% 40%,rgba(255,248,226,.32),transparent 70%),
-    radial-gradient(9% 7% at 88% 14%,rgba(120,72,20,.16),transparent 70%),radial-gradient(6% 5% at 12% 78%,rgba(120,72,20,.13),transparent 70%),
-    radial-gradient(14% 10% at 70% 92%,rgba(120,72,20,.10),transparent 70%),
-    var(--tx-hoja) 0 0/380px auto repeat,var(--vellum);
-  background-clip:padding-box;box-shadow:inset 0 0 50px rgba(110,70,24,.3);filter:drop-shadow(0 16px 22px rgba(0,0,0,.55))}
-.folio::before{content:"";position:absolute;inset:6px;pointer-events:none;border:1px solid rgba(147,44,24,.3);box-shadow:inset 0 0 0 4px rgba(147,44,24,.18)}
+/* the opening */
+.open{display:grid;gap:12px;padding-block:clamp(30px,7vw,80px) clamp(28px,4vw,44px)}
+.kicker{font-family:var(--f-label);font-weight:500;font-size:.82rem;letter-spacing:.14em;color:var(--rubric);text-transform:lowercase}
+h1{font-family:var(--f-body);font-weight:500;font-size:clamp(2.7rem,8vw,4.6rem);line-height:.98;letter-spacing:-.01em;text-wrap:balance}
+h1 .q{color:var(--rubric)}
 
-.head{display:grid;gap:10px;margin-bottom:clamp(26px,4vw,40px)}
-.eyebrow{font-family:var(--f-label);font-size:.8rem;letter-spacing:.14em;color:var(--rubric);text-transform:lowercase}
-h1{font-family:var(--f-display);font-weight:400;font-size:clamp(2.6rem,7vw,4rem);line-height:1;color:var(--ink);text-wrap:balance}
-h1::first-letter{color:var(--rubric)}
-.head::after{content:"";display:block;width:170px;height:17px;background:var(--tx-orla-r) left center/170px 17px no-repeat;opacity:.85}
-
-/* the text: movements of stanzas; one line of the manuscript per paragraph */
-.text{display:grid;gap:0;max-width:40rem}
-.mv{display:grid;gap:1.35em}
-.mv+.mv::before{content:"";justify-self:center;width:7px;height:7px;margin:1.5em 0 .35em;transform:rotate(45deg);
-  background:linear-gradient(135deg,#c4552f,#7a2412);box-shadow:0 0 0 1px rgba(122,36,18,.25),0 0 0 4px rgba(147,44,24,.08)}
+/* the text, in movements */
+.text{max-width:var(--measure);display:grid;gap:0}
+.mv{display:grid;gap:1.3em}
+.mv+.mv::before{content:"";width:2.4rem;height:2px;background:var(--rubric);opacity:.75;margin:1.5em 0 .3em}
 .st{display:grid;gap:.5em}
 .st p{text-wrap:pretty}
 .text em{font-style:italic}
-.text q{quotes:"\201C" "\201D"}
 .text strong.hl{color:var(--rubric);font-weight:700}
-.text .ask{font-style:italic;color:var(--ink-dim)}
-.coda{margin-top:1.6em;font-family:var(--f-sc);font-weight:500;font-size:1.2em;letter-spacing:.03em;color:var(--rubric)}
+.text .ask{font-style:italic;color:var(--ink-2)}
+.text a{color:var(--link)}
+.coda{margin-top:1.4em;font-family:var(--f-sc);font-weight:500;font-size:1.2em;letter-spacing:.02em;color:var(--rubric)}
 
-/* the foot of the sheet */
-.foot{display:grid;gap:14px;margin-top:clamp(34px,5vw,52px);padding-top:22px;border-top:1px solid rgba(90,58,26,.28);max-width:40rem}
-.foot .who{font-family:var(--f-sc);font-size:1.05rem;color:var(--ink-dim)}
-.docs{display:flex;gap:10px;flex-wrap:wrap}
-.docs a,.btn{display:inline-block;border:1px solid var(--rubric);color:#741c0c;background:transparent;font-family:var(--f-label);letter-spacing:.1em;font-size:.82rem;padding:5px 12px;border-radius:2px;text-decoration:none;cursor:pointer;line-height:1.5}
-.docs a:hover,.btn:hover,.docs a:focus-visible,.btn:focus-visible{background:rgba(147,44,24,.09)}
+/* the foot */
+.foot{display:grid;gap:12px;margin-top:clamp(40px,6vw,64px);padding-block:26px 56px;border-top:1px solid var(--rule)}
+.foot .who{font-family:var(--f-sc);font-size:1.02rem;color:var(--ink-2)}
+.links{display:flex;flex-wrap:wrap;gap:8px}
+.links a,.btn{display:inline-block;border:1px solid var(--rubric);color:var(--rubric);background:transparent;font-family:var(--f-label);font-weight:500;letter-spacing:.1em;font-size:.8rem;padding:4px 11px;border-radius:2px;text-decoration:none;cursor:pointer;line-height:1.5}
+.links a:hover,.btn:hover,.links a:focus-visible,.btn:focus-visible{background:color-mix(in srgb,var(--rubric) 9%,transparent)}
 .mail{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
 .mail code{font-family:var(--f-body);font-size:1rem;color:var(--ink);user-select:all;overflow-wrap:anywhere}
 
-/* wide screens: the bar stays put, the painting hangs beside the sheet in its wooden frame */
-@media (min-width:1000px) and (min-height:560px){
-  :root{font-size:clamp(15px,calc(.42vw + 9.4px),17.5px)}
-  .bar{position:fixed;height:var(--bar-h);padding-block:0;flex-wrap:nowrap;padding-left:max(28px,env(safe-area-inset-left,0px));padding-right:max(28px,env(safe-area-inset-right,0px))}
-  .page{--artw:min(30vw,calc((100vh - var(--bar-h) - 76px) * .6667));display:grid;grid-template-columns:var(--artw) minmax(0,50rem);justify-content:center;align-items:start;
-    gap:clamp(24px,2.6vw,44px);min-height:100vh;isolation:isolate;
-    padding:calc(var(--bar-h) + clamp(30px,4.5vh,48px)) max(clamp(24px,3.2vw,60px),env(safe-area-inset-right,0px)) clamp(40px,7vh,72px) max(clamp(24px,3.2vw,60px),env(safe-area-inset-left,0px))}
-  .page>.bg{display:block;position:absolute;inset:0;z-index:-1;overflow:clip;pointer-events:none}
-  .bg>div{position:sticky;top:var(--bar-h);height:calc(100vh - var(--bar-h));background:var(--bg) center/cover no-repeat}
-  .bg>div::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,var(--night) 0%,rgba(14,11,8,0) 14%,rgba(14,11,8,0) 82%,var(--night) 100%),radial-gradient(ellipse 85% 80% at 50% 50%,transparent 52%,rgba(10,7,4,.55))}
-  .art{position:sticky;top:calc(var(--bar-h) + 30px);width:var(--artw);height:calc(100vh - var(--bar-h) - 76px);
-    border:22px solid transparent;border-image:var(--tx-marco) 30 / 22px stretch;background:#100c08;filter:drop-shadow(0 22px 30px rgba(0,0,0,.65))}
-  .art::after{inset:0;height:auto;pointer-events:none;background:var(--tx-grano) 0 0/220px 220px,radial-gradient(ellipse 75% 70% at 50% 45%,transparent 55%,rgba(28,15,4,.5)),linear-gradient(rgba(150,100,40,.07),rgba(150,100,40,.07))}
-  .art img{width:100%;height:100%;object-position:50% 50%}
-  .art figcaption{top:auto;bottom:8px;right:10px}
-  .folio{margin:0;padding:clamp(32px,5vh,56px) clamp(32px,3.4vw,60px)}
+/* wide: the photo moves to the margin column and stays in view */
+@media (min-width:980px){
+  .layout{display:grid;grid-template-columns:15rem minmax(0,var(--measure));gap:0 clamp(40px,5vw,72px)}
+  .margin{grid-column:1;grid-row:1 / span 3}
+  .photo{position:sticky;top:28px;margin-top:clamp(30px,7vw,80px)}
+  .photo img{aspect-ratio:2/3;object-position:50% 50%}
+  .open,.text,.foot{grid-column:2}
 }
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
+<div class="wrap">
+  <header class="top">
+    <span class="name">Tomás Becerra</span>
+    <nav aria-label="Pages">
+      <ul>
+        <li><a href="./">Kingdom of None</a></li>
+        <li><a href="unfinished-paragraphs.html">Unfinished Paragraphs</a></li>
+        <li><a href="files/CV_TomasBecerra.pdf" target="_blank" rel="noopener">CV</a></li>
+      </ul>
+    </nav>
+  </header>
 
-<nav class="bar" aria-label="Pages">
-  <a class="mark" href="./" aria-label="Kingdom of None, main page">KoN</a>
-  <ul>
-    <li><a href="./">Kingdom of None</a></li>
-    <li><a href="files/KoN_Narrative_Portfolio_TomasBecerra.pdf" target="_blank" rel="noopener">Narrative portfolio</a></li>
-    <li><a href="files/CV_TomasBecerra.pdf" target="_blank" rel="noopener">CV</a></li>
-  </ul>
-</nav>
+  <main class="layout">
+    <div class="margin">
+      <figure class="photo"><img src="img/tomas.jpg" alt="Tomás Becerra in a black bucket hat, smiling with one eye closed and making a peace sign, on a sunny street of brick buildings." width="896" height="1344"><figcaption>The human behind the keyboard</figcaption></figure>
+    </div>
 
-<main class="page">
-  <div class="bg" aria-hidden="true"><div style="--bg:url(img/bg/f_veliornath.jpg)"></div></div>
-  <figure class="art"><img src="img/tomas.jpg" alt="Tomás Becerra in a black bucket hat, smiling with one eye closed and making a peace sign, on a sunny street of brick buildings." width="896" height="1344"><figcaption>The human behind the keyboard</figcaption></figure>
-
-  <article class="folio" aria-labelledby="h-why">
-    <header class="head">
-      <p class="eyebrow">narrative &amp; systems design</p>
-      <h1 id="h-why">Why Tomás Becerra?</h1>
+    <header class="open">
+      <p class="kicker">narrative &amp; systems design</p>
+      <h1>Why Tomás Becerra<span class="q">?</span></h1>
     </header>
 
     <div class="text">
@@ -321,7 +284,7 @@ h1::first-letter{color:var(--rubric)}
 
     <footer class="foot">
       <p class="who">Tomás Becerra · narrative &amp; systems design · Rome, open to relocation</p>
-      <div class="docs">
+      <div class="links">
         <a href="./">Kingdom of None</a>
         <a href="unfinished-paragraphs.html">Unfinished Paragraphs</a>
         <a href="files/KoN_Narrative_Portfolio_TomasBecerra.pdf" target="_blank" rel="noopener">Narrative portfolio (PDF)</a>
@@ -329,8 +292,8 @@ h1::first-letter{color:var(--rubric)}
       </div>
       <div class="mail"><code id="mail">tomas22becerra@gmail.com</code><button class="btn" id="copy" type="button">Copy</button></div>
     </footer>
-  </article>
-</main>
+  </main>
+</div>
 
 <script>
 (() => {
