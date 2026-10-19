@@ -870,6 +870,53 @@ html.wide .sec.side>.art:hover,html.wide .sec.side>.art:has(.art-swap:focus-visi
 .art figcaption{transition:color .3s ease}
 .sec.side>.art:hover figcaption{color:rgba(250,236,205,.95)}
 html.rv-on .sec.side>.art.rv.rv-in{transition:opacity .7s ease var(--rv-d,0ms),transform 1s cubic-bezier(.16,.84,.24,1) var(--rv-d,0ms),filter .35s ease}
+
+/* ---------- the continent: an invitation until a place is picked, and plaques for the difficulties and provinces ---------- */
+.invite{display:none}
+.panel.empty{border-top-color:var(--rubric)}
+.panel.empty>:not(.invite){display:none!important}
+.panel.empty>.invite{display:grid;gap:8px;justify-items:start}
+.inv-arrow{width:120px;height:28px;color:var(--rubric);opacity:.85;margin-bottom:4px}
+.inv-t{font-family:var(--f-display);font-size:clamp(2rem,2.6vw,2.6rem);line-height:1;color:var(--ink);text-wrap:balance}
+.inv-s{font-size:1rem;line-height:1.5;color:var(--ink-dim);max-width:30ch}
+html.wide .panel.empty{top:calc(50vh - 110px);width:min(100%,380px);justify-self:start;padding:clamp(20px,3vh,28px) clamp(22px,2vw,30px)}
+html.wide .panel.empty .inv-arrow{animation:beckon 2.6s ease-in-out infinite}
+html:not(.wide) .panel.empty .inv-arrow{width:60px;height:14px;transform:rotate(90deg);margin:26px 0 26px -16px}
+@keyframes beckon{0%,100%{transform:translateX(0)}50%{transform:translateX(-8px)}}
+/* the lights on the map breathe until one is chosen */
+.map.unpicked .pin::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:2px solid var(--c);opacity:0;animation:breathe 2.8s ease-out infinite;animation-delay:calc(var(--k,0) * 110ms);pointer-events:none}
+@keyframes breathe{0%{opacity:.75;transform:scale(.7)}70%{opacity:0;transform:scale(1.9)}100%{opacity:0;transform:scale(1.9)}}
+@media (prefers-reduced-motion:reduce){html.wide .panel.empty .inv-arrow{animation:none}.map.unpicked .pin::after{animation-duration:4.5s}}
+/* difficulty plaques */
+.tabs{gap:8px;padding:14px 0 2px}
+.tab{display:flex;align-items:center;justify-content:center;gap:9px;padding:7px 8px 6px;border:1px solid rgba(90,58,26,.5);border-radius:3px;
+  background:linear-gradient(180deg,#f2e5c4,#e0caa0);color:var(--ink);box-shadow:inset 0 1px 0 rgba(255,250,232,.85),0 2px 5px rgba(60,38,12,.18);
+  transition:transform .15s ease,box-shadow .2s ease,background .2s ease,color .2s ease}
+.tab+.tab{border-left:1px solid rgba(90,58,26,.5)}
+.tab b{font-family:var(--f-sc);font-weight:700;font-size:1.02rem;letter-spacing:.06em}
+.tab .pips{display:flex;gap:4px}
+.tab .pips i{width:6px;height:6px;transform:rotate(45deg);background:var(--rubric);opacity:.8}
+.tab:hover{transform:translateY(-1px);box-shadow:inset 0 1px 0 rgba(255,250,232,.85),0 4px 9px rgba(60,38,12,.24)}
+.tab[aria-selected="true"]{background:linear-gradient(180deg,#a83a20,#7a2311);color:#fbefd6;border-color:#5a1a0c;font-weight:700;
+  box-shadow:inset 0 0 0 1px rgba(255,214,160,.35),0 0 0 1px rgba(214,170,98,.6),0 4px 10px rgba(90,24,8,.35)}
+.tab[aria-selected="true"] .pips i{background:#f1cf8a;opacity:1;box-shadow:0 0 5px rgba(240,200,120,.6)}
+/* province plaques */
+.chips{gap:10px 12px}
+.chips .col{gap:6px}
+.chips .col>.ch-h{display:flex;align-items:center;gap:8px;font-family:var(--f-label);font-weight:700;font-size:.74rem;letter-spacing:.16em;text-transform:lowercase;color:var(--c);padding:0 2px 4px;border-bottom:1px solid var(--c)}
+.chips .col>.ch-h::before{content:"";width:7px;height:7px;transform:rotate(45deg);background:var(--c);box-shadow:0 0 0 1px rgba(40,25,10,.35)}
+.chip{display:flex;align-items:center;gap:9px;padding:6px 10px 6px 9px;border:1px solid rgba(90,58,26,.4);border-left:1px solid rgba(90,58,26,.4);border-radius:3px;
+  background:linear-gradient(180deg,rgba(255,250,232,.55),rgba(214,190,140,.35));font-family:var(--f-sc);font-weight:500;font-size:.98rem;color:var(--ink);
+  box-shadow:inset 0 1px 0 rgba(255,250,232,.7),0 1px 3px rgba(60,38,12,.14);transition:transform .15s ease,box-shadow .2s ease,background .2s ease}
+.chip>i{flex:none;width:8px;height:8px;transform:rotate(45deg);background:var(--c);box-shadow:0 0 0 1px rgba(40,25,10,.35);transition:box-shadow .2s ease}
+.chip>span{flex:1;min-width:0}
+.chip small{margin:0;padding:1px 6px;border-radius:2px;font-family:var(--f-label);font-weight:700;font-size:.66rem;letter-spacing:.1em;color:var(--ink-faint);border:1px solid rgba(90,58,26,.3)}
+.chip:hover{background:linear-gradient(180deg,rgba(255,250,232,.8),rgba(214,190,140,.45));transform:translateY(-1px);box-shadow:inset 0 1px 0 rgba(255,250,232,.8),0 4px 8px rgba(60,38,12,.2)}
+.chip:hover>i{box-shadow:0 0 0 1px rgba(40,25,10,.35),0 0 8px var(--c)}
+.chip[aria-pressed="true"]{background:linear-gradient(180deg,color-mix(in srgb,var(--c) 24%,#f6ead0),color-mix(in srgb,var(--c) 38%,#e2cd9c));border-color:var(--c);color:var(--ink);font-weight:700;
+  box-shadow:inset 0 0 0 1px rgba(255,250,232,.5),0 0 0 1px var(--c),0 4px 10px rgba(60,38,12,.22)}
+.chip[aria-pressed="true"] small{color:var(--ink);border-color:var(--c)}
+.contact .emo{font-style:normal}
 </style>
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}.docs{display:flex;gap:10px;flex-wrap:wrap}.docs a{display:inline-block;border:1px solid var(--brass);color:var(--brass-hi);font-family:var(--f-label);letter-spacing:.1em;font-size:.82rem;padding:5px 12px;border-radius:2px;text-decoration:none}.docs a:hover{background:rgba(198,154,90,.12)}</style>
 </head>
@@ -1013,7 +1060,13 @@ html.rv-on .sec.side>.art.rv.rv-in{transition:opacity .7s ease var(--rv-d,0ms),t
       <div class="legend" id="legend"></div>
       <div class="chips" id="chips"></div>
     </div>
-    <article class="folio panel lay burnable" id="panel" aria-live="polite" style="--d:110">
+    <article class="folio panel lay burnable empty" id="panel" aria-live="polite" style="--d:110">
+      <div class="invite">
+        <svg class="inv-arrow" viewBox="0 0 120 28" aria-hidden="true"><path d="M4 14 L22 3 L18 14 L22 25 Z" fill="currentColor"/><path d="M18 14 H112" stroke="currentColor" stroke-width="1.6"/><path d="M60 14 l6 -6 l6 6 l-6 6 z" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="114" cy="14" r="2.6" fill="currentColor"/></svg>
+        <p class="eyebrow">thirty-six territories</p>
+        <p class="inv-t">Pick a place on the map</p>
+        <p class="inv-s">Every light is a settlement. Choose one to see its land, its capital and who holds it.</p>
+      </div>
       <div class="panel-head">
         <p class="meta" id="p-meta"></p>
         <h3 id="p-name"></h3>
@@ -1164,8 +1217,8 @@ html.rv-on .sec.side>.art.rv.rv-in{transition:opacity .7s ease var(--rv-d,0ms),t
       <dl>
       <dt>Documents</dt><dd><span class="docs"><a href="files/KoN_Narrative_Portfolio_TomasBecerra.pdf" target="_blank" rel="noopener">Narrative portfolio (PDF)</a><a href="files/CV_TomasBecerra.pdf" target="_blank" rel="noopener">CV (PDF)</a></span></dd>
       <dt>Email</dt><dd><span class="mail"><code id="mail">tomas22becerra@gmail.com</code><button class="btn" id="copy" type="button">Copy</button></span></dd>
-        <dt>Based in</dt><dd>Rome, Italy. Open to relocation anywhere in Europe.</dd>
-        <dt>Languages</dt><dd>Spanish (native) · English (C1) · Italian (B1) · German (A2)</dd>
+        <dt>Based in</dt><dd>Rome, Italy. <strong class="hl">Open to relocation!</strong> <span class="emo" role="img" aria-label="smiling">🙂</span></dd>
+        <dt>Languages</dt><dd>Spanish · English · Italian · German</dd>
       </dl>
       <div class="small">
         <span>Kingdom of None · 2026. In-world dates: AR and DR, before and after the Refoundation.</span>
@@ -1483,7 +1536,8 @@ const escA = s => esc(s).replace(/"/g, '&quot;');
 let lang = 'en';
 try { if (localStorage.getItem('kon-lang') === 'es') lang = 'es'; } catch(e) {}
 const reduceMotion = (() => { try { return matchMedia('(prefers-reduced-motion: reduce)').matches; } catch(e) { return false; } })();
-let cur = {pi: P.findIndex(p => p.id === 'thessunar'), d: 1};
+let cur = null;   // nothing is chosen until the visitor picks a place: the panel invites them to
+
 const pins = [];
 
 /* ---------- the continent: map pins, legend, chips, panel ---------- */
@@ -1493,6 +1547,7 @@ P.forEach((p, pi) => p.t.forEach((t, d) => {
   b.className = 'pin'; b.type = 'button';
   b.style.left = (t.x*100)+'%'; b.style.top = (t.y*100)+'%';
   b.style.setProperty('--c', F[p.f].c);
+  b.style.setProperty('--k', pins.length % 12);
   b.setAttribute('aria-label', `${p.name} D${d+1}: ${t.n.en}`);
   b.innerHTML = `<span class="tip">${esc(p.name)} · D${d+1}</span>`;
   b.addEventListener('click', () => select(pi, d));
@@ -1502,10 +1557,10 @@ $('#legend').innerHTML = Object.values(F).map(f => `<span style="--c:${f.c}"><i>
 const chips = $('#chips');
 Object.entries(F).forEach(([k, f]) => {
   const col = document.createElement('div'); col.className = 'col'; col.style.setProperty('--c', f.c);
-  col.innerHTML = `<span>${f.name}</span>`;
+  col.innerHTML = `<span class="ch-h">${f.name}</span>`;
   P.forEach((p, pi) => { if (p.f !== k) return;
     const c = document.createElement('button'); c.type = 'button'; c.className = 'chip'; c.dataset.pi = pi;
-    c.innerHTML = `${esc(p.name)}<small>P${p.p}</small>`;
+    c.innerHTML = `<i aria-hidden="true"></i><span>${esc(p.name)}</span><small>P${p.p}</small>`;
     c.addEventListener('click', () => select(pi, 0));
     col.appendChild(c);
   });
@@ -1513,12 +1568,16 @@ Object.entries(F).forEach(([k, f]) => {
 });
 function select(pi, d){ cur = {pi, d}; render(); inkNow($('#p-terr')); }
 function render(){
+  const panel = $('#panel');
+  map.classList.toggle('unpicked', !cur);
+  if (!cur) { panel.classList.add('empty'); return; }
+  if (panel.classList.contains('empty')) { panel.classList.remove('empty'); inkNow(panel); }
   const p = P[cur.pi], t = p.t[cur.d], L = lang;
-  const panel = $('#panel'); panel.style.setProperty('--c', F[p.f].c);
+  panel.style.setProperty('--c', F[p.f].c);
   $('#p-meta').textContent = `${F[p.f].name} · ${B[p.p]}`;
   $('#p-name').textContent = p.name;
   $('#p-epi').textContent = p.epi[L];
-  $('#p-tabs').innerHTML = p.t.map((x, i) => `<button class="tab" role="tab" type="button" aria-selected="${i===cur.d}" data-d="${i}">D${i+1}</button>`).join('');
+  $('#p-tabs').innerHTML = p.t.map((x, i) => `<button class="tab" role="tab" type="button" aria-selected="${i===cur.d}" data-d="${i}" aria-label="Difficulty ${i+1}"><b>D${i+1}</b><span class="pips" aria-hidden="true">${'<i></i>'.repeat(i+1)}</span></button>`).join('');
   $('#p-tabs').querySelectorAll('.tab').forEach(b => b.addEventListener('click', () => select(cur.pi, +b.dataset.d)));
   const img = `img/t/${p.id}_d${cur.d+1}.jpg`;
   $('#p-terr').innerHTML = `
