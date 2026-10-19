@@ -27,9 +27,10 @@
   --f-sc:"Alegreya SC","Alegreya",Georgia,serif;
   --f-label:"Alegreya Sans SC","Alegreya Sans",system-ui,sans-serif;
   --measure:34rem;
+  --mount:#fbf9f6; --shade:rgba(60,40,20,.09);
 }
 @media (prefers-color-scheme:dark){
-  :root{--paper:#15120f; --ink:#ece4d8; --ink-2:#b3a796; --ink-3:#8c8172; --rule:#2e2924; --rubric:#e07b5f; --link:#e8907a; --focus:#9db8e6}
+  :root{--paper:#15120f; --ink:#ece4d8; --ink-2:#b3a796; --ink-3:#8c8172; --rule:#2e2924; --rubric:#e07b5f; --link:#e8907a; --focus:#9db8e6; --mount:#1d1915; --shade:rgba(0,0,0,.4)}
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -39,7 +40,7 @@ a{color:var(--link);text-decoration-thickness:1px;text-underline-offset:3px}
 :focus-visible{outline:2px solid var(--focus);outline-offset:3px}
 h1,p{margin:0}
 img{max-width:100%;height:auto;display:block}
-.wrap{max-width:62rem;margin:0 auto;padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
+.wrap{max-width:72rem;margin:0 auto;padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
 
 /* top line */
 .top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:6px 20px;padding-block:20px 14px;border-bottom:1px solid var(--rule)}
@@ -48,10 +49,13 @@ img{max-width:100%;height:auto;display:block}
 .top ul a{font-family:var(--f-label);font-weight:500;font-size:.86rem;letter-spacing:.08em;color:var(--ink-2);text-decoration:none}
 .top ul a:hover,.top ul a:focus-visible{color:var(--rubric)}
 
-/* the photo */
-.photo{margin:clamp(24px,6vw,40px) 0 0}
-.photo img{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:50% 22%;border-radius:2px}
-.photo figcaption{margin-top:8px;font-style:italic;font-size:.88rem;color:var(--ink-3)}
+/* the photo and the drawing, each mounted in a frame */
+.frame{margin:0;background:var(--mount);border:1px solid var(--rule);padding:10px 10px 8px;box-shadow:0 1px 0 var(--rule),0 10px 26px var(--shade)}
+.frame img{width:100%;border:1px solid var(--rule)}
+.frame figcaption{margin-top:7px;font-style:italic;font-size:.86rem;line-height:1.4;color:var(--ink-3)}
+.photo{margin-top:clamp(24px,6vw,40px)}
+.photo img{aspect-ratio:4/5;object-fit:cover;object-position:50% 22%}
+.drawing{margin:.7em 0 .9em}
 
 /* the opening */
 .open{display:grid;gap:12px;padding-block:clamp(30px,7vw,80px) clamp(28px,4vw,44px)}
@@ -80,9 +84,10 @@ h1 .q{color:var(--rubric)}
 .mail{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
 .mail code{font-family:var(--f-body);font-size:1rem;color:var(--ink);user-select:all;overflow-wrap:anywhere}
 
-/* wide: the photo moves to the margin column and stays in view */
+/* wide: a wider measure; the photo moves to the margin column and stays in view */
 @media (min-width:980px){
-  .layout{display:grid;grid-template-columns:15rem minmax(0,var(--measure));gap:0 clamp(40px,5vw,72px)}
+  :root{--measure:42rem}
+  .layout{display:grid;grid-template-columns:15rem minmax(0,var(--measure));justify-content:center;gap:0 clamp(40px,5vw,72px)}
   .margin{grid-column:1;grid-row:1 / span 3}
   .photo{position:sticky;top:28px;margin-top:clamp(30px,7vw,80px)}
   .photo img{aspect-ratio:2/3;object-position:50% 50%}
@@ -105,7 +110,7 @@ h1 .q{color:var(--rubric)}
 
   <main class="layout">
     <div class="margin">
-      <figure class="photo"><img src="img/tomas.jpg" alt="Tomás Becerra in a black bucket hat, smiling with one eye closed and making a peace sign, on a sunny street of brick buildings." width="896" height="1344"><figcaption>The human behind the keyboard</figcaption></figure>
+      <figure class="frame photo"><img src="img/tomas.jpg" alt="Tomás Becerra in a black bucket hat, smiling with one eye closed and making a peace sign, on a sunny street of brick buildings." width="896" height="1344"><figcaption>The human behind the keyboard</figcaption></figure>
     </div>
 
     <header class="open">
@@ -227,6 +232,7 @@ h1 .q{color:var(--rubric)}
       <section class="mv">
         <div class="st">
           <p>Tomás had always drawn.</p>
+          <figure class="frame drawing"><img src="img/dibujo_bar.jpg" alt="Black-and-white drawing by Tomás Becerra: a crowded bar with a checkered floor, a man with glasses and a pipe at the front, a waitress holding a tray, drinkers and smokers behind them, and a door marked Private." width="1084" height="722" loading="lazy"><figcaption>A drawing by Tomás Becerra.</figcaption></figure>
           <p>He liked writing, too.</p>
           <p>So eventually, he started building a world of his own.</p>
         </div>
