@@ -87,7 +87,7 @@ p{margin:0}
 @media (max-width:640px){.bar ul a{font-size:.9rem;padding:4px 1px}.bar li+li::before{width:5px;height:5px;margin:0 8px}.bar .mark{font-size:1.6rem}}
 
 /* ---------- the sheet: aged paper with a deckled, slightly scorched edge ---------- */
-.folio,.pg{
+.folio,.pg,.cz{
   --sea:var(--vellum); --stone:rgba(130,90,40,.10); --stone-2:rgba(130,90,40,.17);
   --line:rgba(90,58,26,.42); --line-soft:rgba(90,58,26,.22);
   --ink:var(--gall); --ink-dim:#5b462d; --ink-faint:#7d6849;
@@ -482,7 +482,7 @@ html.wide .sys h3{font-size:1.8rem}
 html.wide .sys p{font-size:1.08rem;max-width:66ch}
 
 /* home: the title on the painting, the opening on its sheet */
-html.wide #top{grid-template-columns:minmax(0,1fr) clamp(560px,48vw,880px);align-items:center;padding-bottom:clamp(30px,5vh,56px)}
+html.wide #top{grid-template-columns:minmax(0,1fr) clamp(560px,50vw,920px);align-items:center;padding-bottom:clamp(30px,5vh,56px)}
 html.wide #top .title{grid-area:1/1;align-self:start;position:sticky;top:var(--bar-h);min-height:calc(100vh - var(--bar-h) - clamp(30px,5vh,56px));display:flex;flex-direction:column;justify-content:flex-end;padding:0 0 clamp(6px,2vh,24px) clamp(0px,1vw,18px)}
 html.wide #top h1{font-size:clamp(5rem,min(10.4vw,18vh),11.5rem)}
 html.wide #top .sub{font-size:clamp(1.2rem,1.5vw,1.6rem)}
@@ -494,8 +494,7 @@ html.wide .facts{flex-wrap:nowrap;margin-top:24px}
 html.wide .facts li{padding:0 clamp(12px,1.3vw,22px);min-width:0}
 html.wide .facts b{font-size:2.2rem}
 html.wide .facts span{font-size:.78rem;letter-spacing:.06em;white-space:nowrap}
-html.wide #top .opening{grid-area:1/2;align-self:center;padding:clamp(24px,4vh,46px) clamp(26px,3vw,52px)}
-html.wide #top .opening .text{max-width:none;font-size:1.06rem;gap:14px}
+html.wide #top .opening{grid-area:1/2;align-self:center}
 /* continent */
 html.wide .atlas{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(360px,1fr);gap:clamp(18px,2vw,32px);align-items:start}
 html.wide .atlas>.folio{padding:clamp(20px,3.4vh,34px) clamp(20px,2.2vw,34px)}
@@ -667,6 +666,161 @@ html.wide #codex.book-on .book-wrap{display:grid;justify-items:center;gap:12px;p
 .pg .foe .fl{font-size:11.5px;padding-top:5px}
 .pg .foes-h{font-size:17px;margin:4px 0 8px;padding-top:0;border-top:0}
 .pg .blank{height:100%;display:grid;place-items:center;font-family:var(--f-display);font-size:42px;color:rgba(157,47,27,.35)}
+
+/* ---------- the game's own title, and an opening in two pages ---------- */
+#top h1.logo{font-size:0;line-height:0;margin:0}
+html.wide #top h1.logo{margin:-30px -44px -40px;padding:30px 44px 40px}
+#top h1.logo img{display:block;width:min(100%,560px);height:auto;margin-left:-1%;
+  filter:drop-shadow(0 2px 1px rgba(0,0,0,.8)) drop-shadow(0 6px 10px rgba(0,0,0,.45)) drop-shadow(0 10px 34px rgba(0,0,0,.7))}
+html.wide #top h1.logo img{width:min(100%,46vw,880px,calc((100vh - var(--bar-h) - 330px) * 2.14))}
+html.wide #top .sub{margin-top:clamp(4px,1vh,12px);font-size:clamp(1.1rem,1.3vw,1.55rem);text-wrap:balance}
+.op-eb{font-family:var(--f-label);font-weight:700;letter-spacing:.18em;font-size:.72rem;color:var(--rubric);text-transform:lowercase;margin-bottom:8px}
+.op-page+.op-page{margin-top:26px}
+.op-q{font-style:italic;color:var(--ink);font-size:1.22em;line-height:1.42;text-align:center;text-wrap:balance;padding:24px 5% 2px;background:var(--tx-orla-r) center 2px/150px 14px no-repeat}
+.op-nav{display:none}
+html.wide #top .opening{display:grid;gap:clamp(12px,2vh,20px);padding:clamp(22px,3.6vh,42px) clamp(30px,3.6vw,64px) clamp(14px,2.2vh,24px)}
+html.wide .op-pages{display:grid;font-size:var(--op-fs,1.14rem)}
+html.wide .op-page{grid-area:1/1;display:grid;align-content:start;gap:.85em;margin:0;transition:opacity .35s ease,visibility 0s linear .35s}
+html.wide .op-page:not(.on){opacity:0;visibility:hidden;pointer-events:none}
+html.wide .op-page.on{transition:opacity .35s ease}
+html.wide .op-eb{font-size:.66em;margin:0}
+html.wide #top .opening .text{max-width:none;font-size:1em;gap:.85em;line-height:1.58}
+html.wide #top .opening .text p:first-child{font-size:1.14em;line-height:1.5}
+html.wide .op-page .next{justify-self:start;margin-top:.3em;font-size:.74em}
+html.wide .op-nav{display:flex;align-items:center;justify-content:center;gap:20px;padding-top:clamp(8px,1.4vh,14px);border-top:1px solid var(--line-soft)}
+.op-arrow{appearance:none;cursor:pointer;width:30px;height:30px;padding:0;transform:rotate(45deg);display:grid;place-items:center;color:var(--rubric);
+  border:1px solid rgba(147,44,24,.6);background:linear-gradient(135deg,#f7ead0,#e0c895);box-shadow:inset 0 0 0 2px rgba(255,250,232,.75),0 2px 5px rgba(60,35,10,.3);transition:background .2s ease,color .2s ease,opacity .2s ease}
+.op-arrow>span{display:block;transform:rotate(-45deg);font-family:var(--f-display);font-size:1.3rem;line-height:1;margin-top:-3px}
+.op-arrow:hover:not(:disabled){background:linear-gradient(135deg,#a5381f,#7c2412);color:#fbefd6}
+.op-arrow:disabled{opacity:.28;cursor:default}
+.op-marks{display:flex;align-items:center;gap:12px}
+.op-marks button{appearance:none;background:none;border:0;cursor:pointer;padding:2px 4px;font-family:var(--f-sc);font-weight:700;font-size:1.06rem;letter-spacing:.06em;color:var(--ink-faint);transition:color .2s ease}
+.op-marks button:hover{color:var(--ink)}
+.op-marks button[aria-current="true"]{color:var(--rubric)}
+.op-marks i{width:6px;height:6px;transform:rotate(45deg);background:var(--rubric);opacity:.55}
+html.wide .op-page.in .op-eb,html.wide .op-page.in .text>*,html.wide .op-page.in .next{-webkit-mask-image:linear-gradient(90deg,#000 42%,transparent 58%);mask-image:linear-gradient(90deg,#000 42%,transparent 58%);
+  -webkit-mask-size:260% 100%;mask-size:260% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;animation:ink .8s ease both}
+html.wide .op-page.in .text>*:nth-child(1){animation-delay:.08s}html.wide .op-page.in .text>*:nth-child(2){animation-delay:.2s}
+html.wide .op-page.in .text>*:nth-child(3){animation-delay:.32s}html.wide .op-page.in .next{animation-delay:.44s}
+
+/* ---------- the codex as large as the screen allows ---------- */
+html.wide #codex{padding-top:max(14px,2.4vh);padding-bottom:max(14px,2.4vh)}
+html.wide #codex.book-on .book-wrap{gap:0}
+.bk-top{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;width:calc(var(--bw) * var(--bs) * 1px + 24px);height:42px;margin-bottom:calc(var(--bs) * 15px)}
+.bk-meta{display:flex;align-items:center;gap:22px;padding:0 0 8px 4px;font-family:var(--f-label);letter-spacing:.12em;font-size:.8rem;color:rgba(232,214,178,.72);white-space:nowrap}
+.bk-meta .lang{color:rgba(232,214,178,.72);font-size:.8rem}
+.lang input{appearance:none;-webkit-appearance:none;flex:none;width:11px;height:11px;margin:0 3px;transform:rotate(45deg);border:1px solid var(--gold);background:transparent;cursor:pointer;transition:background .2s ease,box-shadow .2s ease}
+.lang input:checked{background:var(--gold);box-shadow:0 0 8px rgba(240,200,120,.5)}
+.lang input:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.bk-tabs{display:flex;gap:3px;align-items:flex-end;height:auto;margin:0;justify-self:auto}
+.bk-tabs button:nth-child(n){appearance:none;cursor:pointer;display:flex;align-items:center;gap:9px;height:32px;padding:0 17px 0 13px;
+  font-family:var(--f-sc);font-weight:700;font-size:.98rem;letter-spacing:.03em;color:#e2c590;text-transform:none;
+  background:linear-gradient(180deg,#3d2616,#22140a);border:1px solid rgba(214,170,98,.5);border-bottom:0;border-radius:8px 8px 0 0;
+  box-shadow:inset 0 1px 0 rgba(255,225,170,.18),0 -2px 8px rgba(0,0,0,.35);transition:height .18s ease,color .18s ease}
+.bk-tabs button::before{content:"";flex:none;width:7px;height:7px;transform:rotate(45deg);background:var(--tc);box-shadow:0 0 0 1px rgba(0,0,0,.5),0 0 7px var(--tc)}
+.bk-tabs button:nth-child(1){--tc:#cf5a3c}.bk-tabs button:nth-child(2){--tc:#6b9ad6}.bk-tabs button:nth-child(3){--tc:#9cbd55}.bk-tabs button:nth-child(4){--tc:#dcae52}
+.bk-tabs button:nth-child(n):hover{color:#fff1d0;height:35px}
+.bk-tabs button[aria-selected="true"]:nth-child(n){height:38px;color:#3a2210;background:linear-gradient(180deg,#f5e8c8,#e4cd9c);border-color:rgba(232,190,120,.95);box-shadow:inset 0 1px 0 #fff9e6,0 -2px 10px rgba(0,0,0,.4)}
+.bk-arrow{width:46px;height:46px}
+/* the page, set larger: the old sizes were drawn for a 600-wide page scaled down to 0.9 */
+.pg{font-size:15px;line-height:1.5}
+.pg .rh{font-size:11.5px;top:15px}
+.pg .pn{font-size:13px}
+.pg .eyebrow{font-size:11.5px}
+.toc h3.big{font-size:56px}
+.toc .gen{font-size:11.5px}
+.toc li>a{font-size:17px}
+.toc li>a i{font-size:12.5px}
+.toc ul a{font-size:13.5px}
+.toc ul a b{font-size:12px}
+.fronti .lede,.fronti p.lede{font-size:14px!important;line-height:1.55}
+.fronti .cap{font-size:13px!important}
+.arch .meta{font-size:12.5px}
+.arch h3{font-size:46px}
+.arch-tx .fl{font-size:16px}
+.potb{font-size:14px}
+.potb b{font-size:12px}
+.potb strong{font-size:19px}
+.pg .rd-card{font-size:14px;line-height:1.42;padding:10px;gap:12px}
+.pg .rd-tx .name{font-size:17.5px}
+.pg .rd-tx .type{font-size:11.5px}
+.pg .rd-tx .fl{font-size:13.5px}
+.pg .cost{width:27px;height:27px;font-size:14px}
+.pg-h{font-size:12px}
+.nine .mini .mn{font-size:14px}
+.nine .mini .mq{font-size:11px}
+.bk-ch{margin-bottom:6px}
+.bk-ch h3{font-size:46px}
+.bk-ch p.intro{font-size:14.5px;line-height:1.5}
+.bk-gh h4{font-size:20px}
+.bk-gh p{font-size:12px}
+/* equipment: a card album */
+.pg-in:has(>.bk-album),.pg-in:has(>.bk-bestiary){inset:38px 40px 30px}
+.bk-album{display:grid;grid-template-columns:repeat(auto-fill,minmax(122px,1fr));gap:10px;align-items:stretch;align-content:start}
+.bk-album>.bk-ch,.bk-album>.bk-gh,.bk-album>.bk-cont{grid-column:1/-1}
+.bk-album>.bk-gh{margin:2px 0 0}
+.bk-cont{font-family:var(--f-label);font-weight:700;letter-spacing:.12em;font-size:11.5px;color:var(--c);text-transform:lowercase;border-bottom:1px solid var(--c);padding-bottom:3px}
+.bk-ip{display:grid;grid-template-rows:auto 1fr;gap:7px;min-width:0;padding:6px 6px 8px;border-radius:7px;border-top:3px solid var(--c);
+  background:linear-gradient(180deg,rgba(255,250,235,.4),rgba(120,85,40,.07));box-shadow:inset 0 0 0 1px rgba(110,80,40,.28),0 4px 10px rgba(60,38,12,.12)}
+.ip-art{aspect-ratio:9/4;overflow:hidden;border-radius:3px;border:1px solid #6d5232;background:#2a2117}
+.ip-art img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 38%}
+.ip-tx{min-width:0;display:grid;align-content:start;gap:3px}
+.ip-tx .meta{font-family:var(--f-label);letter-spacing:.06em;font-size:10px;line-height:1.3;color:var(--c)}
+.ip-tx h4{font-family:var(--f-sc);font-weight:700;font-size:15.5px;line-height:1.12;color:var(--ink)}
+.ip-tx .fl{font-style:italic;font-size:12.5px;line-height:1.36;color:var(--ink-dim);display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;line-clamp:4;overflow:hidden}
+.bk-ip{cursor:zoom-in}
+.ip-n{font-family:var(--f-label);font-weight:700;font-size:10px;letter-spacing:.1em;color:var(--rubric);text-transform:lowercase;margin-top:2px}
+.bk-ip.flash{animation:flash 2.2s ease}
+.bk-album .card{font-size:12.5px;line-height:1.35;border-radius:8px;border-width:1.5px;cursor:zoom-in}
+.bk-album .card .top{padding:6px 7px 4px;gap:6px}
+.bk-album .card .name{font-size:13.5px}
+.bk-album .card .cost{width:22px;height:22px;font-size:12px;border-width:1.5px}
+.bk-album .card .art{aspect-ratio:9/4;margin:0 6px}
+.bk-album .card .type{font-size:9.5px;margin:5px 6px 0;padding:2px 0}
+.bk-album .card .body{padding:6px 8px 8px;gap:5px}
+/* enemies: a bestiary, the animation large */
+.bk-bestiary{display:grid;gap:12px;align-content:start}
+.bk-bestiary .foes-h{font-size:19px;margin:2px 0 0;padding:0 0 3px;border-top:0;border-bottom:2px solid var(--c);color:var(--c)}
+.bk-bestiary .foe{--fvh:min(calc(var(--pih) * 1px - 74px),calc(var(--piw) * .77px));grid-template-columns:calc(var(--fvh) * .625) minmax(0,1fr);grid-template-rows:auto auto auto auto 1fr;
+  gap:4px 22px;padding:12px;font-size:15px;border-left-width:4px;align-items:start}
+.bk-bestiary .foe>div{display:contents}
+.bk-bestiary .foe video{grid-column:1;grid-row:1/-1;width:100%;height:var(--fvh);aspect-ratio:auto;object-fit:cover;border-radius:3px;box-shadow:0 0 0 1px #6f5130,0 0 0 4px #2f2014,0 10px 22px rgba(40,25,10,.4)}
+.bk-bestiary .foe .meta{grid-column:2;font-size:12.5px;letter-spacing:.12em;margin-top:4px}
+.bk-bestiary .foe h4{grid-column:2;font-size:30px;line-height:1.08;margin:0 0 6px}
+.bk-bestiary .foe .st{grid-column:2;font-size:14px;gap:18px;padding-bottom:10px;border-bottom:1px solid var(--line-soft)}
+.bk-bestiary .foe .st span{font-size:17px}
+.bk-bestiary .foe ul{grid-column:2;margin:8px 0 4px;font-size:15px;gap:9px;line-height:1.4}
+.bk-bestiary .foe li i{font-size:11.5px}
+.bk-bestiary .foe li small{font-size:13px;margin-top:2px}
+.bk-bestiary .foe .fl{grid-column:2;font-size:15px;line-height:1.5;margin-top:6px;padding-top:10px}
+.bk-roster{columns:3 150px;column-gap:24px;margin-top:10px}
+.ro-g{margin-bottom:10px}
+.ro-g h5{font-family:var(--f-sc);font-weight:700;font-size:16px;line-height:1.2;color:var(--c);border-bottom:2px solid var(--c);padding-bottom:2px;margin:0 0 4px;break-after:avoid}
+.ro-g li{break-inside:avoid}
+.ro-g ul{list-style:none;margin:0;padding:0;display:grid;gap:1px}
+.ro-g a{display:flex;align-items:baseline;gap:8px;text-decoration:none;color:var(--ink);font-size:13.5px;line-height:1.3;padding:2px 0;border-bottom:1px dotted var(--line-soft)}
+.ro-g a span{flex:1;min-width:0}
+.ro-g a i{font-style:normal;font-family:var(--f-label);font-size:10.5px;letter-spacing:.06em;color:var(--ink-faint);white-space:nowrap}
+.ro-g a b{font-family:var(--f-label);font-weight:400;font-size:12px;color:var(--ink-faint);min-width:18px;text-align:right}
+.ro-g a:hover,.ro-g a:hover b{color:var(--rubric)}
+/* a card, large, beside the pointer */
+.cz{position:fixed;left:0;top:0;z-index:75;width:300px;pointer-events:none;opacity:0;transform:translateY(6px) scale(.97);transform-origin:50% 50%;transition:opacity .16s ease,transform .2s cubic-bezier(.2,.8,.25,1)}
+.cz.on{opacity:1;transform:none}
+.cz .card{font-size:15.5px;line-height:1.42;border-radius:13px;border-width:2.5px;box-shadow:0 26px 60px rgba(0,0,0,.7),0 6px 16px rgba(0,0,0,.45),inset 0 0 0 4px rgba(255,248,230,.45)}
+.cz .card .name{font-size:19px}
+.cz .card .cost{width:32px;height:32px;font-size:17px}
+.cz .card .art{aspect-ratio:4/3;margin:0 10px}
+.cz .card .type{font-size:12px;margin:8px 10px 0;padding:4px 0}
+.cz .card .body{padding:10px 14px 14px}
+.cz .bk-ip{width:300px;padding:10px 10px 14px;gap:10px;font-size:15px;background:linear-gradient(180deg,#f6ead0,#e8d6ac);border-radius:12px;border-top-width:4px;box-shadow:0 26px 60px rgba(0,0,0,.7),0 6px 16px rgba(0,0,0,.45),inset 0 0 0 1px rgba(110,80,40,.35)}
+.cz .ip-art{aspect-ratio:2/3}
+.cz .ip-art img{object-position:50% 50%}
+.cz .ip-tx .meta{font-size:12px}
+.cz .ip-tx h4{font-size:21px}
+.cz .ip-tx .fl{font-size:15px;line-height:1.45;display:block;-webkit-line-clamp:none;line-clamp:none;overflow:visible}
+.cz .ip-n{font-size:11px}
+@media (prefers-reduced-motion:reduce){.cz{transform:none;transition:opacity .16s ease}}
+.pg .mini,.pg .rd-card{cursor:zoom-in}
 </style>
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}.docs{display:flex;gap:10px;flex-wrap:wrap}.docs a{display:inline-block;border:1px solid var(--brass);color:var(--brass-hi);font-family:var(--f-label);letter-spacing:.1em;font-size:.82rem;padding:5px 12px;border-radius:2px;text-decoration:none}.docs a:hover{background:rgba(198,154,90,.12)}</style>
 </head>
@@ -694,7 +848,7 @@ html.wide #codex.book-on .book-wrap{display:grid;justify-items:center;gap:12px;p
   <div class="bg" aria-hidden="true"><div style="--bg:url(img/bg/f_inicio.jpg)"></div></div>
   <figure class="art"><img src="img/bg/inicio.jpg" alt="Concept painting: a dirt path through ripe wheat, past thatched huts and grazing cattle, toward a white city on the horizon." width="1344" height="896"><figcaption>Concept art</figcaption></figure>
   <div class="title lay">
-    <h1>Kingdom<br>of None</h1>
+    <h1 class="logo"><img src="img/tx/titulo.webp" alt="Kingdom of None" width="1354" height="640"></h1>
     <p class="sub">A turn-based roguelite card RPG · in development in Godot 4</p>
     <p class="by">Tomás Becerra · narrative &amp; systems design</p>
     <ul class="facts" aria-label="The game in numbers">
@@ -707,14 +861,30 @@ html.wide #codex.book-on .book-wrap{display:grid;justify-items:center;gap:12px;p
     </ul>
   </div>
   <article class="folio opening lay burnable" style="--d:120">
-    <div class="text">
+    <div class="op-pages">
+      <div class="op-page on" data-p="0" id="op-0" role="group" aria-label="Page 1 of 2">
+        <p class="op-eb">i · the stone</p>
+        <div class="text">
       <p>Four peoples share a continent, and under it runs a mineral called the Veth. Wear a ring set with it, look into a mirror and say: I look good today. You will feel that it is true.</p>
       <p>The stone seems to agree with whoever holds it. It also carries heat, and under the right conditions it makes the wings of dead griffins fly. With those wings the Hilläru, the last people to arrive and the fewest in number, took the sky, and from the sky they took the continent: its tribute, its archives, its law. The same process, with a different measure of Veth, makes gunpowder. The stone that gave them their power also makes the weapon that can bring them down.</p>
       <p>Everyone needs the Veth, and no two peoples agree on what it is. For the Orthal of the Father it is a voice that demands labour; for the Orthal of the Mother, a stone that does not speak. The Yrei hear in it a dialect of the sea. The Pherion guilds put it to work. The Hilläru treat it as engineering and decline to give it a theology. Each reading has its own politics, and every one of them is a reason to fight.</p>
-      <p>Even the world's own records describe the Veth in two vocabularies that cannot both be true. In one, it perceives, waits and chooses. In the other, it chooses nothing and only registers what the world was always able to become. <span class="q">If the stone that agrees with you has no will of its own, whose will has been moving the continent?</span></p>
+        </div>
+      </div>
+      <div class="op-page" data-p="1" id="op-1" role="group" aria-label="Page 2 of 2">
+        <p class="op-eb">ii · the question</p>
+        <div class="text">
+      <p>Even the world's own records describe the Veth in two vocabularies that cannot both be true. In one, it perceives, waits and chooses. In the other, it chooses nothing and only registers what the world was always able to become.</p>
+      <p class="op-q">If the stone that agrees with you has no will of its own, whose will has been moving the continent?</p>
       <p class="turn">Kingdom of None does not answer. It is a game, and it asks the question where a game can: in the rules. What you are, what you carry and what you draw decide what you can do. Whether the choice that follows is yours is the question the game keeps asking.</p>
+        </div>
+        <a class="next" href="#game" data-go="game">Begin with the game ›</a>
+      </div>
     </div>
-    <a class="next" href="#game" data-go="game">Begin with the game ›</a>
+    <div class="op-nav" aria-label="Opening pages">
+      <button type="button" class="op-arrow" data-d="-1" aria-label="Previous page" disabled><span>‹</span></button>
+      <span class="op-marks"><button type="button" data-p="0" aria-current="true" aria-label="Page 1">I</button><i aria-hidden="true"></i><button type="button" data-p="1" aria-label="Page 2">II</button></span>
+      <button type="button" class="op-arrow" data-d="1" aria-label="Next page"><span>›</span></button>
+    </div>
   </article>
 </header>
 
@@ -912,13 +1082,15 @@ html.wide #codex.book-on .book-wrap{display:grid;justify-items:center;gap:12px;p
     <details class="cx" data-k="foes"><summary><span class="cx-t">Enemies of the first block</span><span class="cx-n" id="cx-n-foes"></span></summary><div class="cx-body" id="cx-foes"></div></details>
   </div>
   <div class="book-wrap lay burnable" id="book-wrap">
-    <div class="bk-tabs" role="tablist" aria-label="Chapters" id="bk-tabs"></div>
+    <div class="bk-top">
+      <div class="bk-meta"><span id="bk-pn"></span><label class="lang"><input type="checkbox" class="lang-t"> Show the original Spanish</label></div>
+      <div class="bk-tabs" role="tablist" aria-label="Chapters" id="bk-tabs"></div>
+    </div>
     <div class="bk-row">
       <button type="button" class="bk-arrow" id="bk-prev" aria-label="Previous pages"><span>‹</span></button>
       <div class="book-fit"><div class="book" id="book"><div class="pg l" id="pg-l"></div><div class="pg r" id="pg-r"></div></div></div>
       <button type="button" class="bk-arrow" id="bk-next" aria-label="Next pages"><span>›</span></button>
     </div>
-    <div class="bk-foot"><span id="bk-pn"></span><label class="lang"><input type="checkbox" class="lang-t"> Show the original Spanish</label><a class="next" href="#contact" data-go="contact" style="margin-top:0;color:var(--gold);border-color:rgba(230,193,132,.4)">Contact ›</a></div>
   </div>
 </section>
 
@@ -1363,7 +1535,8 @@ const W = { // [en, es]
   ch2:['Equipment','Equipo'], ch3:['Enemies of the first block','Enemigos del primer bloque'], ch3short:['Enemies','Enemigos'],
   ch2intro:['The items of the first two blocks, each with the combat cards it puts in the deck. Cards that do not have their art yet appear without it.','Los ítems de los dos primeros bloques, cada uno con las cartas de combate que suma al mazo. Las cartas que todavía no tienen arte aparecen sin él.'],
   ch3intro:['The enemies of the first four provinces, each with its animation, hit points, armour and actions.','Los enemigos de las cuatro primeras provincias, cada uno con su animación, sus puntos de vida, su armadura y sus acciones.'],
-  nine:['nine moves · pick one to read it','nueve movimientos · elegí uno para leerlo'], potency:['resource','potencia'], concept:['Concept art','Arte conceptual']
+  nine:['nine moves · pick one to read it','nueve movimientos · elegí uno para leerlo'], card1:['combat card','carta de combate'], cont:['continued','sigue'],
+  zoomhint:['Rest the pointer on a card to see it whole.','Dejá el puntero sobre una carta para verla entera.'], potency:['resource','potencia'], concept:['Concept art','Arte conceptual']
 };
 const w = k => W[k] ? W[k][lang === 'es' ? 1 : 0] : String(k).replace(/_/g, ' ');
 const ACT = {ataque:['Attack','Ataque'], espera:['Wait','Espera'], carga:['Charge','Carga'], esquive:['Dodge','Esquive'],
@@ -1756,23 +1929,32 @@ document.querySelectorAll('.leaves').forEach(box => {
 
 /* ---------- the bound codex (wide screens) ---------- */
 const Book = (() => {
-  const PW = 600;
+  let PW = 600, dims = '';
   const book = $('#book'), pl = $('#pg-l'), pr = $('#pg-r'), tabs = $('#bk-tabs'), pn = $('#bk-pn'), prev = $('#bk-prev'), next = $('#bk-next');
   let H = 700, pages = [], key = {}, at = 0, busy = false, built = '', chapters = [], meas = null;
   const sel = {};
   const usable = () => !!CX && Stage.on() && innerWidth >= 1180;
+  const sig = () => PW + 'x' + H + '|' + lang;
+  // the book takes the room the screen gives it: the type size follows the width of the screen,
+  // and the pages are as wide and as tall as what is left (before, a fixed 600-wide page left both sides empty)
   function layout(){
     const sec = $('#codex'); sec.classList.toggle('book-on', usable());
     if (!usable()) return;
     const bar = document.querySelector('.bar'), bh = bar ? bar.getBoundingClientRect().height : 62;
-    const padV = Math.min(48, Math.max(30, innerHeight * .045)) + Math.min(72, Math.max(40, innerHeight * .07));
-    const availH = innerHeight - bh - padV - 26 - 12 - 34 - 12 - 34;
-    const availW = innerWidth - 2 * Math.max(24, Math.min(60, innerWidth * .032)) - 2 * 52 - 2 * 22 - 40;
-    const h = Math.round(Math.max(520, Math.min(760, availH)));
-    const s = Math.max(.5, Math.min(availH / h, availW / (2 * PW), 1.16));
+    const vpad = 2 * Math.max(14, innerHeight * .024), top = 42, cover = 34;
+    const availH = innerHeight - bh - vpad - top - cover;
+    const side = Math.max(18, innerWidth * .018), arrows = 2 * (46 + Math.max(12, innerWidth * .01));
+    const availW = innerWidth - 2 * side - arrows - cover;
+    let s = Math.min(1.34, Math.max(.9, innerWidth / 1480));
+    let h = Math.floor(availH / s);
+    if (h < 500) { s = Math.max(.6, availH / 500); h = Math.floor(availH / s); }
+    h = Math.min(h, 900);
+    let pw = Math.max(520, Math.min(Math.floor(availW / (2 * s)), 800));
+    if (2 * pw * s > availW) s = availW / (2 * pw);
     const st = document.documentElement.style;
-    st.setProperty('--pw', PW); st.setProperty('--bw', 2 * PW); st.setProperty('--bh', h); st.setProperty('--bs', s.toFixed(4));
-    if (h !== H) { H = h; if (built) { rebuild(); } }
+    st.setProperty('--pw', pw); st.setProperty('--bw', 2 * pw); st.setProperty('--bh', h); st.setProperty('--bs', s.toFixed(4));
+    st.setProperty('--pih', h - 80); st.setProperty('--piw', pw - 88);
+    if (pw + 'x' + h !== dims) { dims = pw + 'x' + h; PW = pw; H = h; if (built) rebuild(); }
   }
   const P1 = k => (key[k] !== undefined ? key[k] + 1 : '');
   const lede = () => { const l = $('#cx-lede'); return l ? l.innerHTML : ''; };
@@ -1795,49 +1977,68 @@ const Book = (() => {
       <div class="rd-slot" data-arch="${a.id}" aria-live="polite">${slotHTML(cxMoveObj(a.moves[selOf(a)], a))}</div></div>`;
   }
   const archRight = a => `<div class="nine"><p class="pg-h">${w('nine')}</p><div class="rd-grid" data-arch="${a.id}" role="group" aria-label="${escA(tr(a.n))}">${a.moves.map((m, j) => miniHTML(cxMoveObj(m, a), j, selOf(a))).join('')}</div></div>`;
-  function bkItem(it, c){
+  // equipment is laid out like a card album: each item has a plate, and its combat cards follow it in the same grid,
+  // so every page fills row by row (before, one item per row left half of each page empty)
+  function bkPlate(it, c){
     const meta = [it.provincia ? PN[it.provincia] : FN[it.faccion], w(it.slot), it.tipos.map(w).join(', '), it.entrega ? w(it.entrega) : ''].filter(Boolean).join(' · ');
-    return `<article class="bk-it${it.cartas.length ? '' : ' none'}" data-n="${escA(it.n)}" style="--c:${c}"><img src="codex/img/${it.img}" alt="${escA(lang === 'es' ? it.n : 'Concept art: ' + tr(it.n))}" loading="lazy" width="380" height="570"><div style="min-width:0"><p class="meta">${esc(meta)}</p><h4>${esc(tr(it.n))}</h4>${it.fl ? `<p class="fl">${esc(tr(it.fl))}</p>` : ''}</div><div class="bk-cards">${it.cartas.map(cd => cxCard(cd, [w(QK[cd.q] || 'common'), gates(cd.g)].filter(Boolean).join(' · '), true)).join('')}</div></article>`;
+    const n = it.cartas.length;
+    return `<article class="bk-ip${n ? '' : ' none'}" data-n="${escA(it.n)}" style="--c:${c}"><div class="ip-art"><img src="codex/img/${it.img}" alt="${escA(lang === 'es' ? it.n : 'Concept art: ' + tr(it.n))}" loading="lazy" width="380" height="570"></div>
+      <div class="ip-tx"><p class="meta">${esc(meta)}</p><h4>${esc(tr(it.n))}</h4>${it.fl ? `<p class="fl">${esc(tr(it.fl))}</p>` : ''}${n ? `<p class="ip-n">${n} ${w(n === 1 ? 'card1' : 'cards')} <span aria-hidden="true">›</span></p>` : ''}</div></article>`;
   }
-  const chapterHead = (n, k) => `<div class="bk-ch"><p class="eyebrow">${w('chapter')} ${n}</p><h3>${w(k)}</h3><p class="intro">${w(k + 'intro')}</p></div>`;
+  const chapterHead = (n, k, extra) => `<div class="bk-ch"><p class="eyebrow">${w('chapter')} ${n}</p><h3>${w(k)}</h3><p class="intro">${w(k + 'intro')}${extra ? ' ' + extra : ''}</p></div>`;
   function itemBlocks(){
-    const out = [{head: true, key: 'II', html: () => chapterHead('II', 'ch2')}];
+    const out = [{head: true, key: 'II', html: () => chapterHead('II', 'ch2', w('zoomhint'))}];
     itemGroups().forEach(g => {
       const c = F[g.f] ? F[g.f].c : 'var(--brass)';
       out.push({head: true, key: 'g-' + g.key, html: () => `<div class="bk-gh" style="--c:${c}"><h4>${groupTitle(g)}</h4><p>P${g.tier} · ${FN[g.f] || ''}</p></div>`});
-      g.items.forEach(it => out.push({key: 'i-' + it.n, html: () => bkItem(it, c)}));
+      g.items.forEach(it => {
+        out.push({key: 'i-' + it.n, lead: it.cartas.length > 0, html: () => bkPlate(it, c)});
+        it.cartas.forEach(cd => out.push({follows: true, cont: () => `<div class="bk-cont" style="--c:${c}">${esc(tr(it.n))} · ${w('cont')}</div>`,
+          html: () => cxCard(cd, [w(QK[cd.q] || 'common'), gates(cd.g)].filter(Boolean).join(' · '), true)}));
+      });
     });
     return out;
   }
+  // the enemies are a bestiary: one to a page, the animation as tall as the page, with a roster on the chapter's first page
+  function roster(){
+    return `<div class="bk-roster">${foeGroups().map(([pv, list]) => `<div class="ro-g" style="--c:${foeColour(pv)}"><h5>${esc(pv === 'universal' ? w('universal') : PN[pv] || pv)}</h5><ul>${list.map(e => `<li><a href="#codex" data-bk="e-${escA(e.id)}"><span>${esc(tr(e.n))}</span><b>${P1('e-' + e.id)}</b></a></li>`).join('')}</ul></div>`).join('')}</div>`;
+  }
   function foeBlocks(){
-    const out = [{head: true, key: 'III', html: () => chapterHead('III', 'ch3')}];
+    const out = [{head: true, key: 'III', html: () => chapterHead('III', 'ch3') + roster()}];
     foeGroups().forEach(([pv, list]) => {
       const c = foeColour(pv);
       out.push({head: true, key: 'f-' + pv, html: () => `<h4 class="foes-h" style="--c:${c}">${esc(pv === 'universal' ? w('universal') : PN[pv] || pv)}</h4>`});
-      list.forEach(e => out.push({key: 'e-' + e.id, html: () => `<div style="margin-bottom:10px">${foeHTML(e, c)}</div>`}));
+      list.forEach(e => out.push({key: 'e-' + e.id, html: () => foeHTML(e, c)}));
     });
     return out;
   }
-  function flow(blocks, rh){
-    const inner = meas.firstElementChild; inner.innerHTML = '';
+  function flow(blocks, rh, wrap){
+    const inner = meas.firstElementChild;
+    const reset = () => { inner.innerHTML = wrap ? `<div class="${wrap}"></div>` : ''; };
+    const box = () => wrap ? inner.firstElementChild : inner;
+    const add = b => box().insertAdjacentHTML('beforeend', b.html());
+    reset();
     let cur = [];
     const close = () => {
       if (!cur.length) return;
       const bl = cur, idx = pages.length;
-      pages.push({rh, html: () => bl.map(b => b.html()).join('')});
+      pages.push({rh, html: () => { const h = bl.map(b => b.html()).join(''); return wrap ? `<div class="${wrap}">${h}</div>` : h; }});
       bl.forEach(b => { if (b.key && key[b.key] === undefined) key[b.key] = idx; });
-      cur = []; inner.innerHTML = '';
+      cur = []; reset();
     };
     const over = () => inner.scrollHeight > inner.clientHeight + 1;
     blocks.forEach(b => {
-      inner.insertAdjacentHTML('beforeend', b.html());
+      add(b);
       if (over() && cur.length) {
-        inner.lastElementChild.remove();
+        box().lastElementChild.remove();
         const carry = [];
-        while (cur.length > 1 && cur[cur.length - 1].head) carry.unshift(cur.pop());
+        // a heading or an item plate never stays alone at the foot of a page: it moves on with what follows it
+        while (cur.length > 1 && (cur[cur.length - 1].head || (cur[cur.length - 1].lead && b.follows))) carry.unshift(cur.pop());
         close();
-        carry.forEach(c => { inner.insertAdjacentHTML('beforeend', c.html()); cur.push(c); });
-        inner.insertAdjacentHTML('beforeend', b.html());
+        // cards that continue an item from the page before carry its name
+        if (!carry.length && b.follows && b.cont) { const c = {head: true, html: b.cont}; add(c); cur.push(c); }
+        carry.forEach(c => { add(c); cur.push(c); });
+        add(b);
       }
       cur.push(b);
     });
@@ -1853,11 +2054,11 @@ const Book = (() => {
     chapters.push({id: 'I', label: 'I · ' + w('ch1short'), page: pages.length});
     D.arquetipos.forEach(a => { key['a-' + a.id] = pages.length; const rh = 'I · ' + w('ch1'); pages.push({rh, html: () => archLeft(a)}, {rh, html: () => archRight(a)}); });
     chapters.push({id: 'II', label: 'II · ' + w('ch2'), page: pages.length});
-    flow(itemBlocks(), 'II · ' + w('ch2'));
+    flow(itemBlocks(), 'II · ' + w('ch2'), 'bk-album');
     chapters.push({id: 'III', label: 'III · ' + w('ch3short'), page: pages.length});
-    flow(foeBlocks(), 'III · ' + w('ch3'));
+    flow(foeBlocks(), 'III · ' + w('ch3'), 'bk-bestiary');
     if (pages.length % 2) pages.push({rh: '', html: () => '<div class="blank" aria-hidden="true">✣</div>'});
-    built = H + '|' + lang;
+    built = sig();
     tabs.innerHTML = chapters.map(c => `<button type="button" role="tab" data-ch="${c.id}" aria-selected="false">${esc(c.label)}</button>`).join('');
   }
   function pageHTML(i){
@@ -1875,7 +2076,13 @@ const Book = (() => {
   function paint(){
     unwireVideos(pl); unwireVideos(pr);
     pl.innerHTML = pageHTML(2 * at); pr.innerHTML = pageHTML(2 * at + 1);
-    wireVideos(pl); wireVideos(pr); ui();
+    wireVideos(pl); wireVideos(pr); fitToc(pl); fitToc(pr); ui();
+  }
+  // the contents page is one page whatever the screen: on a short screen it is set a little smaller
+  function fitToc(pg){
+    const t = pg.querySelector('.toc'), pi = pg.querySelector('.pg-in'); if (!t || !pi) return;
+    t.style.zoom = '';
+    for (let k = 0; k < 3 && pi.scrollHeight > pi.clientHeight + 1; k++) t.style.zoom = Math.max(.66, (parseFloat(t.style.zoom) || 1) * pi.clientHeight / pi.scrollHeight - .005).toFixed(3);
   }
   function flipTo(target){
     if (busy || !pages.length) return;
@@ -1921,10 +2128,10 @@ const Book = (() => {
   }
   function open(){
     layout(); if (!usable()) return;
-    if (built !== H + '|' + lang) { if (built) rebuild(); else { build(); at = 0; } }
+    if (built !== sig()) { if (built) rebuild(); else { build(); at = 0; } }
     paint();
   }
-  function relang(force){ if (built && (force || built !== H + '|' + lang)) rebuild(); }
+  function relang(force){ if (built && (force || built !== sig())) rebuild(); }
   function reveal(cx, f){
     if (!usable()) return false;
     open();
@@ -1935,7 +2142,7 @@ const Book = (() => {
     } else k = 'i-' + cx[1];
     const s = spreadOf(k); if (s === null) return false;
     at = s; paint();
-    el = cx[0] === 'move' ? book.querySelector('.rd-slot .rd-card') : [...book.querySelectorAll('.bk-it')].find(x => x.dataset.n === cx[1]);
+    el = cx[0] === 'move' ? book.querySelector('.rd-slot .rd-card') : [...book.querySelectorAll('.bk-ip')].find(x => x.dataset.n === cx[1]);
     if (el) { el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash'); }
     return true;
   }
@@ -1961,6 +2168,52 @@ const Book = (() => {
     if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); flipTo(at - 1); }
   });
   return {layout, open, relang, reveal, usable};
+})();
+
+/* ---------- a card under the pointer is shown large beside it (mouse only) ---------- */
+(() => {
+  let fine = false; try { fine = matchMedia('(hover: hover) and (pointer: fine)').matches; } catch(e) {}
+  const book = $('#book'); if (!fine || !book) return;
+  const cz = document.createElement('div'); cz.className = 'cz'; cz.setAttribute('aria-hidden', 'true'); document.body.appendChild(cz);
+  let cur = null, hideT = 0;
+  const SEL = '.card, .mini, .rd-card, .bk-ip';
+  function cardFor(el){
+    if (el.classList.contains('card') || el.classList.contains('bk-ip')) return el.outerHTML;
+    const host = el.closest('[data-arch]'); if (!host || !CX) return '';
+    const a = CX.datos.arquetipos.find(x => x.id === host.dataset.arch); if (!a) return '';
+    let i = 0;
+    if (el.classList.contains('mini')) i = Number(el.dataset.i);
+    else { const p = book.querySelector(`.rd-grid[data-arch="${a.id}"] .mini[aria-pressed="true"]`); if (p) i = Number(p.dataset.i); }
+    const m = a.moves[i]; if (!m) return '';
+    return cxCard(m, `${w(QK[m.q] || 'common')} · ${esc(tr(a.n))}`, false);
+  }
+  function place(el){
+    const r = el.getBoundingClientRect(), zw = cz.offsetWidth, zh = cz.offsetHeight, gap = 18;
+    const bar = document.querySelector('.bar'), top0 = (bar ? bar.getBoundingClientRect().bottom : 0) + 10;
+    let x = r.right + gap;
+    if (x + zw > innerWidth - 10) x = r.left - gap - zw;
+    if (x < 10) x = Math.max(10, innerWidth - zw - 10);
+    const y = Math.max(top0, Math.min(r.top + r.height / 2 - zh / 2, innerHeight - zh - 10));
+    cz.style.left = Math.round(x) + 'px'; cz.style.top = Math.round(y) + 'px';
+  }
+  function show(el){
+    const html = cardFor(el); if (!html) return;
+    clearTimeout(hideT); cur = el;
+    cz.innerHTML = html;
+    cz.querySelectorAll('img').forEach(i => { i.loading = 'eager'; });
+    const c = cz.firstElementChild; if (c) c.classList.remove('flash');
+    place(el); cz.classList.add('on');
+  }
+  function hide(){ cur = null; cz.classList.remove('on'); }
+  book.addEventListener('pointerover', e => { const el = e.target.closest(SEL); if (el && el !== cur) show(el); });
+  book.addEventListener('pointerout', e => {
+    const el = e.target.closest(SEL); if (!el || (e.relatedTarget && el.contains(e.relatedTarget))) return;
+    hideT = setTimeout(hide, 60);
+  });
+  addEventListener('scroll', hide, {passive: true});
+  book.addEventListener('click', () => setTimeout(() => { if (cur && cur.isConnected) show(cur); }, 0));
+  // a page turn takes away what was under the pointer
+  new MutationObserver(() => { if (cur && !cur.isConnected) hide(); }).observe(book, {childList: true, subtree: true});
 })();
 
 /* ---------- the Seld archive (data: archive/archive.js) ---------- */
@@ -2077,11 +2330,45 @@ $('#copy').addEventListener('click', () => {
 });
 
 render(); renderCards();
+/* the opening is two pages: the stone, then the question; on a wide screen the text grows as far as the screen allows */
+const Opening = (() => {
+  const op = document.querySelector('#top .opening');
+  if (!op) return {fit(){}, show(){}};
+  const box = op.querySelector('.op-pages'), pages = [...op.querySelectorAll('.op-page')];
+  const marks = [...op.querySelectorAll('.op-marks button')], arrows = [...op.querySelectorAll('.op-arrow')];
+  let at = 0;
+  function show(i){
+    i = Math.max(0, Math.min(pages.length - 1, i)); if (i === at) return;
+    pages[at].classList.remove('on', 'in'); at = i;
+    const p = pages[at]; p.classList.remove('in'); void p.offsetWidth; p.classList.add('on', 'in');
+    clearTimeout(p._t); p._t = setTimeout(() => p.classList.remove('in'), 1500);
+    marks.forEach((m, k) => m.setAttribute('aria-current', k === at ? 'true' : 'false'));
+    arrows[0].disabled = at === 0; arrows[1].disabled = at === pages.length - 1;
+  }
+  arrows.forEach(a => a.addEventListener('click', () => show(at + Number(a.dataset.d))));
+  marks.forEach(m => m.addEventListener('click', () => show(Number(m.dataset.p))));
+  op.addEventListener('keydown', e => {
+    if (!document.documentElement.classList.contains('wide')) return;
+    if (e.key === 'ArrowRight') { show(at + 1); e.preventDefault(); } else if (e.key === 'ArrowLeft') { show(at - 1); e.preventDefault(); }
+  });
+  // both pages share one cell, so the sheet is as tall as the longer page: the type is the largest that keeps it on screen
+  function fit(){
+    if (!document.documentElement.classList.contains('wide')) { box.style.removeProperty('--op-fs'); return; }
+    const bar = document.querySelector('.bar'), bh = bar ? bar.getBoundingClientRect().height : 62;
+    const avail = innerHeight - bh - 2 * Math.max(14, innerHeight * .028);
+    let lo = 15, hi = 23.5;
+    for (let k = 0; k < 8; k++) { const mid = (lo + hi) / 2; box.style.setProperty('--op-fs', mid + 'px'); if (op.offsetHeight <= avail) lo = mid; else hi = mid; }
+    box.style.setProperty('--op-fs', lo.toFixed(2) + 'px');
+  }
+  return {fit, show};
+})();
 Stage.apply();
+Opening.fit();
+let ofz = 0; addEventListener('resize', () => { clearTimeout(ofz); ofz = setTimeout(Opening.fit, 140); });
 /* the bar wraps to two rows on a phone: the diamond that would open the second row is hidden */
 function navRows(){ let t = null; document.querySelectorAll('.bar li').forEach(li => { li.classList.remove('rs'); }); document.querySelectorAll('.bar li').forEach(li => { const y = li.offsetTop; li.classList.toggle('rs', t !== null && Math.abs(y - t) > 4); t = y; }); }
 navRows(); let nrz = 0; addEventListener('resize', () => { clearTimeout(nrz); nrz = setTimeout(navRows, 120); });
-if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { navRows(); if (Stage.on()) { Book.layout(); Book.relang(true); } });
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { navRows(); Opening.fit(); if (Stage.on()) { Book.layout(); Book.relang(true); } });
 })();
 </script>
 
