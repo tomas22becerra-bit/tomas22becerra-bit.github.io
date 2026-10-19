@@ -206,7 +206,7 @@ p{margin:0}
 .terr h4 .dg{font-family:var(--f-label);font-size:.72rem;letter-spacing:.1em;color:var(--vellum);background:var(--rubric);padding:1px 7px;border-radius:2px}
 .terr .flav{font-size:1rem;line-height:1.55}
 .terr dl{margin:0;display:grid;grid-template-columns:max-content minmax(0,1fr);gap:4px 14px;font-size:.92rem;border-top:1px solid var(--line-soft);padding-top:10px}
-.terr dt{font-family:var(--f-label);letter-spacing:.1em;color:var(--ink-faint);font-size:.78rem;padding-top:2px}
+.terr dt{font-family:var(--f-label);font-weight:700;letter-spacing:.1em;color:var(--ink);font-size:.78rem;padding-top:2px}
 .terr dd{margin:0;color:var(--ink-dim)}
 .verse{white-space:pre-line;font-style:italic}
 .lang{display:inline-flex;align-items:center;gap:8px;font-family:var(--f-label);letter-spacing:.08em;font-size:.84rem;color:var(--ink-dim);cursor:pointer;user-select:none}
@@ -855,6 +855,18 @@ main{overflow-x:clip}
 .rv[data-top]{--sy:-1}
 html:not(.wide) .rv-l{--rx:-26px}html:not(.wide) .rv-r{--rx:26px}html:not(.wide) .rv-u{--ry:30px}
 @media (prefers-reduced-motion:reduce){.rv{--rx:0px!important;--ry:0px!important;--rs:1!important}}
+
+/* a click on a painting beside a sheet brings another from the concept-art pool */
+.sec.side>.art img.going{position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.sec.side>.art img:not(.going){position:relative;z-index:0}
+.art-swap{position:absolute;inset:0;z-index:3;display:flex;align-items:flex-end;justify-content:flex-start;padding:0 0 10px 12px;margin:0;border:0;background:none;cursor:pointer;color:inherit;font:inherit}
+.art-swap span{display:inline-flex;align-items:center;gap:7px;padding:4px 10px 4px 8px;border-radius:2px;font-family:var(--f-label);font-weight:700;font-size:.7rem;letter-spacing:.12em;text-transform:lowercase;
+  color:#f3e2bd;background:rgba(14,10,6,.72);box-shadow:inset 0 0 0 1px rgba(232,190,120,.45);opacity:0;transform:translateY(4px);transition:opacity .25s ease,transform .25s ease}
+.art-swap span::before{content:"";width:7px;height:7px;transform:rotate(45deg);background:linear-gradient(135deg,#f6dca0,#8a6328);box-shadow:0 0 6px rgba(240,200,120,.5)}
+.art-swap:hover span,.art-swap:focus-visible span{opacity:1;transform:none}
+.art-swap:focus-visible{outline:2px solid var(--gold);outline-offset:-4px}
+@media (hover:none){.art-swap span{opacity:.85;transform:none}}
+html:not(.wide) .art-swap{align-items:flex-start;padding:10px 0 0 max(14px,env(safe-area-inset-left,0px))}
 </style>
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}.docs{display:flex;gap:10px;flex-wrap:wrap}.docs a{display:inline-block;border:1px solid var(--brass);color:var(--brass-hi);font-family:var(--f-label);letter-spacing:.1em;font-size:.82rem;padding:5px 12px;border-radius:2px;text-decoration:none}.docs a:hover{background:rgba(198,154,90,.12)}</style>
 </head>
@@ -934,7 +946,7 @@ html:not(.wide) .rv-l{--rx:-26px}html:not(.wide) .rv-r{--rx:26px}html:not(.wide)
       <div class="leaves-nav" role="tablist" aria-label="Systems"></div>
     </div>
     <div class="col-b">
-      <p class="lede intro">Kingdom of None started as a <strong>2D pixel-art card roguelite</strong> with fixed dungeons. It grew into a <strong>semi-open 3D world</strong>: thirty-six territories to cross, settlements to walk into, and people whose interests pull against each other. Its story is told through their errands. <strong class="hl">The player does not direct it and is not its hero; the player watches it from inside, and takes part.</strong></p>
+      <p class="lede intro"><strong>Kingdom of None</strong> started as a <strong>2D pixel-art card roguelite</strong> with fixed dungeons. It grew into a <strong>semi-open 3D world</strong>: thirty-six territories to cross, settlements to walk into, and people whose interests pull against each other. Its story is told through their errands. <strong class="hl">The player does not direct it and is not its hero; the player watches it from inside, and takes part.</strong></p>
       <div class="leaves sys">
         <article class="leaf" data-kicker="settlements" data-label="Places you walk into">
           <img src="img/ui/settlement.jpg" alt="In-game: the player standing in a 3D village square, with the settlement menu open on the left." width="1200" height="675" loading="lazy">
@@ -1324,9 +1336,9 @@ const P = [
       es:`“No basta con escribir la historia. También hay que defenderla. Mentir cuando sea necesario. Callar el ruido. Que por algo la paz es silenciosa.”`},
  t:[
  {x:.4593,y:.6217, n:{en:'The Burgh of Seld',es:'Burgo de Seld Capital'},
-  tx:{en:`Seld began using the title “Regia” in its decrees from 258 DR, at about the same time as the Hilläru aristocracy left the city to settle the floating islands.`,
+  tx:{en:`Seld began using the title “Regal” in its decrees from 258 DR, at about the same time as the Hilläru aristocracy left the city to settle the floating islands.`,
       es:`Seld comenzó a emplear el título de “Regia” en sus decretos a partir del 258 DR, aproximadamente al mismo tiempo en el que la aristocracia Hilläru abandonaba la ciudad para poblar las Islas flotantes.`},
-  cap:{en:'The Regia City of Seld',es:'Regia Ciudad de Seld'}, gov:{en:'House Ghalan',es:'Casa Ghalan'}, loy:{en:'The Great Dominion',es:'El Gran Dominio'}},
+  cap:{en:'The Regal City of Seld',es:'Regia Ciudad de Seld'}, gov:{en:'House Ghalan',es:'Casa Ghalan'}, loy:{en:'The Great Dominion',es:'El Gran Dominio'}},
  {x:.4426,y:.5547, n:{en:'The Plains of Phaenseld',es:'Llanuras de Phaenseld'},
   tx:{en:`The wheat stretches as far as the eye can see. Hope does not reach that far.`,
       es:`El trigo se extiende hasta donde alcanza la vista. La esperanza no llega tan lejos.`},
@@ -1452,6 +1464,7 @@ const ITEMS = [
   fl:{en:'“The quickest way to untie a knot is to cut it.” Xérsh the Eyeless to his disciples, 1791 AR.',es:'"La forma más rápida de desatar un nudo es cortarlo" Xérsh sin ojos a sus discípulos, 1791 AR'},
   cards:[['Cut','Strength 1, cost 2'],['Half Moon','Agility 2, cost 3'],['Hilt Backhand','Strength 2, Agility 1'],['Merciless','Strength 2, Agility 2, special']]}
 ];
+const ART_POOL = [{"s":"img/pool/p000.jpg","a":"two ruined columns standing in turquoise water, a city on the horizon","u":1},{"s":"img/pool/p001.jpg","a":"a domed tower over red rooftops beside a canal at sunset","u":0},{"s":"img/pool/p002.jpg","a":"a lamplit stone harbour town at dusk, boats at the quay","u":0},{"s":"img/pool/p003.jpg","a":"a moored ship below steep-roofed towers in teal evening light","u":0},{"s":"img/pool/p004.jpg","a":"a path through pink heather down to a sunny beach","u":0},{"s":"img/pool/p005.jpg","a":"a great stone bridge spanning a gorge over a turquoise river","u":0},{"s":"img/pool/p006.jpg","a":"a slow river between oaks under a cloudy sky","u":0},{"s":"img/pool/p007.jpg","a":"a heron in the reeds of a misty marsh","u":0},{"s":"img/pool/p008.jpg","a":"pointed tents beneath ice cliffs and blue peaks","u":0},{"s":"img/pool/p009.jpg","a":"blue crystal boulders on pink sand","u":0},{"s":"img/pool/p010.jpg","a":"a volcano erupting into a red sky over a dark plain","u":0},{"s":"img/pool/p011.jpg","a":"weathered houses on a wooden pier over still water","u":1},{"s":"img/pool/p012.jpg","a":"a green sea cave with surf among mossy rocks","u":0},{"s":"img/pool/p013.jpg","a":"a blue mountain rising out of the clouds","u":0},{"s":"img/pool/p014.jpg","a":"a white rose by a pool, a vaulted house among red rocks","u":1},{"s":"img/pool/p015.jpg","a":"a white rose beside a turquoise pool under palms","u":0},{"s":"img/pool/p016.jpg","a":"sea stacks below high cliffs, gulls overhead","u":1},{"s":"img/pool/p017.jpg","a":"green islets in a turquoise sea","u":0},{"s":"img/pool/p018.jpg","a":"a cave mouth in a mossy cliff above churning water","u":0},{"s":"img/pool/p019.jpg","a":"red rock spires on a moonlit beach","u":0},{"s":"img/pool/p020.jpg","a":"stilt houses and hanging lanterns in a green fog","u":0},{"s":"img/pool/p021.jpg","a":"a boardwalk between stilt houses on the water","u":0},{"s":"img/pool/p022.jpg","a":"white cathedral fronts in a snowy street, smoke rising behind","u":1},{"s":"img/pool/p023.jpg","a":"rolling yellow fields under towering clouds","u":0},{"s":"img/pool/p024.jpg","a":"a dirt path through ripe wheat to thatched huts","u":1},{"s":"img/pool/p025.jpg","a":"thatched farmhouses above golden fields","u":0},{"s":"img/pool/p026.jpg","a":"golden hills under a wide blue sky","u":0},{"s":"img/pool/p027.jpg","a":"a lone sea stack under a night sky","u":0},{"s":"img/pool/p028.jpg","a":"a jagged rock spire rising from a moonlit sea","u":0},{"s":"img/pool/p029.jpg","a":"arched stone halls lit by blue light from above","u":1},{"s":"img/pool/p030.jpg","a":"white stone vaults over a frozen stream","u":0},{"s":"img/pool/p031.jpg","a":"a crystal spire on a floating island above the clouds","u":1},{"s":"img/pool/p032.jpg","a":"tents around a fire beneath red rock towers at night","u":0},{"s":"img/pool/p033.jpg","a":"a stone causeway past weathered houses on the water","u":0},{"s":"img/pool/p034.jpg","a":"orange columns in the sea before a domed city","u":0},{"s":"img/pool/p035.jpg","a":"a white walled city climbing a hillside","u":0},{"s":"img/pool/p036.jpg","a":"a caravan camp at dusk beneath red stone pinnacles","u":0},{"s":"img/pool/p037.jpg","a":"a sword and a shield against a rust-red ground","u":0},{"s":"img/pool/p038.jpg","a":"a snowy forest of birches and pines with autumn leaves","u":0},{"s":"img/pool/p039.jpg","a":"mossy rock shelves in a turquoise stream","u":0},{"s":"img/pool/p040.jpg","a":"green and yellow fields along a winding river","u":0},{"s":"img/pool/p041.jpg","a":"mist over green hills","u":0},{"s":"img/pool/p042.jpg","a":"clouds caught in a mountain valley","u":0},{"s":"img/pool/p043.jpg","a":"white cliffs above a snowy gorge","u":0},{"s":"img/pool/p044.jpg","a":"a turquoise river through marshland","u":0},{"s":"img/pool/p045.jpg","a":"orange and crimson autumn trees on snow","u":0},{"s":"img/pool/p046.jpg","a":"a blue estuary with snow on its banks","u":0},{"s":"img/pool/p047.jpg","a":"white birches in spring light","u":0},{"s":"img/pool/p048.jpg","a":"ice floes on a blue sea at sunrise","u":0},{"s":"img/pool/p049.jpg","a":"broken ice on a dark blue sea","u":0},{"s":"img/pool/p050.jpg","a":"a snowy road across a frozen plain","u":0},{"s":"img/pool/p051.jpg","a":"waves rolling onto a flat shore","u":0},{"s":"img/pool/p052.jpg","a":"a waterfall between mossy rock terraces","u":0},{"s":"img/pool/p053.jpg","a":"a glowing jellyfish above a rowing boat","u":0},{"s":"img/pool/p054.jpg","a":"a tidal channel between dunes and dry grass","u":0},{"s":"img/pool/p055.jpg","a":"a scaled, fin-crested figure with a basket on the rocks","u":0},{"s":"img/pool/p056.jpg","a":"a pine forest seen from above","u":0},{"s":"img/pool/p057.jpg","a":"mossy islets in a green lagoon, seen from above","u":0},{"s":"img/pool/p058.jpg","a":"round trees and pale clearings seen from above","u":0},{"s":"img/pool/p059.jpg","a":"dark pines on green hills","u":0},{"s":"img/pool/p060.jpg","a":"a pond with orange and green reflections","u":0},{"s":"img/pool/p061.jpg","a":"a winding stream through green fields","u":0},{"s":"img/pool/p062.jpg","a":"autumn ponds among dark trees","u":0},{"s":"img/pool/p063.jpg","a":"rock shelves and pools along a shore","u":0},{"s":"img/pool/p066.jpg","a":"pink coral in turquoise water, seen from above","u":0},{"s":"img/pool/p067.jpg","a":"pink-crested rocks in the surf","u":0},{"s":"img/pool/p068.jpg","a":"mossy stone ledges stepping into the sea","u":0},{"s":"img/pool/p069.jpg","a":"pink and violet flowers on a rocky shore","u":0},{"s":"img/pool/p070.jpg","a":"dark rocks on a golden shore","u":0},{"s":"img/pool/p071.jpg","a":"lily pads and reeds on dark water","u":0},{"s":"img/pool/p074.jpg","a":"a path through tall yellow grass","u":0},{"s":"img/pool/p075.jpg","a":"a pale road through red fields and round trees","u":0},{"s":"img/pool/p080.jpg","a":"a stone path through a flowering garden","u":0},{"s":"img/pool/p081.jpg","a":"a shimmering green and gold field","u":0},{"s":"img/pool/p082.jpg","a":"stone stairs strewn with yellow petals between white walls","u":0},{"s":"img/pool/p083.jpg","a":"layered hills in pink and gold at dusk","u":0},{"s":"img/pool/p084.jpg","a":"a red canyon with a pale trail","u":0},{"s":"img/pool/p087.jpg","a":"blue mountains around a river of light","u":0},{"s":"img/pool/p088.jpg","a":"folded red and white hills","u":0},{"s":"img/pool/hero.jpg","a":"a fortress on a snowy peak under a storm","u":0},{"s":"img/bg/barco.jpg","a":"a tall ship under sails patched together from hundreds of pieces","u":1},{"s":"img/bg/archivo.jpg","a":"a long aisle between shelves of bound records","u":1},{"s":"img/bg/corredor.jpg","a":"a torchlit stone corridor, a dark figure walking into the fog","u":1},{"s":"img/bg/escritorio.jpg","a":"a writing desk in a room of books, clouds where the floor should be","u":1}];
 
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -2290,6 +2303,97 @@ const Book = (() => {
   addEventListener('scroll', hide, {passive: true});
   // a page turn takes away what was under the pointer
   new MutationObserver(() => { if (cur && !cur.isConnected) hide(); }).observe(book, {childList: true, subtree: true});
+})();
+
+
+/* ---------- the paintings beside the sheets: a click brings another from the concept-art pool ---------- */
+const Gallery = (() => {
+  const frames = [...document.querySelectorAll('.sec.side > .art')];
+  if (!frames.length || typeof ART_POOL === 'undefined') return;
+  const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+  // paintings not yet on the page come first; the ones already shown somewhere come after, then the round starts again
+  let order = [], at = 0;
+  const deal = () => { order = shuffle(ART_POOL.filter(p => !p.u)).concat(shuffle(ART_POOL.filter(p => p.u))); at = 0; };
+  deal();
+  const shown = () => new Set(frames.map(f => { const im = f.querySelector('img:not(.going)'); return im ? im.getAttribute('src') : ''; }));
+  function take(){
+    const now = shown();
+    for (let k = 0; k < order.length; k++) {
+      if (at >= order.length) deal();
+      const p = order[at++]; if (!now.has(p.s)) return p;
+    }
+    return order[0];
+  }
+  // the next painting is chosen and fetched as soon as a frame is approached, so the click shows it at once
+  let ready = null;
+  function prepare(){
+    if (ready) return ready;
+    const p = take(), im = new Image();
+    im.decoding = 'async'; im.src = p.s;
+    ready = {p, im, ok: (im.decode ? im.decode() : Promise.resolve()).catch(() => {})};
+    return ready;
+  }
+  // the old painting dissolves into the new one, from where it was clicked, along an uneven painted edge
+  const N = 20, MW = 96, MH = 144;
+  function noise(seed){
+    let s = seed | 0; const r = () => { s = s + 0x6D2B79F5 | 0; let t = Math.imul(s ^ s >>> 15, 1 | s); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+    const g = new Float32Array(32 * 32); for (let i = 0; i < g.length; i++) g[i] = r();
+    return (x, y) => { const xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi, u = xf * xf * (3 - 2 * xf), v = yf * yf * (3 - 2 * yf);
+      const x0 = xi & 31, x1 = (xi + 1) & 31, y0 = (yi & 31) * 32, y1 = ((yi + 1) & 31) * 32;
+      const a = g[y0 + x0], b = g[y0 + x1], c = g[y1 + x0], d = g[y1 + x1]; return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v; };
+  }
+  function maskFor(ox, oy){
+    const vn = noise(Math.random() * 1e9), f = new Float32Array(MW * MH); let lo = 1e9, hi = -1e9;
+    for (let y = 0; y < MH; y++) for (let x = 0; x < MW; x++) {
+      let s = 0, a = .5, q = 1; for (let o = 0; o < 4; o++) { s += a * vn(x / MW * 4 * q + o * 7.1, y / MH * 6 * q + o * 3.7); a *= .5; q *= 2.1; }
+      const dx = x / MW - ox, dy = (y / MH - oy) * 1.5, v = .45 * s + .55 * Math.sqrt(dx * dx + dy * dy);
+      f[y * MW + x] = v; if (v < lo) lo = v; if (v > hi) hi = v;
+    }
+    const c = document.createElement('canvas'); c.width = MW; c.height = MH * N;
+    const x2 = c.getContext('2d'), id = x2.createImageData(MW, MH * N), d = id.data;
+    for (let k = 0; k < N; k++) {
+      const t = -.08 + 1.2 * k / (N - 1);
+      for (let i = 0; i < MW * MH; i++) { const v = (f[i] - lo) / (hi - lo) - t, o = (k * MW * MH + i) * 4; d[o + 3] = v <= 0 ? 0 : v >= .07 ? 255 : v / .07 * 255 | 0; }
+    }
+    x2.putImageData(id, 0, 0);
+    return c.toDataURL('image/png');
+  }
+  const canMask = (() => { try { return CSS.supports('mask-image', 'url(x.png)') || CSS.supports('-webkit-mask-image', 'url(x.png)'); } catch(e) { return false; } })();
+  function swap(fig, ox, oy){
+    if (fig._busy) return; fig._busy = true;
+    const r = prepare(); ready = null;
+    const old = fig.querySelector('img');
+    r.ok.then(() => {
+      const nu = document.createElement('img');
+      nu.src = r.p.s; nu.alt = 'Concept painting: ' + r.p.a + '.'; nu.width = old.width || 600; nu.height = old.height || 900;
+      fig.insertBefore(nu, old);
+      old.classList.add('going');
+      const D = 1150, done = () => { old.remove(); fig._busy = false; prepare(); };
+      if (canMask && old.animate) {
+        const m = maskFor(ox, oy), st = old.style;
+        st.webkitMaskImage = st.maskImage = `url(${m})`;
+        st.webkitMaskSize = st.maskSize = `100% ${N * 100}%`;
+        st.webkitMaskRepeat = st.maskRepeat = 'no-repeat';
+        const a = old.animate([{webkitMaskPosition: '0 0%', maskPosition: '0 0%'}, {webkitMaskPosition: '0 100%', maskPosition: '0 100%'}], {duration: D, easing: `steps(${N}, jump-none)`, fill: 'forwards'});
+        if (!reduceMotion && nu.animate) nu.animate([{transform: 'scale(1.05)', filter: 'brightness(.8)'}, {transform: 'none', filter: 'none'}], {duration: D + 500, easing: 'cubic-bezier(.2,.7,.2,1)'});
+        a.onfinish = done; a.oncancel = done;
+      } else if (old.animate) { old.animate([{opacity: 1}, {opacity: 0}], {duration: 700, fill: 'forwards'}).onfinish = done; }
+      else done();
+    });
+  }
+  frames.forEach(fig => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'art-swap'; b.setAttribute('aria-label', 'Show another concept painting');
+    b.innerHTML = '<span aria-hidden="true">another painting</span>';
+    fig.appendChild(b);
+    fig.addEventListener('pointerenter', prepare);
+    b.addEventListener('focus', prepare);
+    b.addEventListener('click', e => {
+      const rc = fig.getBoundingClientRect();
+      const ox = e.clientX ? Math.min(1, Math.max(0, (e.clientX - rc.left) / rc.width)) : .5, oy = e.clientY ? Math.min(1, Math.max(0, (e.clientY - rc.top) / rc.height)) : .5;
+      swap(fig, ox, oy);
+    });
+  });
 })();
 
 /* ---------- the Seld archive (data: archive/archive.js) ---------- */
