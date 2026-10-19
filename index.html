@@ -139,6 +139,10 @@ p{margin:0}
 #top h1{font-family:var(--f-display);font-size:clamp(3.6rem,12vw,8rem);line-height:.88;letter-spacing:.01em;color:#f4e9cf;text-shadow:0 2px 0 rgba(0,0,0,.35),0 4px 30px rgba(0,0,0,.75)}
 #top .sub{margin-top:14px;font-family:var(--f-sc);font-size:clamp(1.05rem,2.2vw,1.35rem);letter-spacing:.04em;text-shadow:0 1px 10px #000}
 #top .by{margin-top:6px;color:var(--gold);font-family:var(--f-label);letter-spacing:.12em;font-size:1rem;text-shadow:0 1px 8px #000}
+#top .by a.why{position:relative;color:inherit;text-decoration:none;transition:color .25s ease,text-shadow .25s ease}
+#top .by a.why::after{content:"";position:absolute;left:-6px;right:-6px;bottom:-3px;height:1px;opacity:.45;transform:scaleX(.72);transition:transform .3s ease,opacity .3s ease;background:linear-gradient(90deg,transparent,rgba(244,212,150,.95),transparent)}
+#top .by a.why:hover,#top .by a.why:focus-visible{color:#fff1cc;text-shadow:0 1px 6px #000,0 0 10px rgba(255,214,140,1),0 0 22px rgba(240,190,100,.8),0 0 42px rgba(240,180,90,.45)}
+#top .by a.why:hover::after,#top .by a.why:focus-visible::after{opacity:1;transform:scaleX(1)}
 .facts{list-style:none;margin:18px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,auto);justify-content:start;gap:10px 0}
 @media (min-width:640px){.facts{display:flex;flex-wrap:wrap}}
 .facts li{display:grid;justify-items:start;gap:2px;padding:0 clamp(16px,1.3vw,24px);min-width:76px;position:relative}
@@ -950,7 +954,7 @@ html:not(.wide) .panel.empty .inv-arrow{width:60px;height:14px;transform:rotate(
   <div class="title lay">
     <h1 class="logo"><img src="img/tx/titulo.webp" alt="Kingdom of None" width="1354" height="640"></h1>
     <p class="sub">A turn-based roguelite card RPG · in development in Godot 4</p>
-    <p class="by">Tomás Becerra · narrative &amp; systems design</p>
+    <p class="by"><a class="why" href="why.html" target="_blank" rel="noopener" title="Why Tomás Becerra?">Tomás Becerra</a> · narrative &amp; systems design</p>
     <ul class="facts" aria-label="The game in numbers">
       <li><b>4</b><span>peoples</span></li>
       <li><b>12</b><span>archetypes</span></li>
@@ -1219,7 +1223,7 @@ html:not(.wide) .panel.empty .inv-arrow{width:60px;height:14px;transform:rotate(
         <p>Former judicial and NGO writer and immersive-installation author, trained in international relations and law. <strong class="hl">Looking for narrative, game or systems design work in Europe</strong>, remote or on site.</p>
       </div>
       <dl>
-      <dt>Documents</dt><dd><span class="docs"><a href="files/KoN_Narrative_Portfolio_TomasBecerra.pdf" target="_blank" rel="noopener">Narrative portfolio (PDF)</a><a href="files/CV_TomasBecerra.pdf" target="_blank" rel="noopener">CV (PDF)</a></span></dd>
+      <dt>Documents</dt><dd><span class="docs"><a href="why.html" target="_blank" rel="noopener">Why Tomás Becerra?</a><a href="files/KoN_Narrative_Portfolio_TomasBecerra.pdf" target="_blank" rel="noopener">Narrative portfolio (PDF)</a><a href="files/CV_TomasBecerra.pdf" target="_blank" rel="noopener">CV (PDF)</a></span></dd>
       <dt>Email</dt><dd><span class="mail"><code id="mail">tomas22becerra@gmail.com</code><button class="btn" id="copy" type="button">Copy</button></span></dd>
         <dt>Based in</dt><dd>Rome, Italy. <strong class="hl">Open to relocation!</strong> <span class="emo" role="img" aria-label="smiling">🙂</span></dd>
         <dt>Languages</dt><dd>Spanish · English · Italian · German</dd>

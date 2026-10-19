@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Why Tomás Becerra? From the judiciary and modern-slavery reports to immersive rooms and Kingdom of None: a narrative and systems designer on power, categories and the constraints that make play possible.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Why Tomás Becerra?">
+<meta property="og:description" content="From the judiciary and modern-slavery reports to immersive rooms and Kingdom of None: a narrative and systems designer on power, categories and the constraints that make play possible.">
+<meta property="og:url" content="https://tomas22becerra-bit.github.io/why.html">
+<meta property="og:image" content="https://tomas22becerra-bit.github.io/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="628">
+<meta property="og:image:alt" content="Kingdom of None, in gold letters over green and brown smoke.">
+<meta name="twitter:card" content="summary_large_image">
+<title>Why Tomás Becerra?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Alegreya+SC:wght@500;700&family=Alegreya+Sans+SC:wght@500;700&family=Pirata+One&display=swap">
+<style>
+/* Layout: the same world as the portfolio. One worn sheet beside the writer's desk, hung in the game's wooden frame;
+   the text set as a manuscript in movements, a gilt diamond between them. On a phone the painting sits above the sheet. */
+:root{
+  --night:#0e0b08; --gold:#e6c184; --bronze:#a47b43;
+  --vellum:#e9dbb8; --gall:#2e1f12; --rubric:#932c18; --lapis:#2a4a78;
+  --ink:#efe4cc; --ink-dim:#cbbd9f;
+  --f-display:"Pirata One","UnifrakturCook",Georgia,serif;
+  --f-body:"Alegreya",Georgia,"Times New Roman",serif;
+  --f-sc:"Alegreya SC","Alegreya",Georgia,serif;
+  --f-label:"Alegreya Sans SC","Alegreya Sans",system-ui,sans-serif;
+  --tx-hoja:url(img/tx/hoja.jpg); --tx-borde:url(img/tx/deckle.webp); --tx-marco:url(img/tx/marco.svg);
+  --tx-orla:url(img/tx/orla.svg); --tx-orla-r:url(img/tx/orla_r.svg); --tx-grano:url(img/tx/grano.png);
+  --bar-h:62px;
+  color-scheme:dark;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--night);color:var(--ink);font-family:var(--f-body);font-size:1.125rem;line-height:1.6;-webkit-font-smoothing:antialiased}
+body::after{content:"";position:fixed;inset:0;z-index:80;pointer-events:none;background:var(--tx-grano) 0 0/256px 256px;opacity:.85}
+img{height:auto;max-width:100%}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+h1,p{margin:0}
+
+/* the bar, as on the main page */
+.bar{position:absolute;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;gap:8px 20px;flex-wrap:wrap;
+  padding-block:calc(env(safe-area-inset-top,0px) + 12px) 16px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  background:linear-gradient(180deg,rgba(6,5,4,.98),rgba(13,10,7,.96))}
+.bar::after{content:"";position:absolute;left:0;right:0;bottom:-12px;height:24px;pointer-events:none;
+  background:var(--tx-orla) center/240px 24px no-repeat,linear-gradient(90deg,transparent,rgba(200,156,86,.55) 18%,rgba(244,214,152,.95) 50%,rgba(200,156,86,.55) 82%,transparent) center 11.5px/100% 1px no-repeat;
+  filter:drop-shadow(0 2px 3px rgba(0,0,0,.8))}
+.bar .mark{font-family:var(--f-display);font-size:2rem;line-height:1;color:var(--gold);text-decoration:none;text-shadow:0 1px 0 #000,0 0 18px rgba(230,193,132,.3)}
+.bar ul{display:flex;align-items:center;flex-wrap:wrap;gap:4px 0;list-style:none;margin:0;padding:0}
+.bar li{display:flex;align-items:center}
+.bar li+li::before{content:"";flex:none;width:6px;height:6px;margin:0 clamp(9px,1.25vw,20px);transform:rotate(45deg);
+  background:linear-gradient(135deg,#f6dca0,#8a6328);box-shadow:0 0 6px rgba(240,200,120,.5),0 0 0 1px rgba(0,0,0,.5)}
+.bar ul a{position:relative;display:block;padding:6px 2px;text-decoration:none;white-space:nowrap;
+  font-family:var(--f-sc);font-weight:500;font-size:1.06rem;letter-spacing:.07em;line-height:1.1;color:rgba(238,224,195,.76);
+  text-shadow:0 1px 0 #000,0 0 10px rgba(0,0,0,.7);transition:color .2s ease,text-shadow .2s ease}
+.bar ul a::after{content:"";position:absolute;left:-12px;right:-12px;bottom:-1px;height:1px;transform:scaleX(0);transition:transform .3s ease;
+  background:linear-gradient(90deg,transparent,rgba(244,212,150,.95),transparent)}
+.bar ul a:hover,.bar ul a:focus-visible{color:#f8ead0;text-shadow:0 1px 0 #000,0 0 12px rgba(240,200,120,.55)}
+.bar ul a:hover::after,.bar ul a:focus-visible::after{transform:scaleX(.55)}
+@media (max-width:640px){.bar ul a{font-size:.9rem;padding:4px 1px}.bar li+li::before{width:5px;height:5px;margin:0 8px}.bar .mark{font-size:1.6rem}}
+
+/* the painting and the sheet: one scroll on a phone */
+.page{position:relative;padding-bottom:clamp(40px,9vw,80px)}
+.page>.bg{display:none}
+.art{margin:0;position:relative}
+.art img{display:block;width:100%;height:min(62vh,118vw);object-fit:cover;object-position:50% 38%}
+.art::after{content:"";position:absolute;inset:auto 0 0 0;height:50%;background:linear-gradient(180deg,transparent,var(--night))}
+.art figcaption{position:absolute;right:max(16px,env(safe-area-inset-right,0px));bottom:96px;z-index:2;font-size:.72rem;font-style:italic;color:rgba(239,228,204,.75);text-shadow:0 1px 4px #000}
+
+.folio{position:relative;z-index:1;margin:-84px max(6px,env(safe-area-inset-right,0px)) 0 max(6px,env(safe-area-inset-left,0px));
+  padding:clamp(24px,4.4vw,48px) clamp(16px,3.8vw,44px) clamp(28px,4.4vw,48px);
+  --ink:var(--gall); --ink-dim:#5b462d; --ink-faint:#7d6849; color:var(--ink);
+  border:20px solid transparent;border-image:var(--tx-borde) 40 / 20px / 0 round;
+  background:radial-gradient(70% 60% at 50% 40%,rgba(255,248,226,.32),transparent 70%),
+    radial-gradient(9% 7% at 88% 14%,rgba(120,72,20,.16),transparent 70%),radial-gradient(6% 5% at 12% 78%,rgba(120,72,20,.13),transparent 70%),
+    radial-gradient(14% 10% at 70% 92%,rgba(120,72,20,.10),transparent 70%),
+    var(--tx-hoja) 0 0/380px auto repeat,var(--vellum);
+  background-clip:padding-box;box-shadow:inset 0 0 50px rgba(110,70,24,.3);filter:drop-shadow(0 16px 22px rgba(0,0,0,.55))}
+.folio::before{content:"";position:absolute;inset:6px;pointer-events:none;border:1px solid rgba(147,44,24,.3);box-shadow:inset 0 0 0 4px rgba(147,44,24,.18)}
+
+.head{display:grid;gap:10px;margin-bottom:clamp(26px,4vw,40px)}
+.eyebrow{font-family:var(--f-label);font-size:.8rem;letter-spacing:.14em;color:var(--rubric);text-transform:lowercase}
+h1{font-family:var(--f-display);font-weight:400;font-size:clamp(2.6rem,7vw,4rem);line-height:1;color:var(--ink);text-wrap:balance}
+h1::first-letter{color:var(--rubric)}
+.head::after{content:"";display:block;width:170px;height:17px;background:var(--tx-orla-r) left center/170px 17px no-repeat;opacity:.85}
+
+/* the text: movements of stanzas; one line of the manuscript per paragraph */
+.text{display:grid;gap:0;max-width:40rem}
+.mv{display:grid;gap:1.35em}
+.mv+.mv::before{content:"";justify-self:center;width:7px;height:7px;margin:1.5em 0 .35em;transform:rotate(45deg);
+  background:linear-gradient(135deg,#c4552f,#7a2412);box-shadow:0 0 0 1px rgba(122,36,18,.25),0 0 0 4px rgba(147,44,24,.08)}
+.st{display:grid;gap:.5em}
+.st p{text-wrap:pretty}
+.text em{font-style:italic}
+.text q{quotes:"\201C" "\201D"}
+.text strong.hl{color:var(--rubric);font-weight:700}
+.text .ask{font-style:italic;color:var(--ink-dim)}
+.coda{margin-top:1.6em;font-family:var(--f-sc);font-weight:500;font-size:1.2em;letter-spacing:.03em;color:var(--rubric)}
+
+/* the foot of the sheet */
+.foot{display:grid;gap:14px;margin-top:clamp(34px,5vw,52px);padding-top:22px;border-top:1px solid rgba(90,58,26,.28);max-width:40rem}
+.foot .who{font-family:var(--f-sc);font-size:1.05rem;color:var(--ink-dim)}
+.docs{display:flex;gap:10px;flex-wrap:wrap}
+.docs a,.btn{display:inline-block;border:1px solid var(--rubric);color:#741c0c;background:transparent;font-family:var(--f-label);letter-spacing:.1em;font-size:.82rem;padding:5px 12px;border-radius:2px;text-decoration:none;cursor:pointer;line-height:1.5}
+.docs a:hover,.btn:hover,.docs a:focus-visible,.btn:focus-visible{background:rgba(147,44,24,.09)}
+.mail{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
+.mail code{font-family:var(--f-body);font-size:1rem;color:var(--ink);user-select:all;overflow-wrap:anywhere}
+
+/* wide screens: the bar stays put, the painting hangs beside the sheet in its wooden frame */
+@media (min-width:1000px) and (min-height:560px){
+  :root{font-size:clamp(15px,calc(.42vw + 9.4px),17.5px)}
+  .bar{position:fixed;height:var(--bar-h);padding-block:0;flex-wrap:nowrap;padding-left:max(28px,env(safe-area-inset-left,0px));padding-right:max(28px,env(safe-area-inset-right,0px))}
+  .page{--artw:min(30vw,calc((100vh - var(--bar-h) - 76px) * .6667));display:grid;grid-template-columns:var(--artw) minmax(0,50rem);justify-content:center;align-items:start;
+    gap:clamp(24px,2.6vw,44px);min-height:100vh;isolation:isolate;
+    padding:calc(var(--bar-h) + clamp(30px,4.5vh,48px)) max(clamp(24px,3.2vw,60px),env(safe-area-inset-right,0px)) clamp(40px,7vh,72px) max(clamp(24px,3.2vw,60px),env(safe-area-inset-left,0px))}
+  .page>.bg{display:block;position:absolute;inset:0;z-index:-1;overflow:clip;pointer-events:none}
+  .bg>div{position:sticky;top:var(--bar-h);height:calc(100vh - var(--bar-h));background:var(--bg) center/cover no-repeat}
+  .bg>div::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,var(--night) 0%,rgba(14,11,8,0) 14%,rgba(14,11,8,0) 82%,var(--night) 100%),radial-gradient(ellipse 85% 80% at 50% 50%,transparent 52%,rgba(10,7,4,.55))}
+  .art{position:sticky;top:calc(var(--bar-h) + 30px);width:var(--artw);height:calc(100vh - var(--bar-h) - 76px);
+    border:22px solid transparent;border-image:var(--tx-marco) 30 / 22px stretch;background:#100c08;filter:drop-shadow(0 22px 30px rgba(0,0,0,.65))}
+  .art::after{inset:0;height:auto;pointer-events:none;background:var(--tx-grano) 0 0/220px 220px,radial-gradient(ellipse 75% 70% at 50% 45%,transparent 55%,rgba(28,15,4,.5)),linear-gradient(rgba(150,100,40,.07),rgba(150,100,40,.07))}
+  .art img{width:100%;height:100%;object-position:50% 50%}
+  .art figcaption{top:auto;bottom:8px;right:10px}
+  .folio{margin:0;padding:clamp(32px,5vh,56px) clamp(32px,3.4vw,60px)}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<nav class="bar" aria-label="Pages">
+  <a class="mark" href="./" aria-label="Kingdom of None, main page">KoN</a>
+  <ul>
+    <li><a href="./">Kingdom of None</a></li>
+    <li><a href="files/KoN_Narrative_Portfolio_TomasBecerra.pdf" target="_blank" rel="noopener">Narrative portfolio</a></li>
+    <li><a href="files/CV_TomasBecerra.pdf" target="_blank" rel="noopener">CV</a></li>
+  </ul>
+</nav>
+
+<main class="page">
+  <div class="bg" aria-hidden="true"><div style="--bg:url(img/bg/f_veliornath.jpg)"></div></div>
+  <figure class="art"><img src="img/bg/escritorio.jpg" alt="Concept painting: seen from above, a writing desk in a room lined with books, an open volume, a lamp and a cup of coffee, and clouds where the floor should be." width="896" height="1344"><figcaption>Concept art</figcaption></figure>
+
+  <article class="folio" aria-labelledby="h-why">
+    <header class="head">
+      <p class="eyebrow">narrative &amp; systems design</p>
+      <h1 id="h-why">Why Tomás Becerra?</h1>
+    </header>
+
+    <div class="text">
+      <section class="mv">
+        <div class="st">
+          <p>He was a child, and he played in the schoolyard.</p>
+          <p>He noticed something strange. Something out of place.</p>
+          <p>Someone shouting. A hard blow.</p>
+          <p>Power, for the first time, exercised.</p>
+        </div>
+        <div class="st">
+          <p>He grew up, and the questions grew up alongside him.</p>
+          <p class="ask">What is power? Why does it exist? Who gets to exercise it? Who decides what it is for?</p>
+          <p>Power first appeared to Tomás as a word. Then the world acquired friction.</p>
+          <p>And it struck him: someone has to do something.</p>
+        </div>
+      </section>
+
+      <section class="mv">
+        <div class="st">
+          <p>He went to university wondering what society was supposed to do with power. Design it? Organize it? Tame it, perhaps?</p>
+          <p>He believed it was possible to study society’s structures, understand how they worked, and coordinate the people who administered them. It had to be possible.</p>
+        </div>
+        <div class="st">
+          <p>Then he started working in the judiciary.</p>
+          <p>He discovered that administration was complicated.</p>
+          <p>That beneath visible structures, other systems were operating. Rules that were rarely written down, yet determined how things actually worked. That every hierarchy was also a network, and that within those networks, some people were more present than others.</p>
+        </div>
+        <div class="st">
+          <p>He began to notice something else.</p>
+          <p><strong class="hl">Words are not neutral.</strong></p>
+          <p>“Better.” “Worse.” “Legal.” “Illegal.” “Right.” “Wrong.”</p>
+          <p>They are categories we use to make the world operable. They allow us to coordinate. They allow thousands of people who have never met to act as if they inhabit the same reality.</p>
+          <p>But categories are also constraints.</p>
+          <p>And constraints are power.</p>
+        </div>
+      </section>
+
+      <section class="mv">
+        <div class="st">
+          <p>Years later, Tomás found himself writing reports about modern slavery.</p>
+          <p>Scorecards. KPIs. Compliance frameworks. Risk assessments.</p>
+          <p>The whole orchestra, playing in unison.</p>
+        </div>
+        <div class="st">
+          <p>There was a conversation.</p>
+          <p><em>“We cannot fully establish the connection between big tobacco producers and these supply-chain practices in southern Africa. That would be inappropriate.”</em></p>
+          <p>Of course it would.</p>
+          <p>The sentence we could not write had crossed a boundary.</p>
+          <p>Because before an institution can act on reality, it needs a language in which that reality can be recognized, classified and measured.</p>
+        </div>
+        <div class="st">
+          <p>The meaning of things can be shared.</p>
+          <p>But shared meaning does not scale effortlessly.</p>
+          <p>A word passes from one mind to another, and something is lost. A distinction becomes a category. A category becomes a rule. A rule becomes an institution. An institution becomes a system.</p>
+          <p>And eventually, the system begins to operate on people who never agreed to its original meaning.</p>
+        </div>
+      </section>
+
+      <section class="mv">
+        <div class="st">
+          <p>This is where the problem of power becomes interesting.</p>
+          <p>Power is not merely the ability to force someone to do something.</p>
+          <p>It is also the ability to establish the categories and rules within which things become possible.</p>
+          <p>And yet, without those constraints, very little becomes possible at all.</p>
+          <p>A game without rules does not give the player infinite freedom. It gives the player nothing meaningful to push against.</p>
+        </div>
+        <div class="st">
+          <p><strong class="hl">Freedom needs constraints.</strong></p>
+          <p>Power creates constraints.</p>
+          <p>And therefore power can be both the condition that makes freedom possible and the mechanism through which it disappears.</p>
+        </div>
+        <div class="st">
+          <p>The difficult question is not whether we need order.</p>
+          <p>We do.</p>
+          <p>We need to know the difference between a cat and a dog. Between peace and war. Between a promise and a threat. We need enough shared meaning to buy bread from the person next door without having to renegotiate the meaning of “bread” every morning.</p>
+        </div>
+        <div class="st">
+          <p>The difficult question is where to draw the line.</p>
+          <p class="ask">How much uncertainty are we willing to tolerate to preserve freedom?</p>
+          <p class="ask">How much disorder are we willing to endure to keep the possibility of something new?</p>
+          <p class="ask">Who gets to decide?</p>
+          <p class="ask">And what happens when the people making the rules begin to believe that the rules are reality itself?</p>
+        </div>
+        <div class="st">
+          <p>Tomás does not have the answer.</p>
+          <p>He has questions.</p>
+          <p>So he moved to Italy.</p>
+        </div>
+      </section>
+
+      <section class="mv">
+        <div class="st">
+          <p>One day, he walked past an interactive museum. He got a job there as a salesperson and, later, as a designer of the experience itself.</p>
+          <p>A room.</p>
+          <p>A fresco.</p>
+          <p>A ball pit.</p>
+          <p>Something to say.</p>
+          <p><em>“The Roman baths were known for their magnificence,”</em> delivered with a smile.</p>
+          <p>A tiny experience, carefully constrained: a few words, a path, a gesture, a reaction.</p>
+        </div>
+        <div class="st">
+          <p>And the same realization returned.</p>
+          <p>The story was not separate from the system.</p>
+          <p><strong class="hl">The system was part of the story.</strong></p>
+        </div>
+        <div class="st">
+          <p>Perhaps that is what design is: deciding which constraints will become possibilities.</p>
+          <p>Finding the exact combination of rules, language, information and incentives that allows an experience to emerge.</p>
+          <p>Maybe language is a kind of social alchemy: it never quite reaches the thing itself, only points toward it, and yet entire worlds can be built from what people agree that pointing means.</p>
+        </div>
+      </section>
+
+      <section class="mv">
+        <div class="st">
+          <p>Tomás had always drawn.</p>
+          <p>He liked writing, too.</p>
+          <p>So eventually, he started building a world of his own.</p>
+        </div>
+        <div class="st">
+          <p>It began with a conflict.</p>
+          <p>A political conflict. A personal one. Something that could become a civil war.</p>
+        </div>
+        <div class="st">
+          <p>Then came the systems.</p>
+          <p>A card RPG combining roguelite progression with equipment-based deckbuilding.</p>
+          <p>Political archetypes that the world itself reads according to the position they occupy within it.</p>
+          <p>A reputation system from which the player’s knowledge of the world emerges.</p>
+          <p>Procedurally generated maps.</p>
+          <p>Biomes that shape the journey.</p>
+          <p>Hundreds of cards.</p>
+          <p>Missions, trade, encounters, consequences.</p>
+        </div>
+        <div class="st">
+          <p>Rules that determine what the player can do.</p>
+          <p>Systems that determine what the player can know.</p>
+          <p>A world that responds to where the player stands within it.</p>
+        </div>
+        <div class="st">
+          <p>And underneath all of it, the same question that had been there since the beginning:</p>
+          <p class="ask">What happens when people are placed inside a system, and the system starts responding to what they do?</p>
+        </div>
+        <div class="st">
+          <p>The result is <a href="./">Kingdom of None</a>.</p>
+          <p>A game about a political conflict, but also about a real one. A personal one.</p>
+          <p>A game that tries to ask questions without forcing the player to ask them.</p>
+          <p>Because perhaps that is where the line between systems and the assumptions that instruct those systems becomes visible — timidly, almost imperceptibly — to whoever is willing to look.</p>
+        </div>
+      </section>
+
+      <section class="mv">
+        <div class="st">
+          <p>And that is where Tomás Becerra finds himself now: writing these words late into the evening, looking at the system, at the rules, at the categories.</p>
+        </div>
+        <div class="st">
+          <p>Tomás does not know whether he understands power.</p>
+          <p>He knows that he has spent years trying to understand it.</p>
+          <p>He knows that he has studied it, worked inside it, measured its consequences, designed experiences around it, and eventually built systems of his own.</p>
+        </div>
+        <div class="st">
+          <p>And he knows something else.</p>
+          <p>As he writes these words, he is designing a system too.</p>
+          <p>A sequence of words, arranged to produce a particular experience in another person’s mind.</p>
+          <p>A constraint.</p>
+          <p>A proposition.</p>
+          <p>An attempt to make something possible.</p>
+        </div>
+        <p class="coda">Because Tomás is following instructions too.</p>
+      </section>
+    </div>
+
+    <footer class="foot">
+      <p class="who">Tomás Becerra · narrative &amp; systems design · Rome, open to relocation</p>
+      <div class="docs">
+        <a href="./">Kingdom of None</a>
+        <a href="files/KoN_Narrative_Portfolio_TomasBecerra.pdf" target="_blank" rel="noopener">Narrative portfolio (PDF)</a>
+        <a href="files/CV_TomasBecerra.pdf" target="_blank" rel="noopener">CV (PDF)</a>
+      </div>
+      <div class="mail"><code id="mail">tomas22becerra@gmail.com</code><button class="btn" id="copy" type="button">Copy</button></div>
+    </footer>
+  </article>
+</main>
+
+<script>
+(() => {
+  const b = document.getElementById('copy'), m = document.getElementById('mail');
+  if (!b || !m) return;
+  b.addEventListener('click', () => {
+    const done = () => { b.textContent = 'Copied'; setTimeout(() => { b.textContent = 'Copy'; }, 1600); };
+    const pick = () => { const r = document.createRange(); r.selectNodeContents(m); const s = getSelection(); s.removeAllRanges(); s.addRange(r); };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(m.textContent.trim()).then(done, pick);
+    else pick();
+  });
+})();
+</script>
+</body>
+</html>
