@@ -108,6 +108,11 @@ h1 .pil{color:var(--rubric);font-weight:400;margin-right:.08em}
   .toc-phone{display:none}
 }
 @media (max-width:979px){.margin{display:none}}
+/* motion: each line of text rises into place as it enters the screen and fades as it leaves; nothing moves with reduced motion */
+@media (prefers-reduced-motion:no-preference){
+  html.anim .rv{opacity:0;transform:translateY(14px);transition:opacity .65s ease,transform .75s cubic-bezier(.2,.7,.2,1)}
+  html.anim .rv.in{opacity:1;transform:none;transition-delay:calc(var(--i,0) * 70ms)}
+}
 </style>
 </head>
 <body>
@@ -289,6 +294,21 @@ h1 .pil{color:var(--rubric);font-weight:400;margin-right:.08em}
     if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(m.textContent.trim()).then(done, pick);
     else pick();
   });
+})();
+</script>
+<script>
+(() => {
+  if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const els = [...document.querySelectorAll(".open > :not(nav), .toc-phone li, .margin .label, .margin li, .story .side, .story h2, .text > p, .foot > *")];
+  const seen = new Map();
+  for (const el of els) {
+    const k = el.parentElement; const n = seen.get(k) || 0; seen.set(k, n + 1);
+    el.style.setProperty('--i', Math.min(n, 5)); el.classList.add('rv');
+  }
+  const io = new IntersectionObserver(es => { for (const e of es) { e.target.classList.toggle('in', e.isIntersecting); if (e.isIntersecting && e.target.closest('.margin')) io.unobserve(e.target); } },
+                                      { rootMargin: '-3% 0px -7% 0px', threshold: 0 });
+  els.forEach(el => io.observe(el));
+  document.documentElement.classList.add('anim');
 })();
 </script>
 </body>

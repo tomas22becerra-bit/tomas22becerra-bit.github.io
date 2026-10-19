@@ -93,6 +93,11 @@ h1 .q{color:var(--rubric)}
   .photo img{aspect-ratio:2/3;object-position:50% 50%}
   .open,.text,.foot{grid-column:2}
 }
+/* motion: each line of text rises into place as it enters the screen and fades as it leaves; nothing moves with reduced motion */
+@media (prefers-reduced-motion:no-preference){
+  html.anim .rv{opacity:0;transform:translateY(14px);transition:opacity .65s ease,transform .75s cubic-bezier(.2,.7,.2,1)}
+  html.anim .rv.in{opacity:1;transform:none;transition-delay:calc(var(--i,0) * 70ms)}
+}
 </style>
 </head>
 <body>
@@ -232,7 +237,7 @@ h1 .q{color:var(--rubric)}
       <section class="mv">
         <div class="st">
           <p>Tomás had always drawn.</p>
-          <figure class="frame drawing"><img src="img/dibujo_bar.jpg" alt="Black-and-white drawing by Tomás Becerra: a crowded bar with a checkered floor, a man with glasses and a pipe at the front, a waitress holding a tray, drinkers and smokers behind them, and a door marked Private." width="1084" height="722" loading="lazy"><figcaption>A drawing by Tomás Becerra.</figcaption></figure>
+          <figure class="frame drawing"><img src="img/dibujo_bar.jpg" alt="Black-and-white drawing by Tomás Becerra: a crowded bar with a checkered floor, a man with glasses and a pipe at the front, a waitress holding a tray, drinkers and smokers behind them, and a door marked Private." width="1084" height="722" loading="lazy"><figcaption>Untitled, 2020</figcaption></figure>
           <p>He liked writing, too.</p>
           <p>So eventually, he started building a world of his own.</p>
         </div>
@@ -289,7 +294,6 @@ h1 .q{color:var(--rubric)}
     </div>
 
     <footer class="foot">
-      <p class="who">Tomás Becerra · narrative &amp; systems design · Rome, open to relocation</p>
       <div class="links">
         <a href="./">Kingdom of None</a>
         <a href="unfinished-paragraphs.html">Unfinished Paragraphs</a>
@@ -311,6 +315,21 @@ h1 .q{color:var(--rubric)}
     if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(m.textContent.trim()).then(done, pick);
     else pick();
   });
+})();
+</script>
+<script>
+(() => {
+  if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const els = [...document.querySelectorAll(".open > *, .st > p, .st > figure, .coda, .foot > *, .photo")];
+  const seen = new Map();
+  for (const el of els) {
+    const k = el.parentElement; const n = seen.get(k) || 0; seen.set(k, n + 1);
+    el.style.setProperty('--i', Math.min(n, 5)); el.classList.add('rv');
+  }
+  const io = new IntersectionObserver(es => { for (const e of es) { e.target.classList.toggle('in', e.isIntersecting); if (e.isIntersecting && e.target.closest('.margin')) io.unobserve(e.target); } },
+                                      { rootMargin: '-3% 0px -7% 0px', threshold: 0 });
+  els.forEach(el => io.observe(el));
+  document.documentElement.classList.add('anim');
 })();
 </script>
 </body>
