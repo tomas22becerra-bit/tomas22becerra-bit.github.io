@@ -8,280 +8,275 @@
 <meta property="og:title" content="Unfinished Paragraphs · Tomás Becerra">
 <meta property="og:description" content="Seven short pieces of fiction from the winter of 2025–26, written before Kingdom of None existed.">
 <meta property="og:url" content="https://tomas22becerra-bit.github.io/unfinished-paragraphs.html">
-<meta property="og:image" content="https://tomas22becerra-bit.github.io/img/og.jpg">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="628">
-<meta property="og:image:alt" content="Kingdom of None, in gold letters over green and brown smoke.">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="summary">
+<meta name="color-scheme" content="light dark">
 <title>Unfinished Paragraphs</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Alegreya+SC:wght@500;700&family=Alegreya+Sans+SC:wght@500;700&family=Pirata+One&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;1,400;1,500&family=Alegreya+SC:wght@500;700&family=Alegreya+Sans+SC:wght@500;700&display=swap">
 <style>
-/* Layout: the same world as the portfolio. One long sheet, ruled like the site's ledger: on a wide screen the title,
-   a short note and the contents stay put in the left column while the stories run down the right; a small rubric
-   diamond between pieces. On a phone the contents sit above the stories. */
+/* Layout: the author's page, not the kingdom's. A printed page, as in the sample PDFs: white paper, one measure of
+   text, a margin column on wide screens that keeps the contents in view, and above each story a line of
+   marginalia (its number, its Spanish title, its note), the way an edition annotates a text. The paragraph sign is the one ornament,
+   in the rubric red that signs the rest of the work. */
 :root{
-  --night:#0e0b08; --gold:#e6c184;
-  --vellum:#e9dbb8; --gall:#2e1f12; --rubric:#932c18; --lapis:#2a4a78;
-  --ink:#efe4cc;
-  --f-display:"Pirata One","UnifrakturCook",Georgia,serif;
+  --paper:#ffffff; --ink:#231b14; --ink-2:#5f5446; --ink-3:#8a7d6c; --rule:#e6dfd5;
+  --rubric:#932c18; --link:#932c18; --focus:#2a4a78;
   --f-body:"Alegreya",Georgia,"Times New Roman",serif;
   --f-sc:"Alegreya SC","Alegreya",Georgia,serif;
   --f-label:"Alegreya Sans SC","Alegreya Sans",system-ui,sans-serif;
-  --tx-hoja:url(img/tx/hoja.jpg); --tx-borde:url(img/tx/deckle.webp);
-  --tx-orla:url(img/tx/orla.svg); --tx-orla-r:url(img/tx/orla_r.svg); --tx-grano:url(img/tx/grano.png);
-  --bar-h:62px;
-  color-scheme:dark;
-  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  --measure:34rem;
+}
+@media (prefers-color-scheme:dark){
+  :root{--paper:#15120f; --ink:#ece4d8; --ink-2:#b3a796; --ink-3:#8c8172; --rule:#2e2924; --rubric:#e07b5f; --link:#e8907a; --focus:#9db8e6}
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:calc(var(--bar-h) + 24px)}
+html{scroll-behavior:smooth;scroll-padding-top:24px;-webkit-text-size-adjust:100%}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-body{margin:0;background:var(--night);color:var(--ink);font-family:var(--f-body);font-size:1.125rem;line-height:1.6;-webkit-font-smoothing:antialiased}
-body::after{content:"";position:fixed;inset:0;z-index:80;pointer-events:none;background:var(--tx-grano) 0 0/256px 256px;opacity:.85}
-:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:1.15rem;line-height:1.62;-webkit-font-smoothing:antialiased;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+a{color:var(--link);text-decoration-thickness:1px;text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--focus);outline-offset:3px}
 h1,h2,p{margin:0}
+.wrap{max-width:62rem;margin:0 auto;padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
 
-/* the bar, as on the main page */
-.bar{position:absolute;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;gap:8px 20px;flex-wrap:wrap;
-  padding-block:calc(env(safe-area-inset-top,0px) + 12px) 16px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
-  background:linear-gradient(180deg,rgba(6,5,4,.98),rgba(13,10,7,.96))}
-.bar::after{content:"";position:absolute;left:0;right:0;bottom:-12px;height:24px;pointer-events:none;
-  background:var(--tx-orla) center/240px 24px no-repeat,linear-gradient(90deg,transparent,rgba(200,156,86,.55) 18%,rgba(244,214,152,.95) 50%,rgba(200,156,86,.55) 82%,transparent) center 11.5px/100% 1px no-repeat;
-  filter:drop-shadow(0 2px 3px rgba(0,0,0,.8))}
-.bar .mark{font-family:var(--f-display);font-size:2rem;line-height:1;color:var(--gold);text-decoration:none;text-shadow:0 1px 0 #000,0 0 18px rgba(230,193,132,.3)}
-.bar ul{display:flex;align-items:center;flex-wrap:wrap;gap:4px 0;list-style:none;margin:0;padding:0}
-.bar li{display:flex;align-items:center}
-.bar li+li::before{content:"";flex:none;width:6px;height:6px;margin:0 clamp(9px,1.25vw,20px);transform:rotate(45deg);
-  background:linear-gradient(135deg,#f6dca0,#8a6328);box-shadow:0 0 6px rgba(240,200,120,.5),0 0 0 1px rgba(0,0,0,.5)}
-.bar ul a{position:relative;display:block;padding:6px 2px;text-decoration:none;white-space:nowrap;
-  font-family:var(--f-sc);font-weight:500;font-size:1.06rem;letter-spacing:.07em;line-height:1.1;color:rgba(238,224,195,.76);
-  text-shadow:0 1px 0 #000,0 0 10px rgba(0,0,0,.7);transition:color .2s ease,text-shadow .2s ease}
-.bar ul a::after{content:"";position:absolute;left:-12px;right:-12px;bottom:-1px;height:1px;transform:scaleX(0);transition:transform .3s ease;
-  background:linear-gradient(90deg,transparent,rgba(244,212,150,.95),transparent)}
-.bar ul a:hover,.bar ul a:focus-visible{color:#f8ead0;text-shadow:0 1px 0 #000,0 0 12px rgba(240,200,120,.55)}
-.bar ul a:hover::after,.bar ul a:focus-visible::after{transform:scaleX(.55)}
-@media (max-width:640px){.bar ul a{font-size:.9rem;padding:4px 1px}.bar li+li::before{width:5px;height:5px;margin:0 8px}.bar .mark{font-size:1.6rem}}
+/* top line */
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:6px 20px;padding-block:20px 14px;border-bottom:1px solid var(--rule)}
+.top .name{font-family:var(--f-sc);font-weight:500;font-size:1.05rem;letter-spacing:.04em;color:var(--ink);text-decoration:none}
+.top ul{display:flex;flex-wrap:wrap;gap:4px 18px;list-style:none;margin:0;padding:0}
+.top ul a{font-family:var(--f-label);font-weight:500;font-size:.86rem;letter-spacing:.08em;color:var(--ink-2);text-decoration:none}
+.top ul a:hover,.top ul a:focus-visible{color:var(--rubric)}
 
-/* the page and its one sheet */
-.page{position:relative;padding:calc(var(--bar-h) + 56px) max(6px,env(safe-area-inset-right,0px)) clamp(40px,9vw,80px) max(6px,env(safe-area-inset-left,0px))}
-.page>.bg{display:none}
-.folio{position:relative;z-index:1;max-width:72rem;margin:0 auto;
-  padding:clamp(24px,4.4vw,48px) clamp(16px,3.8vw,44px) clamp(28px,4.4vw,48px);
-  --ink:var(--gall); --ink-dim:#5b462d; --ink-faint:#7d6849; color:var(--ink);
-  border:20px solid transparent;border-image:var(--tx-borde) 40 / 20px / 0 round;
-  background:radial-gradient(70% 60% at 50% 40%,rgba(255,248,226,.32),transparent 70%),
-    radial-gradient(9% 7% at 88% 14%,rgba(120,72,20,.16),transparent 70%),radial-gradient(6% 5% at 12% 78%,rgba(120,72,20,.13),transparent 70%),
-    radial-gradient(14% 10% at 70% 92%,rgba(120,72,20,.10),transparent 70%),
-    var(--tx-hoja) 0 0/380px auto repeat,var(--vellum);
-  background-clip:padding-box;box-shadow:inset 0 0 50px rgba(110,70,24,.3);filter:drop-shadow(0 16px 22px rgba(0,0,0,.55));
-  display:grid;gap:clamp(28px,4vw,40px)}
-.folio::before{content:"";position:absolute;inset:6px;pointer-events:none;border:1px solid rgba(147,44,24,.3);box-shadow:inset 0 0 0 4px rgba(147,44,24,.18)}
-.folio a{color:var(--lapis)}
-
-/* left column: title, note, contents */
-.col-a{display:grid;gap:18px;align-content:start;min-width:0}
-.eyebrow{font-family:var(--f-label);font-size:.8rem;letter-spacing:.14em;color:var(--rubric);text-transform:lowercase}
-h1{font-family:var(--f-display);font-weight:400;font-size:clamp(2.5rem,6vw,3.6rem);line-height:1;color:var(--ink);text-wrap:balance}
-h1::first-letter{color:var(--rubric)}
-.col-a .head{display:grid;gap:10px}
-.col-a .head::after{content:"";display:block;width:170px;height:17px;background:var(--tx-orla-r) left center/170px 17px no-repeat;opacity:.85}
-.lede{color:var(--ink-dim);font-size:1rem;line-height:1.55;max-width:44ch}
+/* the opening */
+.open{display:grid;gap:14px;padding-block:clamp(44px,9vw,96px) clamp(30px,5vw,52px)}
+.kicker{font-family:var(--f-label);font-weight:500;font-size:.82rem;letter-spacing:.14em;color:var(--rubric);text-transform:lowercase}
+h1{font-family:var(--f-body);font-weight:500;font-size:clamp(2.7rem,8vw,4.6rem);line-height:.98;letter-spacing:-.01em;text-wrap:balance}
+h1 .pil{color:var(--rubric);font-weight:400;margin-right:.08em}
+.es{font-style:italic;color:var(--ink-2);font-size:1.15rem}
+.lede{max-width:var(--measure);color:var(--ink-2);font-size:1.06rem;line-height:1.6;margin-top:6px}
 .lede em{font-style:italic}
-.toc{display:grid;gap:0;margin:0;padding:0;list-style:none;border-bottom:1px solid rgba(90,58,26,.22)}
-.toc a{display:grid;gap:0;padding:6px 2px 6px 14px;border-top:1px solid rgba(90,58,26,.22);text-decoration:none;color:var(--ink);position:relative}
-.toc a span{font-family:var(--f-sc);font-weight:500;font-size:1.06rem;line-height:1.2}
-.toc a small{font-style:italic;font-size:.82rem;color:var(--ink-faint)}
-.toc a::before{content:"";position:absolute;left:2px;top:50%;width:5px;height:5px;margin-top:-3px;transform:rotate(45deg);background:rgba(147,44,24,.45)}
-.toc a:hover span,.toc a:focus-visible span{color:var(--rubric)}
-.toc a:hover::before{background:var(--rubric)}
-.foot{display:grid;gap:12px;max-width:40rem;margin-top:clamp(34px,5vw,52px);padding-top:22px;border-top:1px solid rgba(90,58,26,.28)}
-.docs{display:flex;gap:8px;flex-wrap:wrap}
-.docs a,.btn{display:inline-block;border:1px solid var(--rubric);color:#741c0c;background:transparent;font-family:var(--f-label);letter-spacing:.1em;font-size:.8rem;padding:4px 10px;border-radius:2px;text-decoration:none;cursor:pointer;line-height:1.5}
-.docs a:hover,.btn:hover,.docs a:focus-visible,.btn:focus-visible{background:rgba(147,44,24,.09)}
-.mail{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
-.mail code{font-family:var(--f-body);font-size:.98rem;color:var(--ink);user-select:all;overflow-wrap:anywhere}
 
-/* right column: the stories */
-.col-b{display:grid;gap:0;min-width:0}
-.story{display:grid;gap:16px;max-width:40rem}
-.story+.story{margin-top:1.4em}
-.story+.story::before{content:"";justify-self:center;width:7px;height:7px;margin:0 0 1.2em;transform:rotate(45deg);
-  background:linear-gradient(135deg,#c4552f,#7a2412);box-shadow:0 0 0 1px rgba(122,36,18,.25),0 0 0 4px rgba(147,44,24,.08)}
-.story header{display:grid;gap:4px}
-.story h2{font-family:var(--f-display);font-weight:400;font-size:clamp(2rem,4.6vw,2.6rem);line-height:1;color:var(--ink)}
+/* contents */
+.toc{list-style:none;margin:0;padding:0;display:grid;gap:0;max-width:var(--measure);border-top:1px solid var(--rule)}
+.toc a{display:grid;grid-template-columns:2.4em minmax(0,1fr) auto;align-items:baseline;gap:0 10px;padding:9px 0;border-bottom:1px solid var(--rule);text-decoration:none;color:var(--ink)}
+.toc .n{font-family:var(--f-label);font-size:.8rem;letter-spacing:.06em;color:var(--rubric);font-variant-numeric:tabular-nums}
+.toc .t{font-family:var(--f-sc);font-weight:500;font-size:1.08rem;line-height:1.2}
+.toc small{font-style:italic;font-size:.88rem;color:var(--ink-3);text-align:right}
+.toc a:hover .t,.toc a:focus-visible .t{color:var(--rubric)}
+.label{font-family:var(--f-label);font-weight:500;font-size:.78rem;letter-spacing:.12em;color:var(--ink-3);margin-bottom:8px}
+
+/* the stories */
+.stories{display:grid;gap:0;padding-block:clamp(34px,6vw,64px) 0}
+.story{display:grid;gap:18px;padding-block:clamp(38px,6vw,64px);border-top:1px solid var(--rule)}
+.story:first-child{border-top:0;padding-top:0}
+.story .side{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin-bottom:-8px}
+.story .side .note{flex-basis:100%;order:3}
+.story .num{font-family:var(--f-label);font-weight:500;font-size:.82rem;letter-spacing:.08em;color:var(--rubric);font-variant-numeric:tabular-nums}
+.story .orig{font-family:var(--f-label);font-weight:500;font-size:.78rem;letter-spacing:.1em;color:var(--ink-3)}
+.story .orig i{font-family:var(--f-body);font-style:italic;font-weight:400;letter-spacing:0;font-size:.98rem}
+.story .note{font-style:italic;font-size:.94rem;color:var(--ink-2);line-height:1.5}
+.story h2{font-family:var(--f-sc);font-weight:700;font-size:clamp(1.8rem,4.4vw,2.3rem);line-height:1.05;letter-spacing:.01em}
 .story h2::first-letter{color:var(--rubric)}
-.meta{font-family:var(--f-label);font-size:.78rem;letter-spacing:.1em;color:var(--ink-faint)}
-.meta i{font-family:var(--f-body);font-style:italic;letter-spacing:0;font-size:.92rem;text-transform:none}
-.body{display:grid;gap:.7em}
-.body p{text-wrap:pretty}
-.body em{font-style:italic}
-.body .song{font-style:italic;color:var(--ink-dim);padding-left:1.1em;border-left:2px solid rgba(147,44,24,.3)}
-.body .song+.song{margin-top:-.55em}
-.note{font-size:.92rem;font-style:italic;color:var(--ink-dim);padding-top:10px;border-top:1px solid rgba(90,58,26,.22)}
+.text{max-width:var(--measure);display:grid;gap:.62em}
+.text p{text-wrap:pretty;hanging-punctuation:first}
+.text em{font-style:italic}
+.text .song{font-style:italic;color:var(--ink-2);padding-left:1em;border-left:2px solid var(--rubric)}
+.text .song+.song{margin-top:-.62em}
+.text p:last-child::after{content:"\00B6";color:var(--rubric);margin-left:.4em;font-size:.9em}
 
-/* wide screens: the bar stays put; the left column holds still beside the stories */
-@media (min-width:1000px) and (min-height:560px){
-  :root{font-size:clamp(15px,calc(.42vw + 9.4px),17.5px)}
-  .bar{position:fixed;height:var(--bar-h);padding-block:0;flex-wrap:nowrap;padding-left:max(28px,env(safe-area-inset-left,0px));padding-right:max(28px,env(safe-area-inset-right,0px))}
-  .page{padding:calc(var(--bar-h) + clamp(30px,4.5vh,48px)) max(clamp(24px,3.2vw,60px),env(safe-area-inset-right,0px)) clamp(40px,7vh,72px) max(clamp(24px,3.2vw,60px),env(safe-area-inset-left,0px));min-height:100vh;isolation:isolate}
-  .page>.bg{display:block;position:absolute;inset:0;z-index:-1;overflow:clip;pointer-events:none}
-  .bg>div{position:sticky;top:var(--bar-h);height:calc(100vh - var(--bar-h));background:var(--bg) center/cover no-repeat}
-  .bg>div::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,var(--night) 0%,rgba(14,11,8,0) 14%,rgba(14,11,8,0) 82%,var(--night) 100%),radial-gradient(ellipse 85% 80% at 50% 50%,transparent 52%,rgba(10,7,4,.55))}
-  .folio{grid-template-columns:clamp(250px,27%,330px) minmax(0,1fr);gap:0;align-items:start;padding:0}
-  .col-a{position:sticky;top:calc(var(--bar-h) + 30px);max-height:calc(100vh - var(--bar-h) - 50px);overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(120,80,40,.4) transparent;padding:clamp(24px,4vh,40px) clamp(22px,2.4vw,36px)}
-  .col-b{padding:clamp(32px,5vh,56px) clamp(32px,3.4vw,60px);border-left:3px double rgba(147,44,24,.3);min-height:100%}
+/* the foot */
+.foot{display:grid;gap:12px;padding-block:28px 56px;border-top:1px solid var(--rule)}
+.foot .who{font-family:var(--f-sc);font-size:1.02rem;color:var(--ink-2)}
+.links{display:flex;flex-wrap:wrap;gap:8px}
+.links a,.btn{display:inline-block;border:1px solid var(--rubric);color:var(--rubric);background:transparent;font-family:var(--f-label);font-weight:500;letter-spacing:.1em;font-size:.8rem;padding:4px 11px;border-radius:2px;text-decoration:none;cursor:pointer;line-height:1.5}
+.links a:hover,.btn:hover,.links a:focus-visible,.btn:focus-visible{background:color-mix(in srgb,var(--rubric) 9%,transparent)}
+.mail{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
+.mail code{font-family:var(--f-body);font-size:1rem;color:var(--ink);user-select:all;overflow-wrap:anywhere}
+
+/* wide: a margin column that keeps the contents in view */
+@media (min-width:980px){
+  .layout{display:grid;grid-template-columns:13.5rem minmax(0,var(--measure));gap:0 clamp(40px,5vw,72px)}
+  .open{grid-column:2}
+  .margin{grid-column:1;grid-row:2 / span 2}
+  .margin .sticky{position:sticky;top:28px;padding-top:clamp(34px,6vw,64px)}
+  .toc{border-top:0}
+  .toc a{grid-template-columns:2em minmax(0,1fr);padding:7px 0;border-bottom:0}
+  .toc small{display:none}
+  .stories{grid-column:2}
+  .foot{grid-column:2}
+  .toc-phone{display:none}
 }
+@media (max-width:979px){.margin{display:none}}
 </style>
 </head>
 <body>
+<div class="wrap">
+  <header class="top">
+    <a class="name" href="why.html">Tomás Becerra</a>
+    <nav aria-label="Pages">
+      <ul>
+        <li><a href="./">Kingdom of None</a></li>
+        <li><a href="why.html">Why Tomás Becerra?</a></li>
+        <li><a href="files/CV_TomasBecerra.pdf" target="_blank" rel="noopener">CV</a></li>
+      </ul>
+    </nav>
+  </header>
 
-<nav class="bar" aria-label="Pages">
-  <a class="mark" href="./" aria-label="Kingdom of None, main page">KoN</a>
-  <ul>
-    <li><a href="./">Kingdom of None</a></li>
-    <li><a href="why.html">Why Tomás Becerra?</a></li>
-    <li><a href="files/CV_TomasBecerra.pdf" target="_blank" rel="noopener">CV</a></li>
-  </ul>
-</nav>
-
-<main class="page">
-  <div class="bg" aria-hidden="true"><div style="--bg:url(img/bg/f_pasillos.jpg)"></div></div>
-
-  <article class="folio" aria-labelledby="h-up">
-    <div class="col-a">
-      <header class="head">
-        <p class="eyebrow">short fiction · tomás becerra</p>
-        <h1 id="h-up">Unfinished Paragraphs</h1>
-      </header>
+  <main class="layout">
+    <section class="open" aria-labelledby="h-up">
+      <p class="kicker">short fiction</p>
+      <h1 id="h-up"><span class="pil" aria-hidden="true">¶</span>Unfinished Paragraphs</h1>
+      <p class="es" lang="es">Párrafos inconclusos</p>
       <p class="lede">Seven short pieces from the winter of 2025–26, written before Kingdom of None existed. Five were written in Spanish for a collection called <em>Párrafos inconclusos</em> and later translated into English; <em>Sleeper</em> and <em>Instructions</em> were written in English.</p>
-      <nav aria-label="Contents">
+      <nav class="toc-phone" aria-label="Contents">
         <ul class="toc">
-          <li><a href="#the-lever"><span>The Lever</span><small lang="es">Un regalo para mi hija</small></a></li>
-          <li><a href="#champagne"><span>Champagne?</span><small lang="es">¿Champagne?</small></a></li>
-          <li><a href="#a-well-kept-secret"><span>A Well-Kept Secret</span><small lang="es">Un secreto bien guardado</small></a></li>
-          <li><a href="#the-guillotine"><span>The Guillotine</span><small lang="es">La guillotina</small></a></li>
-          <li><a href="#the-expedition"><span>The Expedition</span><small lang="es">La expedición</small></a></li>
-          <li><a href="#sleeper"><span>Sleeper</span><small>written in English</small></a></li>
-          <li><a href="#instructions"><span>Instructions</span><small>written in English</small></a></li>
+          <li><a href="#the-lever"><span class="n">¶ 1</span><span class="t">The Lever</span><small lang="es">Un regalo para mi hija</small></a></li>
+          <li><a href="#champagne"><span class="n">¶ 2</span><span class="t">Champagne?</span><small lang="es">¿Champagne?</small></a></li>
+          <li><a href="#a-well-kept-secret"><span class="n">¶ 3</span><span class="t">A Well-Kept Secret</span><small lang="es">Un secreto bien guardado</small></a></li>
+          <li><a href="#the-guillotine"><span class="n">¶ 4</span><span class="t">The Guillotine</span><small lang="es">La guillotina</small></a></li>
+          <li><a href="#the-expedition"><span class="n">¶ 5</span><span class="t">The Expedition</span><small lang="es">La expedición</small></a></li>
+          <li><a href="#sleeper"><span class="n">¶ 6</span><span class="t">Sleeper</span><small>English</small></a></li>
+          <li><a href="#instructions"><span class="n">¶ 7</span><span class="t">Instructions</span><small>English</small></a></li>
         </ul>
       </nav>
-    </div>
-
-    <div class="col-b">
-    <section class="story" id="the-lever" aria-labelledby="h-the-lever">
-      <header><h2 id="h-the-lever">The Lever</h2><p class="meta">From the Spanish · <i lang="es">Un regalo para mi hija</i></p></header>
-      <div class="body">
-        <p>The officer inspected the room carefully. He adjusted a strap and stepped back, satisfied.</p>
-        <p>He remembered the amusement park, and the warmth of her body when he kissed her for the first time. Her face smudged with sticky cotton candy. They were so happy together.</p>
-        <p>“Please,” a voice interrupted.</p>
-        <p>“I should buy her a gift,” thought the officer, unmoved.</p>
-        <p>“I have a daughter,” the stutter went on. “She turns ten next month.”</p>
-        <p>The remark offended him. Unlike them, he did his duty. “A garden for the children,” the daydream resumed. He had promised so much, and he was delivering. The new car was on its way, and the transfer to the capital, almost secured. A better life. He allowed himself a smile as he tightened the mechanism again.</p>
-        <p>“I beg you,” the man cried.</p>
-        <p>The officer, indifferent, pulled harder on the lever.</p>
-        <p>The leather strap gave way with a dry snap, followed by a choked scream. He stood there for a moment, watching the motionless body.</p>
-        <p>“A big garden, where the children can play,” the officer thought.</p>
-      </div>
     </section>
 
-    <section class="story" id="champagne" aria-labelledby="h-champagne">
-      <header><h2 id="h-champagne">Champagne?</h2><p class="meta">From the Spanish · <i lang="es">¿Champagne?</i></p></header>
-      <div class="body">
-        <p>Disorder had always bothered me. But that night, everything was perfect. The spotless carpet. The new curtains. And the day’s exhaustion, which comes with the job, of course.</p>
-        <p>The doorbell rang. It was them.</p>
-        <p>The evening went by without incident. Empty conversations. Rehearsed smiles. The sound of a knife scraping against mother’s porcelain was a little louder than expected. A red-berry cake.</p>
-        <p>The fat woman from the delegation chewed noisily, leaving crumbs on the tablecloth.</p>
-        <p>“Oh my! Are those new?” she asked, pointing at the curtains.</p>
-        <p>I told her they were, that I’d bought them at the new shop in the Great Comrades Market. A lie. But they pay no attention to details. Outside, the wind stirred the dry branches.</p>
-        <p>“Has anyone seen Pedro?”</p>
-        <p>The clinking of cutlery was endless.</p>
-        <p>“If only victory were as tasty as this duck!”</p>
-        <p>A toast. A hollow laugh. I glanced at my phone. It was stained.</p>
-        <p>“Silvio, I wanted to thank you for tonight. You’ve been wonderful.”</p>
-        <p>“Thank you.”</p>
-        <p>What a disgusting parade of masks. Thinking they’re important. I smile as I picture them leaving, staggering towards their fancy cars. Lost headlights wandering through the darkness. I picture them losing control on the road, drunk, accelerating. I think of the impact, and of the rain washing the blood from the asphalt.</p>
-        <p>“Gentlemen, may I see you all tomorrow. It’s been a pleasure. All power to the Nation!”</p>
-        <p>The pigs hailed.</p>
-        <p>I paused and gently took her by the arm.</p>
-        <p>“Sara, I hope you know how much you mean to me, and how deeply I appreciate your commitment to the cause.”</p>
-        <p>Sara smiled with her usual ingenuity. She embraced me. Her perfume was exquisite.</p>
-        <p>By three in the morning, everyone was gone. I went upstairs. Opened the door.</p>
-        <p>“It’s been a success, my friend.”</p>
-        <p>I poured myself a glass. Sat down in the black armchair. It smelled clean. The bubbles in the sparkling wine burst in silence.</p>
-        <p>“Champagne?”</p>
-        <p>Pedro didn’t answer.</p>
-        <p>I looked at him and thought:</p>
-        <p>“How could he?”</p>
+    <aside class="margin" aria-label="Contents">
+      <div class="sticky">
+        <p class="label">Contents</p>
+        <ul class="toc">
+          <li><a href="#the-lever"><span class="n">¶ 1</span><span class="t">The Lever</span><small lang="es">Un regalo para mi hija</small></a></li>
+          <li><a href="#champagne"><span class="n">¶ 2</span><span class="t">Champagne?</span><small lang="es">¿Champagne?</small></a></li>
+          <li><a href="#a-well-kept-secret"><span class="n">¶ 3</span><span class="t">A Well-Kept Secret</span><small lang="es">Un secreto bien guardado</small></a></li>
+          <li><a href="#the-guillotine"><span class="n">¶ 4</span><span class="t">The Guillotine</span><small lang="es">La guillotina</small></a></li>
+          <li><a href="#the-expedition"><span class="n">¶ 5</span><span class="t">The Expedition</span><small lang="es">La expedición</small></a></li>
+          <li><a href="#sleeper"><span class="n">¶ 6</span><span class="t">Sleeper</span><small>English</small></a></li>
+          <li><a href="#instructions"><span class="n">¶ 7</span><span class="t">Instructions</span><small>English</small></a></li>
+        </ul>
       </div>
-    </section>
+    </aside>
 
-    <section class="story" id="a-well-kept-secret" aria-labelledby="h-a-well-kept-secret">
-      <header><h2 id="h-a-well-kept-secret">A Well-Kept Secret</h2><p class="meta">From the Spanish · <i lang="es">Un secreto bien guardado</i></p></header>
-      <div class="body">
-        <p>It had eight legs and an elegant tail, long and slender, crowned with a curved sting. It loomed over his hair, filthy and matted with sand. “Go ahead,” he thought he had said. The scorpion, however, turned around and left the way it had come. The sun stayed fixed on the horizon. The man only wanted to sleep.</p>
-        <p>The next day came as a surprise. He thought he heard his name. “Mauricio,” said a voice. “The pleasure is all mine,” it went on. “What brings you here?” The man questioned its motives: “Why do you care?” The scorpion answered that the dead tree was its home. That he should show more respect. Now he understood: he was a guest. “I’m only passing through,” he replied bitterly. “Coming or going?” the exoskeleton insisted. The wind was blowing hard. “I don’t remember,” said the man, still lying down. “Did you leave long ago?” He didn’t remember that either. His memory was a pane of glass abandoned to the sandy erosion of time. There was, however, one certainty. At first he fought the idea. It took him a good while, but eventually he managed to arm himself with the courage he needed to tell it his secret. The scorpion listened closely.</p>
-        <p>“May I tell you something?” it said at last. “Go ahead,” answered Mauricio, through his tears. The other stayed silent. It said nothing. The man looked at it, confused. “What, gone mute on me now? Come on, don’t be shy.” The scorpion settled on his dimming body. A few minutes passed. There were no clouds in the sky. “I’d love to be able to help you, Mauricio.” A pause. “But you know as well as I do that insects don’t talk.” Indeed, the scorpion had a point.</p>
-      </div>
-    </section>
-
-    <section class="story" id="the-guillotine" aria-labelledby="h-the-guillotine">
-      <header><h2 id="h-the-guillotine">The Guillotine</h2><p class="meta">From the Spanish · <i lang="es">La guillotina</i></p></header>
-      <div class="body">
-        <p>The blade fell, swift and inexorable. The king’s body tumbled down the steps, and the expectant clamour resolved into a symphony of howls, agonised with pleasure. “There was no such plot, only bad news. Tell me, slave, what would you have done?” The monarch’s foreign cadence was repugnant to the executioner’s ears. The days went by, but the words did not die with the tyrant. They kept resounding, irascible, hidden in the victorious echo of the streets at the triumph of the revolution.</p>
-        <p>Louder even than that speech laden with truths beyond appeal: “The people have a right, heavier than the king’s crown. The right to know.” That ravenous human wave that swept his own son off to the borders of the war. That tide of blood that did not bring him back to the house where the executioner was, the night he meant to go to bed early; for the next day he had to get up and sharpen the guillotine.</p>
-      </div>
-    </section>
-
-    <section class="story" id="the-expedition" aria-labelledby="h-the-expedition">
-      <header><h2 id="h-the-expedition">The Expedition</h2><p class="meta">From the Spanish · <i lang="es">La expedición</i></p></header>
-      <div class="body">
-        <p>A bright valley, a vast expanse of rolling land. Forests mirrored in the morning dew and the chorus of a million singing birds. Flowers of every shape and colour. A trail of unfamiliar footprints. Crystal-clear rivers roaring as they break against the rocky abyss. The hum of the winding earth. Deep within, the jungle’s geometry comes to a halt at the foot of the Father’s Sigh, the colossal, smoking geyser rising above the landscape. Inside, another rhythm, chanted. More an echo, stirring. And a group of men, bound to a mast. The fear in their eyes. And the silent watchers. The imminent explosion. And the steam in the air.</p>
-      </div>
-      <p class="note">Months later, the Father’s Sigh became the seed of the religion of the Father in <a href="./">Kingdom of None</a>.</p>
-    </section>
-
-    <section class="story" id="sleeper" aria-labelledby="h-sleeper">
-      <header><h2 id="h-sleeper">Sleeper</h2><p class="meta">Written in English</p></header>
-      <div class="body">
-        <p class="song"><em>Black smoke, hot tar, the salvage won’t wait on the sleeper.</em></p>
-        <p class="song"><em>Green coat at the water, and the water running deeper!</em></p>
-        <p>I looked at it.</p>
-        <p>“What?”</p>
-        <p>Its expression was the same.</p>
-        <p>“You didn’t like it?”</p>
-        <p>I didn’t answer. There was no need. I took a shovelful. The heap wasn’t going to clear itself.</p>
-        <p>“When we’re done—” it began.</p>
-        <p>“Yes, Nav.”</p>
-        <p>“The girl last night. Who was she?”</p>
-        <p>“No idea. I must have made her up.”</p>
-        <p>“Fascinating,” said the interface, as it went back to work.</p>
-      </div>
-    </section>
-
-    <section class="story" id="instructions" aria-labelledby="h-instructions">
-      <header><h2 id="h-instructions">Instructions</h2><p class="meta">Written in English</p></header>
-      <div class="body">
-        <p>The engines roared with their usual ferocity. He switched on the transmitter. The signal travelled down into the guts of the complex and came back, as always, empty-handed. He opened the manual, the one he’d had all his life:</p>
-        <p>“The rectangles, ordered by size and dimension, the grid set on the diagonal. And the gilded edges running side to side. Do not forget: at the highest point, the fluid runs upward.”</p>
-        <p>He shut the mechanism down and walked back to camp. Héctor had a fire going.</p>
-        <p>“Who would have thought... The most intelligent machine in the universe refuses to work.”</p>
-        <p>“Maybe that’s why,” he said.</p>
-      </div>
-    </section>
-      <footer class="foot">
-        <div class="docs">
-          <a href="./">Kingdom of None</a>
-          <a href="why.html">Why Tomás Becerra?</a>
-          <a href="files/KoN_Narrative_Portfolio_TomasBecerra.pdf" target="_blank" rel="noopener">Narrative portfolio (PDF)</a>
-          <a href="files/CV_TomasBecerra.pdf" target="_blank" rel="noopener">CV (PDF)</a>
+    <div class="stories">
+      <article class="story" id="the-lever" aria-labelledby="h-the-lever">
+        <div class="side"><p class="num">¶ 1</p><p class="orig">From the Spanish · <i lang="es">Un regalo para mi hija</i></p></div>
+        <h2 id="h-the-lever">The Lever</h2>
+        <div class="text">
+          <p>The officer inspected the room carefully. He adjusted a strap and stepped back, satisfied.</p>
+          <p>He remembered the amusement park, and the warmth of her body when he kissed her for the first time. Her face smudged with sticky cotton candy. They were so happy together.</p>
+          <p>“Please,” a voice interrupted.</p>
+          <p>“I should buy her a gift,” thought the officer, unmoved.</p>
+          <p>“I have a daughter,” the stutter went on. “She turns ten next month.”</p>
+          <p>The remark offended him. Unlike them, he did his duty. “A garden for the children,” the daydream resumed. He had promised so much, and he was delivering. The new car was on its way, and the transfer to the capital, almost secured. A better life. He allowed himself a smile as he tightened the mechanism again.</p>
+          <p>“I beg you,” the man cried.</p>
+          <p>The officer, indifferent, pulled harder on the lever.</p>
+          <p>The leather strap gave way with a dry snap, followed by a choked scream. He stood there for a moment, watching the motionless body.</p>
+          <p>“A big garden, where the children can play,” the officer thought.</p>
         </div>
-        <div class="mail"><code id="mail">tomas22becerra@gmail.com</code><button class="btn" id="copy" type="button">Copy</button></div>
-      </footer>
+      </article>
+
+      <article class="story" id="champagne" aria-labelledby="h-champagne">
+        <div class="side"><p class="num">¶ 2</p><p class="orig">From the Spanish · <i lang="es">¿Champagne?</i></p></div>
+        <h2 id="h-champagne">Champagne?</h2>
+        <div class="text">
+          <p>Disorder had always bothered me. But that night, everything was perfect. The spotless carpet. The new curtains. And the day’s exhaustion, which comes with the job, of course.</p>
+          <p>The doorbell rang. It was them.</p>
+          <p>The evening went by without incident. Empty conversations. Rehearsed smiles. The sound of a knife scraping against mother’s porcelain was a little louder than expected. A red-berry cake.</p>
+          <p>The fat woman from the delegation chewed noisily, leaving crumbs on the tablecloth.</p>
+          <p>“Oh my! Are those new?” she asked, pointing at the curtains.</p>
+          <p>I told her they were, that I’d bought them at the new shop in the Great Comrades Market. A lie. But they pay no attention to details. Outside, the wind stirred the dry branches.</p>
+          <p>“Has anyone seen Pedro?”</p>
+          <p>The clinking of cutlery was endless.</p>
+          <p>“If only victory were as tasty as this duck!”</p>
+          <p>A toast. A hollow laugh. I glanced at my phone. It was stained.</p>
+          <p>“Silvio, I wanted to thank you for tonight. You’ve been wonderful.”</p>
+          <p>“Thank you.”</p>
+          <p>What a disgusting parade of masks. Thinking they’re important. I smile as I picture them leaving, staggering towards their fancy cars. Lost headlights wandering through the darkness. I picture them losing control on the road, drunk, accelerating. I think of the impact, and of the rain washing the blood from the asphalt.</p>
+          <p>“Gentlemen, may I see you all tomorrow. It’s been a pleasure. All power to the Nation!”</p>
+          <p>The pigs hailed.</p>
+          <p>I paused and gently took her by the arm.</p>
+          <p>“Sara, I hope you know how much you mean to me, and how deeply I appreciate your commitment to the cause.”</p>
+          <p>Sara smiled with her usual ingenuity. She embraced me. Her perfume was exquisite.</p>
+          <p>By three in the morning, everyone was gone. I went upstairs. Opened the door.</p>
+          <p>“It’s been a success, my friend.”</p>
+          <p>I poured myself a glass. Sat down in the black armchair. It smelled clean. The bubbles in the sparkling wine burst in silence.</p>
+          <p>“Champagne?”</p>
+          <p>Pedro didn’t answer.</p>
+          <p>I looked at him and thought:</p>
+          <p>“How could he?”</p>
+        </div>
+      </article>
+
+      <article class="story" id="a-well-kept-secret" aria-labelledby="h-a-well-kept-secret">
+        <div class="side"><p class="num">¶ 3</p><p class="orig">From the Spanish · <i lang="es">Un secreto bien guardado</i></p></div>
+        <h2 id="h-a-well-kept-secret">A Well-Kept Secret</h2>
+        <div class="text">
+          <p>It had eight legs and an elegant tail, long and slender, crowned with a curved sting. It loomed over his hair, filthy and matted with sand. “Go ahead,” he thought he had said. The scorpion, however, turned around and left the way it had come. The sun stayed fixed on the horizon. The man only wanted to sleep.</p>
+          <p>The next day came as a surprise. He thought he heard his name. “Mauricio,” said a voice. “The pleasure is all mine,” it went on. “What brings you here?” The man questioned its motives: “Why do you care?” The scorpion answered that the dead tree was its home. That he should show more respect. Now he understood: he was a guest. “I’m only passing through,” he replied bitterly. “Coming or going?” the exoskeleton insisted. The wind was blowing hard. “I don’t remember,” said the man, still lying down. “Did you leave long ago?” He didn’t remember that either. His memory was a pane of glass abandoned to the sandy erosion of time. There was, however, one certainty. At first he fought the idea. It took him a good while, but eventually he managed to arm himself with the courage he needed to tell it his secret. The scorpion listened closely.</p>
+          <p>“May I tell you something?” it said at last. “Go ahead,” answered Mauricio, through his tears. The other stayed silent. It said nothing. The man looked at it, confused. “What, gone mute on me now? Come on, don’t be shy.” The scorpion settled on his dimming body. A few minutes passed. There were no clouds in the sky. “I’d love to be able to help you, Mauricio.” A pause. “But you know as well as I do that insects don’t talk.” Indeed, the scorpion had a point.</p>
+        </div>
+      </article>
+
+      <article class="story" id="the-guillotine" aria-labelledby="h-the-guillotine">
+        <div class="side"><p class="num">¶ 4</p><p class="orig">From the Spanish · <i lang="es">La guillotina</i></p></div>
+        <h2 id="h-the-guillotine">The Guillotine</h2>
+        <div class="text">
+          <p>The blade fell, swift and inexorable. The king’s body tumbled down the steps, and the expectant clamour resolved into a symphony of howls, agonised with pleasure. “There was no such plot, only bad news. Tell me, slave, what would you have done?” The monarch’s foreign cadence was repugnant to the executioner’s ears. The days went by, but the words did not die with the tyrant. They kept resounding, irascible, hidden in the victorious echo of the streets at the triumph of the revolution.</p>
+          <p>Louder even than that speech laden with truths beyond appeal: “The people have a right, heavier than the king’s crown. The right to know.” That ravenous human wave that swept his own son off to the borders of the war. That tide of blood that did not bring him back to the house where the executioner was, the night he meant to go to bed early; for the next day he had to get up and sharpen the guillotine.</p>
+        </div>
+      </article>
+
+      <article class="story" id="the-expedition" aria-labelledby="h-the-expedition">
+        <div class="side"><p class="num">¶ 5</p><p class="orig">From the Spanish · <i lang="es">La expedición</i></p><p class="note">Months later, the Father’s Sigh became the seed of the religion of the Father in <a href="./">Kingdom of None</a>.</p></div>
+        <h2 id="h-the-expedition">The Expedition</h2>
+        <div class="text">
+          <p>A bright valley, a vast expanse of rolling land. Forests mirrored in the morning dew and the chorus of a million singing birds. Flowers of every shape and colour. A trail of unfamiliar footprints. Crystal-clear rivers roaring as they break against the rocky abyss. The hum of the winding earth. Deep within, the jungle’s geometry comes to a halt at the foot of the Father’s Sigh, the colossal, smoking geyser rising above the landscape. Inside, another rhythm, chanted. More an echo, stirring. And a group of men, bound to a mast. The fear in their eyes. And the silent watchers. The imminent explosion. And the steam in the air.</p>
+        </div>
+      </article>
+
+      <article class="story" id="sleeper" aria-labelledby="h-sleeper">
+        <div class="side"><p class="num">¶ 6</p><p class="orig">Written in English</p></div>
+        <h2 id="h-sleeper">Sleeper</h2>
+        <div class="text">
+          <p class="song"><em>Black smoke, hot tar, the salvage won’t wait on the sleeper.</em></p>
+          <p class="song"><em>Green coat at the water, and the water running deeper!</em></p>
+          <p>I looked at it.</p>
+          <p>“What?”</p>
+          <p>Its expression was the same.</p>
+          <p>“You didn’t like it?”</p>
+          <p>I didn’t answer. There was no need. I took a shovelful. The heap wasn’t going to clear itself.</p>
+          <p>“When we’re done—” it began.</p>
+          <p>“Yes, Nav.”</p>
+          <p>“The girl last night. Who was she?”</p>
+          <p>“No idea. I must have made her up.”</p>
+          <p>“Fascinating,” said the interface, as it went back to work.</p>
+        </div>
+      </article>
+
+      <article class="story" id="instructions" aria-labelledby="h-instructions">
+        <div class="side"><p class="num">¶ 7</p><p class="orig">Written in English</p></div>
+        <h2 id="h-instructions">Instructions</h2>
+        <div class="text">
+          <p>The engines roared with their usual ferocity. He switched on the transmitter. The signal travelled down into the guts of the complex and came back, as always, empty-handed. He opened the manual, the one he’d had all his life:</p>
+          <p>“The rectangles, ordered by size and dimension, the grid set on the diagonal. And the gilded edges running side to side. Do not forget: at the highest point, the fluid runs upward.”</p>
+          <p>He shut the mechanism down and walked back to camp. Héctor had a fire going.</p>
+          <p>“Who would have thought... The most intelligent machine in the universe refuses to work.”</p>
+          <p>“Maybe that’s why,” he said.</p>
+        </div>
+      </article>
     </div>
-  </article>
-</main>
+
+    <footer class="foot">
+      <p class="who">Tomás Becerra · narrative &amp; systems design · Rome, open to relocation</p>
+      <div class="links">
+        <a href="./">Kingdom of None</a>
+        <a href="why.html">Why Tomás Becerra?</a>
+        <a href="files/KoN_Narrative_Portfolio_TomasBecerra.pdf" target="_blank" rel="noopener">Narrative portfolio (PDF)</a>
+        <a href="files/CV_TomasBecerra.pdf" target="_blank" rel="noopener">CV (PDF)</a>
+      </div>
+      <div class="mail"><code id="mail">tomas22becerra@gmail.com</code><button class="btn" id="copy" type="button">Copy</button></div>
+    </footer>
+  </main>
+</div>
 
 <script>
 (() => {
