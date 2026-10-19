@@ -13,7 +13,7 @@
 <title>Kingdom of None</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Alegreya+SC:wght@500;700&family=Alegreya+Sans+SC:wght@500;700&family=Pirata+One&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Alegreya+SC:wght@500;700&family=Alegreya+Sans+SC:wght@500;700&family=Pirata+One&display=swap">
 <style>
 /* Layout: the world is a painting; each section is a worn sheet of paper laid over it, under a near-black bar with a
    gilt rule, in the manner of current dark-fantasy games. On a wide screen the page scrolls section by section while the bar stays put: each
@@ -532,9 +532,6 @@ html.wide #codex.book-on>.cx-scroll{display:none}
 html.wide #codex:not(.book-on)>.cx-scroll{width:min(1180px,100%)}
 
 /* ---------- arriving: the sheet is laid down, the ink comes in ---------- */
-html.wide .sec.await .lay{opacity:0}
-html.wide .sec.entering .lay{animation:lay .8s cubic-bezier(.2,.78,.25,1) both;animation-delay:calc(var(--d,0) * 1ms)}
-html.wide .sec.entering .art.lay{animation-name:hang;animation-duration:1s}
 @keyframes lay{0%{opacity:0;transform:translate(14px,-26px) rotate(-1.2deg) scale(1.02)}55%{opacity:1}100%{opacity:1;transform:none}}
 @keyframes hang{0%{opacity:0;transform:translateY(-18px) rotate(.8deg)}45%{opacity:1;transform:translateY(2px) rotate(-.35deg)}75%{transform:rotate(.12deg)}100%{opacity:1;transform:none}}
 @keyframes still{from{opacity:0}to{opacity:1}}
@@ -545,7 +542,6 @@ html.wide .leaf.in>*:nth-child(2){animation-delay:.08s}html.wide .leaf.in>*:nth-
 @keyframes ink{from{-webkit-mask-position:100% 0;mask-position:100% 0;opacity:.2}to{-webkit-mask-position:0 0;mask-position:0 0;opacity:1}}
 /* with animations reduced, nothing travels: the sheet just appears, the ink and the fire stay in place */
 @media (prefers-reduced-motion:reduce){
-  html.wide .sec.entering .lay,html.wide .sec.entering .art.lay{animation-name:still;animation-duration:.5s}
   .bar ul a,.bar ul a::after,.bar ul a::before{transition:none}
 }
 .veil{position:fixed;inset:var(--bar-h) 0 0 0;z-index:45;background:var(--night);opacity:0;pointer-events:none;transition:opacity .2s ease}
@@ -599,8 +595,9 @@ html.wide #codex.book-on .book-wrap{display:grid;justify-items:center;gap:12px;p
 .bk-foot{margin-top:12px;display:flex;gap:26px;align-items:center;justify-content:center;font-family:var(--f-label);letter-spacing:.12em;font-size:.8rem;color:var(--ink-dim)}
 .bk-foot .lang{color:var(--ink-dim)}
 /* page furniture */
-.fronti{display:grid;grid-template-rows:minmax(0,1fr) auto;gap:10px;height:100%}
-.fronti figure{margin:0;min-height:0;height:100%;aspect-ratio:2/3;justify-self:center;overflow:hidden;padding:9px;background:linear-gradient(135deg,#3e2c1b,#1f150c);box-shadow:inset 0 0 0 1px #6f5130,inset 0 0 0 3px #150e07,inset 0 0 0 4px rgba(214,170,98,.45)}
+.fronti{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:100%;gap:24px;height:100%;align-items:center}
+.fronti>div{align-self:center}
+.fronti figure{margin:0;min-height:0;height:min(100%,calc(var(--piw) * .84px));aspect-ratio:2/3;justify-self:start;overflow:hidden;padding:9px;background:linear-gradient(135deg,#3e2c1b,#1f150c);box-shadow:inset 0 0 0 1px #6f5130,inset 0 0 0 3px #150e07,inset 0 0 0 4px rgba(214,170,98,.45)}
 .fronti img{display:block;width:100%;height:100%;object-fit:cover}
 .fronti figcaption{font-style:italic;font-size:12px;color:var(--ink-faint);text-align:center}
 .toc h3.big{font-family:var(--f-display);font-size:50px;line-height:.95;color:var(--ink)}
@@ -613,13 +610,13 @@ html.wide #codex.book-on .book-wrap{display:grid;justify-items:center;gap:12px;p
 .toc ul a{display:flex;justify-content:space-between;gap:8px;font-size:12px;line-height:1.35;color:var(--ink-dim);text-decoration:none;padding:1px 0}
 .toc ul a:hover,.toc li>a:hover{color:var(--rubric)}
 .toc ul a b{font-weight:400;color:var(--ink-faint);font-family:var(--f-label);font-size:11px;letter-spacing:.06em}
-.arch{display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:12px;height:100%}
+.arch{display:grid;grid-template-rows:auto minmax(0,1fr);gap:14px;height:100%}
 .arch .meta{font-family:var(--f-label);letter-spacing:.12em;font-size:11px;color:var(--c)}
 .arch h3{font-family:var(--f-display);font-size:40px;line-height:1;margin-top:2px}
-.arch-body{display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;min-height:0}
+.arch-body{display:grid;grid-template-columns:auto minmax(0,1fr);gap:22px;min-height:0}
 .arch-vid{height:100%;aspect-ratio:2/3;min-height:0;border-radius:2px;overflow:hidden;background:#2a2117;box-shadow:inset 0 0 0 1px #6f5130,0 8px 18px rgba(40,25,10,.35);border:4px solid #2f2014}
 .arch-vid video{display:block;width:100%;height:100%;object-fit:cover}
-.arch-tx{display:grid;gap:12px;align-content:start;min-width:0}
+.arch-tx{display:grid;gap:16px;align-content:start;min-width:0;padding-top:4px}
 .arch-tx .fl{font-style:italic;font-size:14px;line-height:1.5}
 .potb{border-top:1px solid var(--line);padding-top:10px;display:grid;gap:4px;font-size:12.5px;color:var(--ink-dim)}
 .potb b{font-family:var(--f-label);letter-spacing:.12em;color:var(--rubric);font-size:11px}
@@ -737,7 +734,15 @@ html.wide #codex.book-on .book-wrap{gap:0}
 .fronti .cap{font-size:13px!important}
 .arch .meta{font-size:12.5px}
 .arch h3{font-size:46px}
-.arch-tx .fl{font-size:16px}
+.arch-tx .fl{font-size:18px;line-height:1.45}
+.deckb{border-top:1px solid var(--line);padding-top:10px;display:grid;gap:5px;font-size:14px;color:var(--ink-dim)}
+.deckb>b{font-family:var(--f-label);letter-spacing:.12em;color:var(--rubric);font-size:12px;text-transform:lowercase}
+.deckb .dq{display:flex;flex-wrap:wrap;gap:4px 14px}
+.deckb .dq span{display:inline-flex;align-items:center;gap:6px}
+.deckb .dq span::before{content:"";width:8px;height:8px;border-radius:50%;background:#a07a46;box-shadow:0 0 0 1px rgba(60,38,12,.45)}
+.deckb .dq .q-special::before{background:#5f7896}.deckb .dq .q-elite::before{background:#d2a744}
+.deckb .dq b{font-family:var(--f-sc);font-size:17px;color:var(--ink)}
+.deckb .dc{font-family:var(--f-label);letter-spacing:.08em;font-size:12px}
 .potb{font-size:14px}
 .potb b{font-size:12px}
 .potb strong{font-size:19px}
@@ -771,6 +776,20 @@ html.wide #codex.book-on .book-wrap{gap:0}
 .bk-ip{cursor:zoom-in}
 .ip-n{font-family:var(--f-label);font-weight:700;font-size:10px;letter-spacing:.1em;color:var(--rubric);text-transform:lowercase;margin-top:2px}
 .bk-ip.flash{animation:flash 2.2s ease}
+.bk-ip[aria-expanded]{cursor:pointer;transition:transform .2s ease,box-shadow .2s ease,background .2s ease}
+.bk-ip[aria-expanded]:hover{transform:translateY(-2px);box-shadow:inset 0 0 0 1px var(--c),0 8px 16px rgba(60,38,12,.22)}
+.bk-ip[aria-expanded]:focus-visible{outline:2px solid var(--c);outline-offset:2px}
+.bk-ip.open{background:linear-gradient(180deg,rgba(255,250,235,.55),color-mix(in srgb,var(--c) 14%,transparent));box-shadow:inset 0 0 0 2px var(--c),0 8px 18px rgba(60,38,12,.2)}
+.ip-n{display:flex;align-items:center;gap:7px}
+.ip-n i{flex:none;width:6px;height:6px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(-45deg);transition:transform .25s ease;margin-top:-1px}
+.bk-ip.open .ip-n i{transform:rotate(45deg);margin-top:-4px}
+.ip-n.off{color:var(--ink-faint);font-weight:400}
+.ip-n.off i{display:none}
+.bk-ip.none{opacity:.82}
+.bk-album .card.of{box-shadow:0 0 0 2px var(--c),0 8px 18px rgba(40,25,10,.28),inset 0 0 0 3px rgba(255,255,255,.35)}
+.bk-album .card.deal{animation:deal .55s cubic-bezier(.2,.8,.25,1) both;animation-delay:calc(var(--k,0) * 75ms)}
+@keyframes deal{0%{opacity:0;transform:translate(-30px,-10px) rotate(-4deg) scale(.86)}60%{opacity:1}100%{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.bk-album .card.deal{animation-name:still;animation-duration:.4s}}
 .bk-album .card{font-size:12.5px;line-height:1.35;border-radius:8px;border-width:1.5px;cursor:zoom-in}
 .bk-album .card .top{padding:6px 7px 4px;gap:6px}
 .bk-album .card .name{font-size:13.5px}
@@ -821,6 +840,21 @@ html.wide #codex.book-on .book-wrap{gap:0}
 .cz .ip-n{font-size:11px}
 @media (prefers-reduced-motion:reduce){.cz{transform:none;transition:opacity .16s ease}}
 .pg .mini,.pg .rd-card{cursor:zoom-in}
+
+/* bold leads the eye: the key words in ink, the one idea of each paragraph in rubric */
+.folio strong,.pg strong{font-weight:700;color:var(--ink)}
+.folio strong.hl,.pg strong.hl{color:var(--rubric)}
+.folio .turn strong,.folio .wip strong{color:inherit}
+.folio .wip strong.hl{color:var(--rubric)}
+
+/* scroll reveal: a block waits off its mark, and slides home when it comes into view */
+main{overflow-x:clip}
+.rv-on .rv{opacity:0;transform:translate3d(var(--rx,0px),calc(var(--ry,0px) * var(--sy,1)),0) scale(var(--rs,1));transition:none}
+.rv-on .rv.rv-in{opacity:1;transform:none;transition:opacity .7s ease var(--rv-d,0ms),transform 1s cubic-bezier(.16,.84,.24,1) var(--rv-d,0ms)}
+.rv-l{--rx:-72px}.rv-r{--rx:72px}.rv-u{--ry:36px}.rv-z{--rs:.94;--ry:20px}
+.rv[data-top]{--sy:-1}
+html:not(.wide) .rv-l{--rx:-26px}html:not(.wide) .rv-r{--rx:26px}html:not(.wide) .rv-u{--ry:30px}
+@media (prefers-reduced-motion:reduce){.rv{--rx:0px!important;--ry:0px!important;--rs:1!important}}
 </style>
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}.docs{display:flex;gap:10px;flex-wrap:wrap}.docs a{display:inline-block;border:1px solid var(--brass);color:var(--brass-hi);font-family:var(--f-label);letter-spacing:.1em;font-size:.82rem;padding:5px 12px;border-radius:2px;text-decoration:none}.docs a:hover{background:rgba(198,154,90,.12)}</style>
 </head>
@@ -865,17 +899,17 @@ html.wide #codex.book-on .book-wrap{gap:0}
       <div class="op-page on" data-p="0" id="op-0" role="group" aria-label="Page 1 of 2">
         <p class="op-eb">i · the stone</p>
         <div class="text">
-      <p>Four peoples share a continent, and under it runs a mineral called the Veth. Wear a ring set with it, look into a mirror and say: I look good today. You will feel that it is true.</p>
-      <p>The stone seems to agree with whoever holds it. It also carries heat, and under the right conditions it makes the wings of dead griffins fly. With those wings the Hilläru, the last people to arrive and the fewest in number, took the sky, and from the sky they took the continent: its tribute, its archives, its law. The same process, with a different measure of Veth, makes gunpowder. The stone that gave them their power also makes the weapon that can bring them down.</p>
-      <p>Everyone needs the Veth, and no two peoples agree on what it is. For the Orthal of the Father it is a voice that demands labour; for the Orthal of the Mother, a stone that does not speak. The Yrei hear in it a dialect of the sea. The Pherion guilds put it to work. The Hilläru treat it as engineering and decline to give it a theology. Each reading has its own politics, and every one of them is a reason to fight.</p>
+      <p>Four peoples share a continent, and under it runs a mineral called <strong class="hl">the Veth</strong>. Wear a ring set with it, look into a mirror and say: I look good today. You will feel that it is true.</p>
+      <p><strong>The stone seems to agree with whoever holds it.</strong> It also carries heat, and under the right conditions it makes the wings of dead griffins fly. With those wings <strong>the Hilläru</strong>, the last people to arrive and the fewest in number, took the sky, and from the sky they took the continent: its tribute, its archives, its law. The same process, with a different measure of Veth, makes <strong>gunpowder</strong>. <strong class="hl">The stone that gave them their power also makes the weapon that can bring them down.</strong></p>
+      <p>Everyone needs the Veth, and <strong>no two peoples agree on what it is</strong>. For <strong>the Orthal of the Father</strong> it is a voice that demands labour; for <strong>the Orthal of the Mother</strong>, a stone that does not speak. <strong>The Yrei</strong> hear in it a dialect of the sea. <strong>The Pherion guilds</strong> put it to work. <strong>The Hilläru</strong> treat it as engineering and decline to give it a theology. <strong class="hl">Each reading has its own politics, and every one of them is a reason to fight.</strong></p>
         </div>
       </div>
       <div class="op-page" data-p="1" id="op-1" role="group" aria-label="Page 2 of 2">
         <p class="op-eb">ii · the question</p>
         <div class="text">
-      <p>Even the world's own records describe the Veth in two vocabularies that cannot both be true. In one, it perceives, waits and chooses. In the other, it chooses nothing and only registers what the world was always able to become.</p>
+      <p>Even the world's own records describe the Veth in <strong class="hl">two vocabularies that cannot both be true</strong>. In one, it <strong>perceives, waits and chooses</strong>. In the other, it <strong>chooses nothing</strong> and only registers what the world was always able to become.</p>
       <p class="op-q">If the stone that agrees with you has no will of its own, whose will has been moving the continent?</p>
-      <p class="turn">Kingdom of None does not answer. It is a game, and it asks the question where a game can: in the rules. What you are, what you carry and what you draw decide what you can do. Whether the choice that follows is yours is the question the game keeps asking.</p>
+      <p class="turn">Kingdom of None does not answer. It is a game, and it asks the question where a game can: <strong>in the rules</strong>. What you are, what you carry and what you draw decide what you can do. Whether the choice that follows is yours is the question the game keeps asking.</p>
         </div>
         <a class="next" href="#game" data-go="game">Begin with the game ›</a>
       </div>
@@ -900,40 +934,40 @@ html.wide #codex.book-on .book-wrap{gap:0}
       <div class="leaves-nav" role="tablist" aria-label="Systems"></div>
     </div>
     <div class="col-b">
-      <p class="lede intro">Kingdom of None started as a 2D pixel-art card roguelite with fixed dungeons. It grew into a semi-open 3D world: thirty-six territories to cross, settlements to walk into, and people whose interests pull against each other. Its story is told through their errands. The player does not direct it and is not its hero; the player watches it from inside, and takes part.</p>
+      <p class="lede intro">Kingdom of None started as a <strong>2D pixel-art card roguelite</strong> with fixed dungeons. It grew into a <strong>semi-open 3D world</strong>: thirty-six territories to cross, settlements to walk into, and people whose interests pull against each other. Its story is told through their errands. <strong class="hl">The player does not direct it and is not its hero; the player watches it from inside, and takes part.</strong></p>
       <div class="leaves sys">
         <article class="leaf" data-kicker="settlements" data-label="Places you walk into">
           <img src="img/ui/settlement.jpg" alt="In-game: the player standing in a 3D village square, with the settlement menu open on the left." width="1200" height="675" loading="lazy">
-          <div class="txt"><p class="lbl">settlements</p><h3>Places you walk into</h3><p>Settlements are 3D spaces composed for the player's camera, never for the aerial view. The player walks their streets, talks to their people and uses their services: the smithy, the inn, the gate, the lodging and the mission board.</p></div>
+          <div class="txt"><p class="lbl">settlements</p><h3>Places you walk into</h3><p>Settlements are 3D spaces <strong class="hl">composed for the player's camera</strong>, never for the aerial view. The player <strong>walks their streets, talks to their people and uses their services</strong>: the smithy, the inn, the gate, the lodging and the mission board.</p></div>
         </article>
         <article class="leaf" data-kicker="the company" data-label="A company, not a hero">
           <img src="img/ui/company.jpg" alt="In-game: the company screen, with recruitable characters and their portraits." width="1200" height="675" loading="lazy">
-          <div class="txt"><p class="lbl">the company</p><h3>A company, not a hero</h3><p>The player recruits characters from the twelve archetypes and sends them out on runs. They level up, carry trauma and die. The company keeps what it learned: its missions, its journal and the lore it gathered.</p></div>
+          <div class="txt"><p class="lbl">the company</p><h3>A company, not a hero</h3><p>The player recruits characters from <strong>the twelve archetypes</strong> and sends them out on runs. They level up, carry <strong>trauma</strong> and <strong>die</strong>. <strong class="hl">The company keeps what it learned</strong>: its missions, its journal and the lore it gathered.</p></div>
         </article>
         <article class="leaf" data-kicker="missions" data-label="The mission board">
           <img src="img/ui/board.jpg" alt="In-game: a mission board with pinned parchment notices." width="1200" height="675" loading="lazy">
-          <div class="txt"><p class="lbl">missions</p><h3>The mission board</h3><p>Every settlement offers three main missions and two rotating tasks. One main mission conquers the settlement and opens the next difficulty; at least one sends the player into a neighbouring province. Missions are official errands for the settlement's government, so each one serves some interests at the expense of others.</p></div>
+          <div class="txt"><p class="lbl">missions</p><h3>The mission board</h3><p>Every settlement offers <strong>three main missions and two rotating tasks</strong>. One main mission conquers the settlement and opens the next difficulty; at least one sends the player into a neighbouring province. Missions are official errands for the settlement's government, so <strong class="hl">each one serves some interests at the expense of others</strong>.</p></div>
         </article>
         <article class="leaf" data-kicker="events" data-label="Events, situations, threads">
           <img src="img/ui/journal.jpg" alt="In-game: the journal, open on a card entry." width="1200" height="675" loading="lazy">
-          <div class="txt"><p class="lbl">events</p><h3>Events, situations, threads</h3><p>On the road, events remember the player across runs, branch, and offer options only some bodies can take: reading what a stranger leaves unsaid takes Cosmopolitanism. Situations are smaller and forget. Named threads tie events together across provinces in the journal.</p></div>
+          <div class="txt"><p class="lbl">events</p><h3>Events, situations, threads</h3><p>On the road, events <strong>remember the player across runs</strong>, branch, and <strong class="hl">offer options only some bodies can take</strong>: reading what a stranger leaves unsaid takes Cosmopolitanism. Situations are smaller and forget. <strong>Named threads</strong> tie events together across provinces in the journal.</p></div>
         </article>
         <article class="leaf" data-kicker="reputation" data-label="Nobody loves everyone">
           <img src="img/ui/reputation.jpg" alt="In-game: the reputation screen, twelve heraldic shields grouped by people." width="1200" height="675" loading="lazy">
-          <div class="txt"><p class="lbl">reputation</p><h3>Nobody loves everyone</h3><p>Reputation runs on sixteen counters, the four peoples and their twelve subfactions, each with five levels named in its own culture's words. Since missions set factions against each other, a perfect standing with all of them is out of reach. A good standing with everyone carries no penalty.</p></div>
+          <div class="txt"><p class="lbl">reputation</p><h3>Nobody loves everyone</h3><p>Reputation runs on <strong>sixteen counters</strong>, the four peoples and their twelve subfactions, each with five levels named in its own culture's words. Since missions set factions against each other, <strong class="hl">a perfect standing with all of them is out of reach</strong>. A good standing with everyone carries no penalty.</p></div>
         </article>
         <article class="leaf" data-kicker="biomes and travel" data-label="The land bites back">
           <img src="img/ui/travel.jpg" alt="In-game: the travel map of the continent with route markers." width="1200" height="675" loading="lazy">
-          <div class="txt"><p class="lbl">biomes and travel</p><h3>The land bites back</h3><p>Every step between nodes costs travel energy, and thirty-four of the thirty-six territories press on the traveller with one or more of fourteen hostilities, from cold to thin air. A character who runs out of energy faints and wakes at the refuge with one more trauma and half the bag. Nobody gets stranded.</p></div>
+          <div class="txt"><p class="lbl">biomes and travel</p><h3>The land bites back</h3><p>Every step between nodes costs <strong>travel energy</strong>, and thirty-four of the thirty-six territories press on the traveller with one or more of <strong>fourteen hostilities</strong>, from cold to thin air. A character who runs out of energy <strong>faints and wakes at the refuge</strong> with one more trauma and half the bag. <strong class="hl">Nobody gets stranded.</strong></p></div>
         </article>
         <article class="leaf" data-kicker="economy and crafting" data-label="Scarce gold, honest recipes">
           <img src="img/ui/smithy.jpg" alt="In-game: the smithy, with weapons for sale and their prices." width="1200" height="675" loading="lazy">
-          <div class="txt"><p class="lbl">economy and crafting</p><h3>Scarce gold, honest recipes</h3><p>Gold is meant to be scarce and worth finding. Prices derive from recipes, so buying finished goods costs more than buying ingredients, and crafting from loot costs least, by construction. Each province's smithy forges its own culture's equipment; universal pieces can be made anywhere.</p></div>
+          <div class="txt"><p class="lbl">economy and crafting</p><h3>Scarce gold, honest recipes</h3><p><strong class="hl">Gold is meant to be scarce</strong> and worth finding. <strong>Prices derive from recipes</strong>, so buying finished goods costs more than buying ingredients, and crafting from loot costs least, by construction. Each province's smithy forges <strong>its own culture's equipment</strong>; universal pieces can be made anywhere.</p></div>
         </article>
       </div>
       <div class="wip">
         <b>work in progress</b>
-        <p>Everything in-game shown here is work in progress, built on a 2018 laptop without a graphics card. It has never looked better, and it will never look worse.</p>
+        <p>Everything in-game shown here is work in progress, built on <strong>a 2018 laptop without a graphics card</strong>. <strong class="hl">It has never looked better, and it will never look worse.</strong></p>
       </div>
       <a class="next" href="#continent" data-go="continent">The continent ›</a>
     </div>
@@ -948,7 +982,7 @@ html.wide #codex.book-on .book-wrap{gap:0}
       <div class="sec-head">
         <p class="eyebrow">the run map · october 2026</p>
         <h2 id="h-cont" tabindex="-1">The continent</h2>
-        <p class="lede">Four peoples, twelve provinces, thirty-six territories. Each province is played at three difficulties, D1 to D3. Provinces open in three blocks, and a block opens only after the previous one is complete in all four peoples, so every run pushes the player across cultures. Choose a settlement on the map.</p>
+        <p class="lede"><strong>Four peoples, twelve provinces, thirty-six territories.</strong> Each province is played at <strong>three difficulties</strong>, D1 to D3. Provinces open in three blocks, and <strong class="hl">a block opens only after the previous one is complete in all four peoples</strong>, so every run pushes the player across cultures. Choose a settlement on the map.</p>
       </div>
       <div class="map" id="map">
         <img src="img/map.jpg" alt="Painted map of the continent: the four peoples' provinces in green, orange, coral and silver around a blue sea." width="1672" height="941">
@@ -983,7 +1017,7 @@ html.wide #codex.book-on .book-wrap{gap:0}
       <label class="lang arc-lang"><input type="checkbox" class="lang-t"> Show the original Spanish</label>
     </div>
     <div class="col-b" id="arc-col">
-      <p class="lede intro">The history of the world as the Hilläru keep it, from the first myths to the year the game takes place. The dates are approximate. AR and DR count backwards and forwards from year 0, the Refoundation, when the Hilläru dominion began.</p>
+      <p class="lede intro">The history of the world <strong class="hl">as the Hilläru keep it</strong>, from the first myths to the year the game takes place. The dates are approximate. <strong>AR and DR</strong> count backwards and forwards from year 0, <strong>the Refoundation</strong>, when the Hilläru dominion began.</p>
       <blockquote class="arc-epi" id="arc-epi"></blockquote>
       <p class="arc-hint" id="arc-hint"></p>
       <div id="era-box" aria-live="polite"></div>
@@ -1006,11 +1040,11 @@ html.wide #codex.book-on .book-wrap{gap:0}
     <div class="col-b">
       <div class="leaves">
         <div class="leaf" data-kicker="three objects" data-label="Body, equipment, impact">
-          <p class="lede intro">Kingdom of None is a card game in shape only. Its engine sits one layer below the surface, where three different objects work together. Each answers one question: who the body is, what it carries, and what the hand can do this turn.</p>
+          <p class="lede intro">Kingdom of None is <strong class="hl">a card game in shape only</strong>. Its engine sits one layer below the surface, where <strong>three different objects</strong> work together. Each answers one question: <strong>who the body is, what it carries, and what the hand can do this turn</strong>.</p>
           <div class="layers">
-            <div class="layer"><p class="n">the body</p><h3>Archetype moves</h3><p>Twelve archetypes, one per subfaction. Each has six fixed stats and nine signature moves: four common, three special, two elite. The moves are the subfaction's cultural property, and each body works a resource no item can grant: the Wanderer's cycle, the Okrosh's fury, the Reader's echo.</p></div>
-            <div class="layer"><p class="n">what it carries</p><h3>Equipment cards</h3><p>Over the body, six slots. Each item adds its own combat cards to the deck, gated by stats. No item is locked to a faction; a body raised far from it simply reads it less deeply.</p></div>
-            <div class="layer"><p class="n">what lands</p><h3>Impacts</h3><p>Combat cards do not strike. They drop impacts into a separate lane of the hand: cutting, piercing, blunt, control, block, dodge. Impacts sit outside the deck, the discard and the reshuffle. The body sets up; the equipment lands.</p></div>
+            <div class="layer"><p class="n">the body</p><h3>Archetype moves</h3><p>Twelve archetypes, one per subfaction. Each has <strong>six fixed stats and nine signature moves</strong>: four common, three special, two elite. <strong class="hl">The moves are the subfaction's cultural property</strong>, and each body works <strong>a resource no item can grant</strong>: the Wanderer's cycle, the Okrosh's fury, the Reader's echo.</p></div>
+            <div class="layer"><p class="n">what it carries</p><h3>Equipment cards</h3><p>Over the body, <strong>six slots</strong>. Each item <strong>adds its own combat cards to the deck</strong>, gated by stats. <strong class="hl">No item is locked to a faction</strong>; a body raised far from it simply reads it less deeply.</p></div>
+            <div class="layer"><p class="n">what lands</p><h3>Impacts</h3><p><strong class="hl">Combat cards do not strike.</strong> They drop <strong>impacts</strong> into a separate lane of the hand: cutting, piercing, blunt, control, block, dodge. Impacts sit outside the deck, the discard and the reshuffle. <strong>The body sets up; the equipment lands.</strong></p></div>
           </div>
         </div>
         <div class="leaf" data-kicker="an example" data-label="One item, end to end">
@@ -1021,17 +1055,17 @@ html.wide #codex.book-on .book-wrap{gap:0}
             <div class="two" id="chain-cards"></div>
             <div class="arrow" aria-hidden="true">›</div>
             <div class="lane"><p class="lbl">the impact lane, after Tear</p><div class="tokens" id="chain-tokens"></div></div>
-            <p class="chain-cap">A Sharp Knife puts two combat cards in the deck. Playing Tear drops three cutting impacts into the hand, where archetype moves can then change them before they land.</p>
+            <p class="chain-cap">A Sharp Knife puts <strong>two combat cards</strong> in the deck. Playing Tear drops <strong>three cutting impacts</strong> into the hand, where archetype moves can then change them before they land.</p>
           </div>
         </div>
         <div class="leaf" data-kicker="eight of the 108" data-label="Signature moves">
           <h3 class="leaf-h">Signature moves</h3>
-          <p class="lede" style="font-size:.95rem;margin-bottom:14px">One per archetype shown. Rules text from the game; flavour from inside the world. Pick a card to read it.</p>
+          <p class="lede" style="font-size:.95rem;margin-bottom:14px">One per archetype shown. Rules text from the game; <strong>flavour from inside the world</strong>. Pick a card to read it.</p>
           <div class="reader" id="mv-reader"><div class="rd-slot" id="mv-slot" aria-live="polite"></div><div class="rd-grid" id="mv-grid" role="group" aria-label="Signature moves"></div></div>
         </div>
         <div class="leaf" data-kicker="flavour" data-label="Items, in their own words">
           <h3 class="leaf-h">Items, in their own words</h3>
-          <p class="lede" style="font-size:.95rem;margin-bottom:14px">Every item carries one line from someone in the world. The register changes with the people who made it.</p>
+          <p class="lede" style="font-size:.95rem;margin-bottom:14px">Every item carries <strong>one line from someone in the world</strong>. The register changes with the people who made it.</p>
           <div class="items" id="items"></div>
         </div>
       </div>
@@ -1047,17 +1081,17 @@ html.wide #codex.book-on .book-wrap{gap:0}
     <div class="sec-head">
       <p class="eyebrow">team of two</p>
       <h2 id="h-make" tabindex="-1">The making</h2>
-      <p class="lede">The game is built and playable: combat, equipment, events, missions, reputation, crafting, the 3D run map and its settlements. What is still in progress: the enemy response system, the combat presentation and the narrative content of the later provinces.</p>
+      <p class="lede">The game is <strong class="hl">built and playable</strong>: combat, equipment, events, missions, reputation, crafting, the 3D run map and its settlements. What is still in progress: <strong>the enemy response system, the combat presentation and the narrative content of the later provinces</strong>.</p>
     </div>
     <div class="making">
       <dl class="who">
-        <div><dt>Tomás Becerra</dt><dd>Creative direction and canon. World, factions and history. Game and systems design: archetypes, cards, items, economy, progression, events and missions. The in-world text, written by him or drafted with Claude and rewritten by him. Settlement layout and UI composition in the Godot editor.</dd></div>
-        <div><dt>Claude (Anthropic)</dt><dd>All code, in Godot 4 and GDScript. Technical production of the 3D run map and its tools. Design and writing proposals, which Tomás accepts, rewrites or discards. The English versions of the texts on this page, reviewed by Tomás.</dd></div>
-        <div><dt>Art and sound</dt><dd>Concept and card art generated with Midjourney under Tomás's direction. 3D settlements built from purchased low-poly asset packs. Music generated with Suno; sound effects from free libraries.</dd></div>
+        <div><dt>Tomás Becerra</dt><dd><strong class="hl">Creative direction and canon.</strong> World, factions and history. Game and systems design: archetypes, cards, items, economy, progression, events and missions. The in-world text, written by him or drafted with Claude and rewritten by him. Settlement layout and UI composition in the Godot editor.</dd></div>
+        <div><dt>Claude (Anthropic)</dt><dd><strong class="hl">All code</strong>, in Godot 4 and GDScript. Technical production of the 3D run map and its tools. Design and writing proposals, which Tomás accepts, rewrites or discards. The English versions of the texts on this page, reviewed by Tomás.</dd></div>
+        <div><dt>Art and sound</dt><dd>Concept and card art generated with <strong>Midjourney</strong> under Tomás's direction. 3D settlements built from purchased low-poly asset packs. Music generated with <strong>Suno</strong>; sound effects from free libraries.</dd></div>
       </dl>
       <div class="tools">
         <h3>On tools</h3>
-        <p>Kingdom of None was directed by one person and built with machines: a language model for the code and for drafts, an image model for the art, a music model for the score. None of them decides what the game is. Direction is the work: choosing, rejecting, rewriting, and knowing why. It is said here plainly because it is true, and because the work should be judged for what it is.</p>
+        <p>Kingdom of None was <strong>directed by one person and built with machines</strong>: a language model for the code and for drafts, an image model for the art, a music model for the score. <strong class="hl">None of them decides what the game is.</strong> <strong>Direction is the work</strong>: choosing, rejecting, rewriting, and knowing why. It is said here plainly because it is true, and because the work should be judged for what it is.</p>
         <p class="sig">Tomás Becerra</p>
         <h3 style="margin-top:14px">Thanks</h3>
         <p>To Juan, Fran, Ginevra, Mini and Morcilla. I am one, but without them I am less.</p>
@@ -1074,12 +1108,12 @@ html.wide #codex.book-on .book-wrap{gap:0}
     <div class="sec-head">
       <p class="eyebrow">appendix · built from the game&rsquo;s own data</p>
       <h2 id="h-codex" tabindex="-1">Codex</h2>
-      <p class="lede" id="cx-lede">Everything made so far that already has its art: the archetypes and their 108 moves, the equipment of the first two blocks with its combat cards, and the animated enemies of the first four provinces. A script reads the game&rsquo;s data files and art folders and writes this appendix, so it grows with the game. Costs, damage and hit points are alpha values and will move with the next combat revision.</p>
+      <p class="lede" id="cx-lede">Everything made so far that already has its art: <strong>the archetypes and their 108 moves</strong>, <strong>the equipment of the first two blocks</strong> with its combat cards, and <strong>the animated enemies of the first four provinces</strong>. <strong class="hl">A script reads the game&rsquo;s data files and art folders and writes this appendix</strong>, so it grows with the game. Costs, damage and hit points are alpha values and will move with the next combat revision.</p>
       <div class="cx-bar"><label class="lang"><input type="checkbox" class="lang-t"> Show the original Spanish</label><span class="cx-gen" id="cx-gen"></span></div>
     </div>
     <details class="cx" data-k="moves"><summary><span class="cx-t">Archetypes and their moves</span><span class="cx-n" id="cx-n-moves"></span></summary><div class="cx-body" id="cx-moves"></div></details>
     <details class="cx" data-k="items"><summary><span class="cx-t">Equipment</span><span class="cx-n" id="cx-n-items"></span></summary><div class="cx-body" id="cx-items"></div></details>
-    <details class="cx" data-k="foes"><summary><span class="cx-t">Enemies of the first block</span><span class="cx-n" id="cx-n-foes"></span></summary><div class="cx-body" id="cx-foes"></div></details>
+    <details class="cx" data-k="foes"><summary><span class="cx-t">Enemies so far</span><span class="cx-n" id="cx-n-foes"></span></summary><div class="cx-body" id="cx-foes"></div></details>
   </div>
   <div class="book-wrap lay burnable" id="book-wrap">
     <div class="bk-top">
@@ -1102,7 +1136,7 @@ html.wide #codex.book-on .book-wrap{gap:0}
       <div>
         <h2 id="h-contact" tabindex="-1">Tomás Becerra</h2>
         <p class="role">Narrative &amp; Systems Designer</p>
-        <p>Former judicial and NGO writer and immersive-installation author, trained in international relations and law. Looking for narrative, game or systems design work in Europe, remote or on site.</p>
+        <p>Former judicial and NGO writer and immersive-installation author, trained in international relations and law. <strong class="hl">Looking for narrative, game or systems design work in Europe</strong>, remote or on site.</p>
       </div>
       <dl>
       <dt>Documents</dt><dd><span class="docs"><a href="files/KoN_Narrative_Portfolio_TomasBecerra.pdf" target="_blank" rel="noopener">Narrative portfolio (PDF)</a><a href="files/CV_TomasBecerra.pdf" target="_blank" rel="noopener">CV (PDF)</a></span></dd>
@@ -1532,11 +1566,13 @@ const W = { // [en, es]
   data:['Data generated','Datos generados'], universal:['Universal','Universal'],
   contents:['Contents','Índice'], chapter:['Chapter','Capítulo'], pages:['pages','páginas'],
   ch1:['Archetypes and their moves','Arquetipos y sus movimientos'], ch1short:['Archetypes','Arquetipos'],
-  ch2:['Equipment','Equipo'], ch3:['Enemies of the first block','Enemigos del primer bloque'], ch3short:['Enemies','Enemigos'],
+  ch2:['Equipment','Equipo'], ch3:['Enemies so far','Los enemigos hasta ahora'], ch3short:['Enemies','Enemigos'],
   ch2intro:['The items of the first two blocks, each with the combat cards it puts in the deck. Cards that do not have their art yet appear without it.','Los ítems de los dos primeros bloques, cada uno con las cartas de combate que suma al mazo. Las cartas que todavía no tienen arte aparecen sin él.'],
   ch3intro:['The enemies of the first four provinces, each with its animation, hit points, armour and actions.','Los enemigos de las cuatro primeras provincias, cada uno con su animación, sus puntos de vida, su armadura y sus acciones.'],
-  nine:['nine moves · pick one to read it','nueve movimientos · elegí uno para leerlo'], card1:['combat card','carta de combate'], cont:['continued','sigue'],
-  zoomhint:['Rest the pointer on a card to see it whole.','Dejá el puntero sobre una carta para verla entera.'], potency:['resource','potencia'], concept:['Concept art','Arte conceptual']
+  nine:['nine moves · rest the pointer on one to read it','nueve movimientos · dejá el puntero sobre uno para leerlo'], card1:['combat card','carta de combate'], cont:['continued','sigue'],
+  zoomhint:['Click an item to unfold its combat cards; rest the pointer on a card to see it whole.','Hacé click en un ítem para desplegar sus cartas de combate; dejá el puntero sobre una carta para verla entera.'],
+  fold:['fold','plegar'], nocards:['no combat cards','sin cartas de combate'],
+  appx:['appendix · built from the game’s own data','apéndice · armado con los datos del juego'], deck:['nine moves','nueve movimientos'], potency:['resource','potencia'], concept:['Concept art','Arte conceptual']
 };
 const w = k => W[k] ? W[k][lang === 'es' ? 1 : 0] : String(k).replace(/_/g, ' ');
 const ACT = {ataque:['Attack','Ataque'], espera:['Wait','Espera'], carga:['Charge','Carga'], esquive:['Dodge','Esquive'],
@@ -1931,7 +1967,7 @@ document.querySelectorAll('.leaves').forEach(box => {
 const Book = (() => {
   let PW = 600, dims = '';
   const book = $('#book'), pl = $('#pg-l'), pr = $('#pg-r'), tabs = $('#bk-tabs'), pn = $('#bk-pn'), prev = $('#bk-prev'), next = $('#bk-next');
-  let H = 700, pages = [], key = {}, at = 0, busy = false, built = '', chapters = [], meas = null;
+  let H = 700, pages = [], key = {}, at = 0, busy = false, built = '', chapters = [], meas = null, openItem = null;
   const sel = {};
   const usable = () => !!CX && Stage.on() && innerWidth >= 1180;
   const sig = () => PW + 'x' + H + '|' + lang;
@@ -1958,7 +1994,7 @@ const Book = (() => {
   }
   const P1 = k => (key[k] !== undefined ? key[k] + 1 : '');
   const lede = () => { const l = $('#cx-lede'); return l ? l.innerHTML : ''; };
-  const frontispiece = () => `<div class="fronti"><figure><img src="img/bg/canasta.jpg" alt="Concept painting: a scaled, fin-crested figure carrying a basket of fish through shallow water among ruined columns." width="896" height="1344"></figure><div><p class="cap" style="font-style:italic;font-size:12px;color:var(--ink-faint);text-align:center;margin-bottom:10px">${w('concept')}</p><p class="lede" style="font-size:12.5px">${lede()}</p></div></div>`;
+  const frontispiece = () => `<div class="fronti"><figure><img src="img/bg/canasta.jpg" alt="Concept painting: a scaled, fin-crested figure carrying a basket of fish through shallow water among ruined columns." width="896" height="1344"></figure><div><p class="eyebrow" style="margin-bottom:10px">${w('appx')}</p><p class="lede" style="font-size:12.5px">${lede()}</p><p class="cap" style="font-style:italic;font-size:12px;color:var(--ink-faint);margin-top:14px">${w('concept')}</p></div></div>`;
   function contents(){
     const D = CX.datos;
     const li = (k, label) => `<li><a href="#codex" data-bk="${escA(k)}"><span>${label}</span><b>${P1(k)}</b></a></li>`;
@@ -1970,20 +2006,26 @@ const Book = (() => {
   }
   const defaultMove = a => { const k = a.moves.findIndex(m => QK[m.q] === 'elite'); return k < 0 ? 0 : k; };
   const selOf = a => sel[a.id] !== undefined ? sel[a.id] : defaultMove(a);
+  // the move under the pointer is read in the large card beside it, so the left page is the archetype's portrait
   function archLeft(a){
     const c = F[a.faccion] ? F[a.faccion].c : 'var(--brass)', po = a.potencia;
+    const nq = q => a.moves.filter(m => (QK[m.q] || 'common') === q).length;
+    const cs = a.moves.map(m => m.c), deck = ['common', 'special', 'elite'].map(q => `<span class="q-${q}"><b>${nq(q)}</b> ${w(q).toLowerCase()}</span>`).join('');
     return `<div class="arch" style="--c:${c}"><div><p class="meta">${FN[a.faccion] || ''} · ${esc(PN[a.provincia] || a.provincia)} · P${a.bloque}</p><h3>${esc(tr(a.n))}</h3></div>
-      <div class="arch-body">${a.vid ? `<div class="arch-vid">${archVideo(a)}</div>` : ''}<div class="arch-tx"><p class="fl">${esc(tr(a.fl))}</p><div class="potb"><b>${w('potency')}</b><strong>${esc(tr(po.n))}</strong><span>${esc(tr(po.canon))}</span><span>${esc(tr(po.duracion))}</span></div></div></div>
-      <div class="rd-slot" data-arch="${a.id}" aria-live="polite">${slotHTML(cxMoveObj(a.moves[selOf(a)], a))}</div></div>`;
+      <div class="arch-body">${a.vid ? `<div class="arch-vid">${archVideo(a)}</div>` : ''}<div class="arch-tx"><p class="fl">${esc(tr(a.fl))}</p>
+      <div class="potb"><b>${w('potency')}</b><strong>${esc(tr(po.n))}</strong><span>${esc(tr(po.canon))}</span><span>${esc(tr(po.duracion))}</span></div>
+      <div class="deckb"><b>${w('deck')}</b><p class="dq">${deck}</p><p class="dc">${w('cost')} ${Math.min(...cs)}–${Math.max(...cs)}</p></div></div></div></div>`;
   }
-  const archRight = a => `<div class="nine"><p class="pg-h">${w('nine')}</p><div class="rd-grid" data-arch="${a.id}" role="group" aria-label="${escA(tr(a.n))}">${a.moves.map((m, j) => miniHTML(cxMoveObj(m, a), j, selOf(a))).join('')}</div></div>`;
+  const archRight = a => `<div class="nine"><p class="pg-h">${w('nine')}</p><div class="rd-grid" data-arch="${a.id}" role="group" aria-label="${escA(tr(a.n))}">${a.moves.map((m, j) => miniHTML(cxMoveObj(m, a), j, sel[a.id] === undefined ? -1 : sel[a.id])).join('')}</div></div>`;
   // equipment is laid out like a card album: each item has a plate, and its combat cards follow it in the same grid,
   // so every page fills row by row (before, one item per row left half of each page empty)
+  // each item is folded until it is clicked; unfolded, its combat cards follow it on the page
   function bkPlate(it, c){
     const meta = [it.provincia ? PN[it.provincia] : FN[it.faccion], w(it.slot), it.tipos.map(w).join(', '), it.entrega ? w(it.entrega) : ''].filter(Boolean).join(' · ');
-    const n = it.cartas.length;
-    return `<article class="bk-ip${n ? '' : ' none'}" data-n="${escA(it.n)}" style="--c:${c}"><div class="ip-art"><img src="codex/img/${it.img}" alt="${escA(lang === 'es' ? it.n : 'Concept art: ' + tr(it.n))}" loading="lazy" width="380" height="570"></div>
-      <div class="ip-tx"><p class="meta">${esc(meta)}</p><h4>${esc(tr(it.n))}</h4>${it.fl ? `<p class="fl">${esc(tr(it.fl))}</p>` : ''}${n ? `<p class="ip-n">${n} ${w(n === 1 ? 'card1' : 'cards')} <span aria-hidden="true">›</span></p>` : ''}</div></article>`;
+    const n = it.cartas.length, on = n && openItem === it.n;
+    const tog = n ? ` role="button" tabindex="0" aria-expanded="${on ? 'true' : 'false'}"` : '';
+    return `<article class="bk-ip${n ? '' : ' none'}${on ? ' open' : ''}" data-n="${escA(it.n)}" style="--c:${c}"${tog}><div class="ip-art"><img src="codex/img/${it.img}" alt="${escA(lang === 'es' ? it.n : 'Concept art: ' + tr(it.n))}" loading="lazy" width="380" height="570"></div>
+      <div class="ip-tx"><p class="meta">${esc(meta)}</p><h4>${esc(tr(it.n))}</h4>${it.fl ? `<p class="fl">${esc(tr(it.fl))}</p>` : ''}${n ? `<p class="ip-n"><i aria-hidden="true"></i>${on ? w('fold') : `${n} ${w(n === 1 ? 'card1' : 'cards')}`}</p>` : `<p class="ip-n off">${w('nocards')}</p>`}</div></article>`;
   }
   const chapterHead = (n, k, extra) => `<div class="bk-ch"><p class="eyebrow">${w('chapter')} ${n}</p><h3>${w(k)}</h3><p class="intro">${w(k + 'intro')}${extra ? ' ' + extra : ''}</p></div>`;
   function itemBlocks(){
@@ -1992,9 +2034,10 @@ const Book = (() => {
       const c = F[g.f] ? F[g.f].c : 'var(--brass)';
       out.push({head: true, key: 'g-' + g.key, html: () => `<div class="bk-gh" style="--c:${c}"><h4>${groupTitle(g)}</h4><p>P${g.tier} · ${FN[g.f] || ''}</p></div>`});
       g.items.forEach(it => {
-        out.push({key: 'i-' + it.n, lead: it.cartas.length > 0, html: () => bkPlate(it, c)});
-        it.cartas.forEach(cd => out.push({follows: true, cont: () => `<div class="bk-cont" style="--c:${c}">${esc(tr(it.n))} · ${w('cont')}</div>`,
-          html: () => cxCard(cd, [w(QK[cd.q] || 'common'), gates(cd.g)].filter(Boolean).join(' · '), true)}));
+        const on = it.cartas.length > 0 && openItem === it.n;
+        out.push({key: 'i-' + it.n, lead: on, html: () => bkPlate(it, c)});
+        if (on) it.cartas.forEach((cd, k) => out.push({follows: true, cont: () => `<div class="bk-cont" style="--c:${c}">${esc(tr(it.n))} · ${w('cont')}</div>`,
+          html: () => cxCard(cd, [w(QK[cd.q] || 'common'), gates(cd.g)].filter(Boolean).join(' · '), true).replace('<div class="card ', `<div style="--c:${c};--k:${k}" class="of card `)}));
       });
     });
     return out;
@@ -2139,10 +2182,10 @@ const Book = (() => {
     if (cx[0] === 'move') {
       const a = CX.datos.arquetipos.find(x => x.id === cx[1]); if (!a) return false;
       sel[a.id] = Math.max(0, a.moves.findIndex(m => m.n === cx[2])); k = 'a-' + a.id;
-    } else k = 'i-' + cx[1];
+    } else { k = 'i-' + cx[1]; if (openItem !== cx[1]) { openItem = cx[1]; build(); } }
     const s = spreadOf(k); if (s === null) return false;
     at = s; paint();
-    el = cx[0] === 'move' ? book.querySelector('.rd-slot .rd-card') : [...book.querySelectorAll('.bk-ip')].find(x => x.dataset.n === cx[1]);
+    el = cx[0] === 'move' ? book.querySelector('.rd-grid .mini[aria-pressed="true"]') : [...book.querySelectorAll('.bk-ip')].find(x => x.dataset.n === cx[1]);
     if (el) { el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash'); }
     return true;
   }
@@ -2154,10 +2197,27 @@ const Book = (() => {
       g.querySelectorAll('.mini').forEach((x, j) => x.setAttribute('aria-pressed', j === sel[id]));
       const slot = book.querySelector(`.rd-slot[data-arch="${id}"]`);
       if (slot) { slot.innerHTML = slotHTML(cxMoveObj(a.moves[sel[id]], a)); inkNow(slot); }
+      if (a) inkNow(m);
       return;
     }
+    const it = e.target.closest('.bk-ip[aria-expanded]'); if (it) { toggleItem(it.dataset.n); return; }
     const t = e.target.closest('[data-bk]'); if (t) { e.preventDefault(); gotoKey(t.dataset.bk); }
   });
+  book.addEventListener('keydown', e => {
+    const it = e.target.closest && e.target.closest('.bk-ip[aria-expanded]');
+    if (it && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); e.stopPropagation(); toggleItem(it.dataset.n, true); }
+  });
+  // one item open at a time: the chapter is laid out again around it and the spread that holds it stays open
+  function toggleItem(n, focus){
+    if (busy) return;
+    openItem = openItem === n ? null : n;
+    build();
+    const s = spreadOf('i-' + n); if (s !== null) at = s;
+    paint();
+    const el = [...book.querySelectorAll('.bk-ip')].find(x => x.dataset.n === n);
+    if (el && focus) el.focus({preventScroll: true});
+    if (openItem) book.querySelectorAll('.card.of').forEach(c => c.classList.add('deal'));
+  }
   tabs.addEventListener('click', e => { const b = e.target.closest('button[data-ch]'); if (!b) return; const c = chapters.find(x => x.id === b.dataset.ch); if (c) flipTo(Math.floor(c.page / 2)); });
   prev.addEventListener('click', () => flipTo(at - 1));
   next.addEventListener('click', () => flipTo(at + 1));
@@ -2170,10 +2230,9 @@ const Book = (() => {
   return {layout, open, relang, reveal, usable};
 })();
 
-/* ---------- a card under the pointer is shown large beside it (mouse only) ---------- */
+/* ---------- a card under the pointer is shown large beside it (a tap or the keyboard does the same) ---------- */
 (() => {
-  let fine = false; try { fine = matchMedia('(hover: hover) and (pointer: fine)').matches; } catch(e) {}
-  const book = $('#book'); if (!fine || !book) return;
+  const book = $('#book'); if (!book) return;
   const cz = document.createElement('div'); cz.className = 'cz'; cz.setAttribute('aria-hidden', 'true'); document.body.appendChild(cz);
   let cur = null, hideT = 0;
   const SEL = '.card, .mini, .rd-card, .bk-ip';
@@ -2205,13 +2264,30 @@ const Book = (() => {
     place(el); cz.classList.add('on');
   }
   function hide(){ cur = null; cz.classList.remove('on'); }
-  book.addEventListener('pointerover', e => { const el = e.target.closest(SEL); if (el && el !== cur) show(el); });
-  book.addEventListener('pointerout', e => {
-    const el = e.target.closest(SEL); if (!el || (e.relatedTarget && el.contains(e.relatedTarget))) return;
-    hideT = setTimeout(hide, 60);
+  let waitT = 0;
+  book.addEventListener('pointerover', e => {
+    if (e.pointerType !== 'mouse') return;
+    const el = e.target.closest(SEL); if (!el || el === cur) return;
+    clearTimeout(waitT);
+    // an item plate is also a button: its large view waits a moment, so a quick click to unfold it is not covered
+    if (el.classList.contains('bk-ip')) { waitT = setTimeout(() => { if (el.isConnected && el.matches(':hover')) show(el); }, 420); return; }
+    show(el);
   });
+  book.addEventListener('pointerout', e => {
+    if (e.pointerType !== 'mouse') return;
+    const el = e.target.closest(SEL); if (!el || (e.relatedTarget && el.contains(e.relatedTarget))) return;
+    clearTimeout(waitT); hideT = setTimeout(hide, 60);
+  });
+  // a finger has no hover: a tap on a card shows it, a second tap or a tap elsewhere puts it away
+  book.addEventListener('pointerup', e => {
+    if (e.pointerType === 'mouse') return;
+    const el = e.target.closest('.card, .mini'); if (!el) { hide(); return; }
+    if (el === cur) hide(); else show(el);
+  });
+  document.addEventListener('pointerdown', e => { if (cur && e.pointerType !== 'mouse' && !book.contains(e.target)) hide(); });
+  book.addEventListener('focusin', e => { const el = e.target.closest('.mini, .bk-ip'); if (el) show(el); });
+  book.addEventListener('focusout', () => { hideT = setTimeout(hide, 60); });
   addEventListener('scroll', hide, {passive: true});
-  book.addEventListener('click', () => setTimeout(() => { if (cur && cur.isConnected) show(cur); }, 0));
   // a page turn takes away what was under the pointer
   new MutationObserver(() => { if (cur && !cur.isConnected) hide(); }).observe(book, {childList: true, subtree: true});
 })();
@@ -2365,6 +2441,58 @@ const Opening = (() => {
 Stage.apply();
 Opening.fit();
 let ofz = 0; addEventListener('resize', () => { clearTimeout(ofz); ofz = setTimeout(Opening.fit, 140); });
+
+/* ---------- scroll reveal: each block slides in from its own side when it comes into view, every time ---------- */
+const Reveal = (() => {
+  // [selector, direction, stagger?]: l = from the left, r = from the right, u = from below (from above when scrolling up), z = grows into place
+  const RULES = [
+    ['.sec.side.right > .art', 'r'], ['.sec.side.left > .art', 'l'],
+    ['.sec.side.right > .folio', 'l'], ['.sec.side.left > .folio', 'r'],
+    ['#top .title > h1', 'l'], ['#top .title > .sub', 'u'], ['#top .title > .by', 'u'], ['#top .facts > li', 'u', 1], ['#top .opening', 'r'],
+    ['.atlas > .map-col', 'l'], ['.atlas > .panel', 'r'],
+    ['#codex > .book-wrap', 'z'], ['#codex > .cx-scroll', 'u'], ['#contact > .folio', 'z'],
+    ['html:not(.wide) .sec.full > .art', 'z'],
+    ['.folio .sec-head', 'u'], ['.col-a > .leaves-nav', 'l'], ['.col-a > .eras-nav', 'l'],
+    ['.col-b > .lede', 'u'], ['.col-b > .leaves', 'u'], ['.col-b > .wip', 'u'], ['.col-b > .arc-epi', 'u'], ['.col-b > .arc-hint', 'u'],
+    ['.map-col > .map', 'z'], ['.map-col > .legend', 'u'], ['.map-col > .chips', 'u'],
+    ['.making .who > div', 'u', 1], ['.making .tools > *', 'u', 1], ['.contact > *', 'u', 1],
+    ['#era-box > .era-h', 'u'], ['#era-box .tl > li', 'l', 1], ['#era-box > .era-next', 'u'], ['#items > .itemcard', 'u', 1]
+  ];
+  const DYN = '#era-box, #items';
+  let io = null, out = null;
+  function tag(el, d){
+    if (el.classList.contains('rv')) return;
+    el.classList.add('rv', 'rv-' + d);
+    // anything already above the screen comes back from above
+    const r = el.getBoundingClientRect(); if (r.bottom < 0) el.dataset.top = '';
+    io.observe(el); out.observe(el);
+  }
+  function scan(root){
+    RULES.forEach(([sel, d]) => {
+      (root === document ? document.querySelectorAll(sel) : root.querySelectorAll(sel)).forEach(el => tag(el, d));
+    });
+  }
+  function init(){
+    if (!('IntersectionObserver' in window)) return;
+    io = new IntersectionObserver(es => {
+      const now = es.filter(e => e.isIntersecting && !e.target.classList.contains('rv-in')).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top || a.boundingClientRect.left - b.boundingClientRect.left);
+      now.forEach((e, i) => { e.target.style.setProperty('--rv-d', Math.min(i, 9) * 70 + 'ms'); e.target.classList.add('rv-in'); });
+    }, {rootMargin: '0px 0px -2% 0px'});  // the waiting offset counts in the measure, so the margin stays small (at -7% the facts under the title never came in)
+    // only once it is wholly off the screen does a block go back to waiting, on the side it left by
+    out = new IntersectionObserver(es => es.forEach(e => {
+      if (e.isIntersecting) return;
+      const el = e.target; el.classList.remove('rv-in');
+      if (e.boundingClientRect.bottom <= 0) el.dataset.top = ''; else delete el.dataset.top;
+    }), {rootMargin: '60px 0px 60px 0px'});
+    document.documentElement.classList.add('rv-on');
+    scan(document);
+    // the archive and the engine rebuild parts of themselves: what they add is revealed too
+    const mo = new MutationObserver(ms => ms.forEach(m => m.addedNodes.forEach(n => { if (n.nodeType === 1 && n.closest && n.closest(DYN)) scan(n.closest(DYN).parentNode); })));
+    document.querySelectorAll(DYN).forEach(b => mo.observe(b, {childList: true, subtree: true}));
+  }
+  return {init, scan};
+})();
+Reveal.init();
 /* the bar wraps to two rows on a phone: the diamond that would open the second row is hidden */
 function navRows(){ let t = null; document.querySelectorAll('.bar li').forEach(li => { li.classList.remove('rs'); }); document.querySelectorAll('.bar li').forEach(li => { const y = li.offsetTop; li.classList.toggle('rs', t !== null && Math.abs(y - t) > 4); t = y; }); }
 navRows(); let nrz = 0; addEventListener('resize', () => { clearTimeout(nrz); nrz = setTimeout(navRows, 120); });
