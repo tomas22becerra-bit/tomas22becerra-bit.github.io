@@ -64,7 +64,7 @@ p{margin:0}
 .lede{color:var(--ink-dim);max-width:64ch}
 
 /* ---------- the bar: near-black, a gilt hairline with an ornament, names set apart by small diamonds ---------- */
-.bar{position:absolute;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;gap:8px 20px;flex-wrap:wrap;
+.bar{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;gap:8px 20px;flex-wrap:wrap;
   padding-block:calc(env(safe-area-inset-top,0px) + 12px) 16px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
   background:linear-gradient(180deg,rgba(6,5,4,.98),rgba(13,10,7,.96))}
 .bar::after{content:"";position:absolute;left:0;right:0;bottom:-12px;height:24px;pointer-events:none;
@@ -89,6 +89,16 @@ p{margin:0}
 .bar ul a[aria-current="page"]::before{opacity:1}
 .bar ul a[aria-current="page"]::after{transform:scaleX(1)}
 @media (max-width:640px){.bar ul a{font-size:.9rem;padding:4px 1px}.bar li+li::before{width:5px;height:5px;margin:0 8px}.bar .mark{font-size:1.6rem}}
+/* on a phone the bar follows the reader: once the page moves it folds into one line, its names a strip you can swipe,
+   the section you are in kept in view (unfolds again at the very top) */
+html:not(.wide){scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px)}
+html.fold:not(.wide) .bar{flex-wrap:nowrap;gap:0 10px;padding-block:calc(env(safe-area-inset-top,0px) + 4px) 4px}
+html.fold:not(.wide) .bar .mark{font-size:1.35rem}
+html.fold:not(.wide) .bar ul{flex:1 1 auto;min-width:0;flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;padding:10px 26px 10px 12px;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 12px,#000 calc(100% - 26px),transparent);mask-image:linear-gradient(90deg,transparent,#000 12px,#000 calc(100% - 26px),transparent)}
+html.fold:not(.wide) .bar ul::-webkit-scrollbar{display:none}
+@media (prefers-reduced-motion:no-preference){html.fold:not(.wide) .bar>*{animation:fold-in .3s ease both}}
+@keyframes fold-in{from{opacity:0}}
 
 /* ---------- the sheet: aged paper with a deckled, slightly scorched edge ---------- */
 .folio,.pg,.cz{
@@ -1961,6 +1971,25 @@ const Embers = (() => {
   return {spawn};
 })();
 
+/* ---------- on a phone the bar folds into one line once the page moves, and keeps the current section in view ---------- */
+const Fold = (() => {
+  const root = document.documentElement, ul = document.querySelector('.bar ul');
+  let f = false;
+  function show(smooth){
+    if (!f || !ul) return;
+    const a = ul.querySelector('a[aria-current]');
+    const x = a ? ul.scrollLeft + a.getBoundingClientRect().left - ul.getBoundingClientRect().left - (ul.clientWidth - a.offsetWidth) / 2 : 0;
+    try { ul.scrollTo({left: Math.max(0, x), behavior: smooth && !reduceMotion ? 'smooth' : 'auto'}); } catch(e) { ul.scrollLeft = Math.max(0, x); }
+  }
+  function check(){
+    const n = !root.classList.contains('wide') && scrollY > 8;
+    if (n === f) return;
+    f = n; root.classList.toggle('fold', f); navRows(); show(false);
+  }
+  addEventListener('scroll', check, {passive: true}); addEventListener('resize', check); check();
+  return {show, check};
+})();
+
 /* ---------- the page on a wide screen: it scrolls, the bar stays, the bar's jumps burn ---------- */
 const INK = '.title > *, .sec-head > *, .opening .text > p, .leaves-nav, .leaf.on > *, .wip, .map, .legend, .chips, .panel-head, .epi, .tabs, .terr, .eras-nav, .arc-epi, .arc-hint, #era-box, .making > *, .contact > *';
 const Stage = (() => {
@@ -1973,6 +2002,7 @@ const Stage = (() => {
   function setNav(id){
     current = id;
     document.querySelectorAll('.bar a[data-go]').forEach(a => { if (a.dataset.go === id && id !== 'top') a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+    Fold.show(true);
   }
   function setHash(id){ try { history.replaceState(null, '', id === 'top' ? location.pathname + location.search : '#' + id); } catch(e) {} }
   // the bar follows the section that crosses the upper third of the screen
@@ -2030,7 +2060,7 @@ const Stage = (() => {
   }
   function apply(){
     const was = on; on = !!(mq && mq.matches);
-    root.classList.toggle('wide', on);
+    root.classList.toggle('wide', on); Fold.check();
     if (on && !was) {
       Book.layout();
       const h = (location.hash || '').slice(1);
