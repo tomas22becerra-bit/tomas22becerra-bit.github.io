@@ -21,14 +21,14 @@
    in the rubric red that signs the rest of the work. */
 :root{
   --paper:#ffffff; --ink:#231b14; --ink-2:#5f5446; --ink-3:#8a7d6c; --rule:#e6dfd5;
-  --rubric:#932c18; --link:#932c18; --focus:#2a4a78;
+  --rubric:#932c18; --link:#932c18; --focus:#2a4a78; --cover-1:#f5dce3;
   --f-body:"Alegreya",Georgia,"Times New Roman",serif;
   --f-sc:"Alegreya SC","Alegreya",Georgia,serif;
   --f-label:"Alegreya Sans SC","Alegreya Sans",system-ui,sans-serif;
   --measure:34rem;
 }
 @media (prefers-color-scheme:dark){
-  :root{--paper:#15120f; --ink:#ece4d8; --ink-2:#b3a796; --ink-3:#8c8172; --rule:#2e2924; --rubric:#e07b5f; --link:#e8907a; --focus:#9db8e6}
+  :root{--paper:#15120f; --ink:#ece4d8; --ink-2:#b3a796; --ink-3:#8c8172; --rule:#2e2924; --rubric:#e07b5f; --link:#e8907a; --focus:#9db8e6; --cover-1:#2b1a1f}
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:24px;-webkit-text-size-adjust:100%}
@@ -66,9 +66,9 @@ h1 .pil{color:var(--rubric);font-weight:400;margin-right:.08em}
 .label{font-family:var(--f-label);font-weight:500;font-size:.78rem;letter-spacing:.12em;color:var(--ink-3);margin-bottom:8px}
 
 /* the stories */
-.stories{display:grid;gap:0;padding-block:clamp(34px,6vw,64px) 0}
-.story{display:grid;gap:18px;padding-block:clamp(38px,6vw,64px);border-top:1px solid var(--rule)}
-.story:first-child{border-top:0;padding-top:0}
+.stories{display:grid;gap:0;padding-block:0}
+.story{display:grid;gap:18px;padding-block:clamp(88px,16vh,160px)}
+.story:last-child{padding-bottom:max(clamp(88px,16vh,160px),30vh)}
 .story .side{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin-bottom:-8px}
 .story .side .note{flex-basis:100%;order:3}
 .story .num{font-family:var(--f-label);font-weight:500;font-size:.82rem;letter-spacing:.08em;color:var(--rubric);font-variant-numeric:tabular-nums}
@@ -92,6 +92,37 @@ h1 .pil{color:var(--rubric);font-weight:400;margin-right:.08em}
 .links a:hover,.btn:hover,.links a:focus-visible,.btn:focus-visible{background:color-mix(in srgb,var(--rubric) 9%,transparent)}
 .mail{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
 .mail code{font-family:var(--f-body);font-size:1rem;color:var(--ink);user-select:all;overflow-wrap:anywhere}
+
+/* the stories in colour (built by the script at the end; without it the page stays white paper). Each story is a field of
+   colour from edge to edge. It opens in the story's mask and turns, as you read, into its truth, arriving at the paragraph
+   where the mask falls (data-turn; otherwise the last one). Its drawing is made in code for that story and changes along it,
+   so the shapes under that paragraph are already the truth's; it is lighter behind the text and fuller at the edges.
+   Between two stories the colours melt over the empty space; the opening is the paper before them, warming into the first.
+   Each field has its own ink: dark on the light ones, light on the dark ones. Palettes and drawings come from campos.py. */
+.story{position:relative}
+html:not(.fx) .story+.story{border-top:1px solid var(--rule)}
+.wrap{position:relative;z-index:1}
+.fields{position:absolute;left:0;top:0;width:100%;z-index:0;pointer-events:none}
+.field{position:absolute;left:0;width:100%;background-color:var(--b0);background-color:color-mix(in oklab,var(--b0),var(--b1) calc(var(--p,0) * 100%));
+  -webkit-mask-image:linear-gradient(180deg,transparent,#000 var(--fi,0px),#000 calc(100% - var(--fo,0px)),transparent);
+          mask-image:linear-gradient(180deg,transparent,#000 var(--fi,0px),#000 calc(100% - var(--fo,0px)),transparent)}
+.field svg{position:absolute;left:0;top:0;width:100%;height:100%;will-change:transform;color:var(--t0);color:color-mix(in oklab,var(--t0),var(--t1) calc(var(--q,0) * 100%))}
+.field.cover{background:linear-gradient(180deg,var(--paper) 0,var(--paper) 18%,var(--cover-1) 100%)}
+.field.cover svg{color:var(--ink)}
+html.fx [data-tone]{color:var(--ink)}
+html.fx [data-tone="light"]{--ink:#241a13;--ink-2:#4a3d31;--ink-3:#56493d;--rule:rgba(36,26,19,.16);--focus:#2a4a78}
+html.fx [data-tone="dark"]{--ink:#f0e7d9;--ink-2:#d3c6b4;--ink-3:#ad9f8c;--rule:rgba(240,231,217,.18);--focus:#bcd2f2}
+html.fx .story{--rubric:var(--a0);--rubric:color-mix(in oklab,var(--a0),var(--a1) calc(var(--p,0) * 100%));--link:var(--rubric)}
+html.fx .margin[data-tone="light"]{--rubric:#932c18}
+html.fx .margin[data-tone="dark"]{--rubric:#e8907a}
+html.fx .margin .toc a,html.fx .margin .toc .n{transition:color .4s ease}
+#the-lever,[data-for="the-lever"]{--b0:#f5dce3;--b1:#d6bfac;--t0:#d9a0b2;--t1:#ab8a70;--a0:#a63053;--a1:#7b2216}
+#champagne,[data-for="champagne"]{--b0:#3a1922;--b1:#170b0d;--t0:#7a4a3a;--t1:#682722;--a0:#e0bd76;--a1:#df4d3f}
+#a-well-kept-secret,[data-for="a-well-kept-secret"]{--b0:#ead6ae;--b1:#f3efe7;--t0:#c8a66c;--t1:#c9bfac;--a0:#8a4a15;--a1:#716658}
+#the-guillotine,[data-for="the-guillotine"]{--b0:#2a3036;--b1:#2b0e0c;--t0:#525d68;--t1:#6a271f;--a0:#aab6c2;--a1:#e05d46}
+#the-expedition,[data-for="the-expedition"]{--b0:#d6e5c9;--b1:#e4e2dc;--t0:#9fbf88;--t1:#bdb8ac;--a0:#36702f;--a1:#7d6126}
+#sleeper,[data-for="sleeper"]{--b0:#161815;--b1:#0c1916;--t0:#3a4a37;--t1:#1f5240;--a0:#8fb36c;--a1:#7bd6a8}
+#instructions,[data-for="instructions"]{--b0:#121c27;--b1:#22130b;--t0:#34495f;--t1:#7a5522;--a0:#93b4d3;--a1:#e5a852}
 
 /* wide: a margin column that keeps the contents in view */
 @media (min-width:980px){
@@ -166,7 +197,7 @@ html.anim .rv.in{opacity:1;transition-delay:calc(var(--i,0) * 70ms)}
     </aside>
 
     <div class="stories">
-      <article class="story" id="the-lever" aria-labelledby="h-the-lever">
+      <article class="story" id="the-lever" data-tone="light" aria-labelledby="h-the-lever">
         <div class="side"><p class="num">¶ 1</p><p class="orig">From the Spanish · <i lang="es">Un regalo para mi hija</i></p></div>
         <h2 id="h-the-lever">The Lever</h2>
         <div class="text">
@@ -178,12 +209,12 @@ html.anim .rv.in{opacity:1;transition-delay:calc(var(--i,0) * 70ms)}
           <p>The remark offended him. Unlike them, he did his duty. “A garden for the children,” the daydream resumed. He had promised so much, and he was delivering. The new car was on its way, and the transfer to the capital, almost secured. A better life. He allowed himself a smile as he tightened the mechanism again.</p>
           <p>“I beg you,” the man cried.</p>
           <p>The officer, indifferent, pulled harder on the lever.</p>
-          <p>The leather strap gave way with a dry snap, followed by a choked scream. He stood there for a moment, watching the motionless body.</p>
+          <p data-turn>The leather strap gave way with a dry snap, followed by a choked scream. He stood there for a moment, watching the motionless body.</p>
           <p>“A big garden, where the children can play,” the officer thought.</p>
         </div>
       </article>
 
-      <article class="story" id="champagne" aria-labelledby="h-champagne">
+      <article class="story" id="champagne" data-tone="dark" aria-labelledby="h-champagne">
         <div class="side"><p class="num">¶ 2</p><p class="orig">From the Spanish · <i lang="es">¿Champagne?</i></p></div>
         <h2 id="h-champagne">Champagne?</h2>
         <div class="text">
@@ -209,13 +240,13 @@ html.anim .rv.in{opacity:1;transition-delay:calc(var(--i,0) * 70ms)}
           <p>“It’s been a success, my friend.”</p>
           <p>I poured myself a glass. Sat down in the black armchair. It smelled clean. The bubbles in the sparkling wine burst in silence.</p>
           <p>“Champagne?”</p>
-          <p>Pedro didn’t answer.</p>
+          <p data-turn>Pedro didn’t answer.</p>
           <p>I looked at him and thought:</p>
           <p>“How could he?”</p>
         </div>
       </article>
 
-      <article class="story" id="a-well-kept-secret" aria-labelledby="h-a-well-kept-secret">
+      <article class="story" id="a-well-kept-secret" data-tone="light" aria-labelledby="h-a-well-kept-secret">
         <div class="side"><p class="num">¶ 3</p><p class="orig">From the Spanish · <i lang="es">Un secreto bien guardado</i></p></div>
         <h2 id="h-a-well-kept-secret">A Well-Kept Secret</h2>
         <div class="text">
@@ -225,7 +256,7 @@ html.anim .rv.in{opacity:1;transition-delay:calc(var(--i,0) * 70ms)}
         </div>
       </article>
 
-      <article class="story" id="the-guillotine" aria-labelledby="h-the-guillotine">
+      <article class="story" id="the-guillotine" data-tone="dark" aria-labelledby="h-the-guillotine">
         <div class="side"><p class="num">¶ 4</p><p class="orig">From the Spanish · <i lang="es">La guillotina</i></p></div>
         <h2 id="h-the-guillotine">The Guillotine</h2>
         <div class="text">
@@ -234,7 +265,7 @@ html.anim .rv.in{opacity:1;transition-delay:calc(var(--i,0) * 70ms)}
         </div>
       </article>
 
-      <article class="story" id="the-expedition" aria-labelledby="h-the-expedition">
+      <article class="story" id="the-expedition" data-tone="light" aria-labelledby="h-the-expedition">
         <div class="side"><p class="num">¶ 5</p><p class="orig">From the Spanish · <i lang="es">La expedición</i></p><p class="note">Months later, the Father’s Sigh became the seed of the religion of the Father in <a href="./">Kingdom of None</a>.</p></div>
         <h2 id="h-the-expedition">The Expedition</h2>
         <div class="text">
@@ -242,7 +273,7 @@ html.anim .rv.in{opacity:1;transition-delay:calc(var(--i,0) * 70ms)}
         </div>
       </article>
 
-      <article class="story" id="sleeper" aria-labelledby="h-sleeper">
+      <article class="story" id="sleeper" data-tone="dark" aria-labelledby="h-sleeper">
         <div class="side"><p class="num">¶ 6</p><p class="orig">Written in English</p></div>
         <h2 id="h-sleeper">Sleeper</h2>
         <div class="text">
@@ -261,7 +292,7 @@ html.anim .rv.in{opacity:1;transition-delay:calc(var(--i,0) * 70ms)}
         </div>
       </article>
 
-      <article class="story" id="instructions" aria-labelledby="h-instructions">
+      <article class="story" id="instructions" data-tone="dark" aria-labelledby="h-instructions">
         <div class="side"><p class="num">¶ 7</p><p class="orig">Written in English</p></div>
         <h2 id="h-instructions">Instructions</h2>
         <div class="text">
@@ -312,6 +343,337 @@ html.anim .rv.in{opacity:1;transition-delay:calc(var(--i,0) * 70ms)}
                                       { rootMargin: '-3% 0px -7% 0px', threshold: 0 });
   els.forEach(el => io.observe(el));
   document.documentElement.classList.add('anim');
+})();
+</script>
+<script>
+/* the stories in colour: a field behind each story (and one behind the opening), where it sits, what is drawn on it,
+   and how far it has turned from mask to truth */
+(() => {
+  const stories = [...document.querySelectorAll('.story[data-tone]')];
+  const masks = window.CSS && (CSS.supports('mask-image', 'none') || CSS.supports('-webkit-mask-image', 'none'));
+  if (!stories.length || !masks) return;
+
+  /* ---- drawing tools: a seeded hand, a slow noise, and an ink that groups strokes by strength ---- */
+  const TAU = Math.PI * 2, f = v => Math.round(v * 10) / 10, cl = v => v < 0 ? 0 : v > 1 ? 1 : v;
+  const lerp = (a, b, t) => a + (b - a) * t, ss = t => (t = cl(t), t * t * (3 - 2 * t));
+  let WARP = null;
+  const P = (x, y) => { if (WARP) [x, y] = WARP(x, y); return f(x) + ' ' + f(y); }, seg = (x1, y1, x2, y2) => 'M' + P(x1, y1) + 'L' + P(x2, y2);
+  const ring = (x, y, r) => { const R = f(r); return 'M' + P(x - R, y) + 'a' + R + ' ' + R + ' 0 1 0 ' + f(2 * R) + ' 0a' + R + ' ' + R + ' 0 1 0 ' + f(-2 * R) + ' 0'; };
+  const rng = seed => { let s = seed >>> 0; return () => { s = (s + 0x6D2B79F5) >>> 0; let t = s; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; };
+  const vnoise = r => { const T = new Float32Array(1024); for (let i = 0; i < 1024; i++) T[i] = r();
+    const h = (x, y) => T[(Math.imul(x, 374761393) ^ Math.imul(y, 668265263)) >>> 22];
+    return (x, y) => { const xi = Math.floor(x), yi = Math.floor(y), u = ss(x - xi), v = ss(y - yi), a = h(xi, yi), b = h(xi + 1, yi), c = h(xi, yi + 1), d = h(xi + 1, yi + 1);
+      return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v; }; };
+  const Ink = st => {
+    const L = new Map();
+    const add = (k, a, d) => { a = Math.round(cl(a) * 10) / 10; if (!a) return; const key = k + a; let e = L.get(key); if (!e) L.set(key, e = [k, a, []]); e[2].push(d); };
+    // a line drawn in pieces of two strokes, each as strong as its middle allows; pieces of equal strength stay one line
+    const strand = (k, pts, af) => { let run = null, ra = -1;
+      for (let i = 0; i + 1 < pts.length; i += 2) { const q = pts.slice(i, i + 3), a = Math.round(cl(af(q[1][0], q[1][1])) * 10) / 10;
+        if (a !== ra) { if (run && ra > 0) add(k, ra, 'M' + run.join('L')); run = [P(q[0][0], q[0][1])]; ra = a; }
+        for (let j = 1; j < q.length; j++) run.push(P(q[j][0], q[j][1])); }
+      if (run && ra > 0) add(k, ra, 'M' + run.join('L')); };
+    const svg = () => { let o = ''; L.forEach(([k, a, d]) => { const s = st[k];
+      o += '<path d="' + d.join('') + '" opacity="' + Math.round(s.o * a * 100) / 100 + '"' + (s.fill ? ' fill="currentColor"' :
+        ' fill="none" stroke="currentColor" stroke-width="' + s.w + '" stroke-linecap="round" stroke-linejoin="round"' + (s.da ? ' stroke-dasharray="' + s.da + '"' : '')) + '/>'; });
+      return o; };
+    return {add, strand, svg};
+  };
+
+  /* ---- the drawings: g.m(y) is how far the story has turned at height y (0 mask, 1 truth); g.dim(x) is lighter behind the text ---- */
+  const STYLE = {
+    'cover':              {a: {w: 2.1, o: .1}},
+    'the-lever':          {a: {w: 1.3, o: 1}, b: {w: 1, o: .85}, c: {w: 1, o: .6}, d: {w: 1.1, o: .6}},
+    'champagne':          {a: {w: 1.1, o: 1}, b: {w: 1, o: .55}, c: {w: .9, o: .5}},
+    'a-well-kept-secret': {a: {w: 1.2, o: 1}, b: {w: 1, o: .6, da: '1.5 5'}},
+    'the-guillotine':     {a: {w: 1, o: 1}, b: {w: 6, o: .18}, c: {w: .9, o: .75}},
+    'the-expedition':     {a: {w: 1.15, o: 1}, b: {fill: 1, o: .85}, c: {w: 1.1, o: .55, da: '3 5'}, d: {w: .8, o: .7}},
+    'sleeper':            {a: {w: 1, o: 1}, b: {w: 1, o: .5}, c: {w: 1, o: .5}},
+    'instructions':       {a: {w: 1.1, o: 1}, b: {w: .9, o: .6}, c: {w: 1.1, o: .9}},
+  };
+  const DRAW = {
+    // the opening: paragraphs of lines that stop before the end of the line; lower down they lose their order and bend
+    'cover'(g){
+      const {W, H, r, ink} = g, lh = 14;
+      let y = g.ya;
+      while (y < H - 6) {
+        const lines = 2 + (r() * 6 | 0), indent = 14 + r() * 26;
+        for (let i = 0; i < lines && y < H - 6; i++, y += lh) {
+          const dis = ss((y / H - .3) / .7), last = i === lines - 1;
+          const end = W * (last ? lerp(.12, .55, r()) : lerp(.6, .94, r()));
+          let x = (i ? 6 : indent) + (r() - .5) * 22 * dis;
+          while (x < end) {
+            const L = 5 + r() * 32, x2 = Math.min(end, x + L), keep = r() > .05 + .3 * dis;
+            const ang = (r() - .5) * .7 * dis, bend = dis * dis * (x2 - x) * .45 * r(), yy = y + (r() - .5) * 3 * dis, a = lerp(.6, 1, r());
+            if (keep && x2 - x > 2) { const y2 = yy + (x2 - x) * Math.tan(ang), mx = (x + x2) / 2; ink.add('a', g.dim(mx) * a, 'M' + P(x, yy) + 'Q' + P(mx, (yy + y2) / 2 - bend) + ' ' + P(x2, y2)); }
+            x = x2 + 4 + r() * 4;
+          }
+        }
+        y += lh * (.6 + r() * 1.2);
+      }
+    },
+    // the fair's scallops flatten and tilt into the strap's saddle stitch; the rings of the fair give way to the leather's grain
+    'the-lever'(g){
+      const {W, H, r, n, ink} = g, cw = 26;
+      for (let i = 0, k = Math.ceil(W * H / 160000); i < k; i++) {
+        const cx = r() * W, cy = r() * H, a = 1 - g.m(cy);
+        for (let R = 40 + r() * 20; R < 170; R += 20 + r() * 6) ink.add('d', a * g.dim(cx), ring(cx, cy, R));
+      }
+      let y = 6, row = 0;
+      while (y < H + 14) {
+        const m = g.m(y), stitch = row % 4 === 1, off = (row % 2) * cw / 2 * (1 - m);
+        for (let x = -cw + off; x < W + cw; x += cw) {
+          const j1 = r(), j2 = r(), j3 = r(), j4 = r(), j5 = r();
+          if (j5 < .035 + .12 * cl((n(x / 170, y / 170) - .6) * 3)) continue;
+          const cx = x + (j1 - .5) * 1.6, cy = y + (j2 - .5) * 1.6;
+          const w = lerp(cw, cw * .34, m), ang = lerp(0, -.62, m) + (j3 - .5) * .14, h = cw / 2 * (1 - m) * lerp(.9, 1.06, j4);
+          const dx = Math.cos(ang) * w / 2, dy = Math.sin(ang) * w / 2, nx = Math.sin(ang), ny = -Math.cos(ang);
+          ink.add('a', g.dim(cx) * (stitch ? 1 : 1 - .85 * m), 'M' + P(cx - dx, cy - dy) + 'Q' + P(cx + nx * 2 * h, cy + ny * 2 * h) + ' ' + P(cx + dx, cy + dy));
+        }
+        if (stitch && m > .02) for (const e of [-8.5, 8.5]) {
+          const pts = []; for (let x = -6; x <= W + 30; x += 24) pts.push([x, y + e + (n(x / 80, (y + e) / 37) - .5) * 2.4]);
+          ink.strand('b', pts, px => m * g.dim(px));
+        }
+        y += lerp(13, 15, m); row++;
+      }
+      for (let i = 0, k = W * H / 240 | 0; i < k; i++) {
+        const x = r() * W, y = r() * H, a = r() * TAU, L = 1.2 + r() * 2.2, m = g.m(y);
+        if (r() > m) continue;
+        ink.add('c', g.dim(x) * m, seg(x, y, x + Math.cos(a) * L, y + Math.sin(a) * L));
+      }
+    },
+    // strings of bubbles rising; they stretch, slant and scatter into rain, and the bokeh of the room into sheets of it
+    'champagne'(g){
+      const {W, H, r, ink} = g, th = .3;
+      const drop = (x, y, rad, m, a) => {
+        const t = th * m, rx = rad * (1 - .86 * m), ry = rad * (1 + 3.4 * m), ux = -Math.sin(t), uy = Math.cos(t);
+        const x1 = x - ux * ry, y1 = y - uy * ry, x2 = x + ux * ry, y2 = y + uy * ry;
+        if (rx < .8) { ink.add('a', a, seg(x1, y1, x2, y2)); return; }
+        const A = 'A' + f(rx) + ' ' + f(ry) + ' ' + f(t * 180 / Math.PI) + ' 0 1 ';
+        ink.add('a', a, 'M' + P(x1, y1) + A + P(x2, y2) + A + P(x1, y1));
+      };
+      for (let cx0 = r() * 26; cx0 < W + 10; cx0 += 28 + r() * 44) {
+        let y = r() * 60;
+        while (y < H + 20) {
+          const L = 60 + r() * 170, gx = cx0 + (r() - .5) * 12, ph = r() * TAU;
+          for (let yy = y; yy < y + L; yy += 9 + r() * 15) {
+            const t = (yy - y) / L, m = g.m(yy), rad = lerp(4.8, 1.1, t) * lerp(.8, 1.15, r()), rx = r() * W, x = lerp(gx + Math.sin(yy / 21 + ph) * 2.6, rx, m);
+            drop(x, yy, rad, m, g.dim(x) * lerp(.75, 1, r()));
+          }
+          y += L + 24 + r() * 90;
+        }
+      }
+      for (let i = 0, k = W * H / 32000 | 0; i < k; i++) { const cx = r() * W, cy = r() * H, R = 14 + r() * 30; ink.add('b', (1 - g.m(cy)) * g.dim(cx), ring(cx, cy, R)); }
+      for (let i = 0, k = W * H / 24000 | 0; i < k; i++) {
+        const x = r() * W, y = r() * H, L = 90 + r() * 200, m = g.m(y);
+        ink.add('c', m * g.dim(x), seg(x, y, x - Math.sin(th) * L, y + Math.cos(th) * L));
+      }
+    },
+    // ripples in the sand, after Riley; the wind drops, the lines break into dashes and the dashes wear into grains,
+    // and where the story ends the sun stays fixed in a halo of broken rings
+    'a-well-kept-secret'(g){
+      const {W, H, r, n, ink} = g, st = Math.max(6, W / 160);
+      for (let y0 = 4; y0 < H + 10; y0 += 11) {
+        const m = g.m(y0), A = (2 + 2.8 * n(y0 / 150, 3.1)) * (1 - .88 * m), lam = 85 + 80 * n(y0 / 280, 7.7), ph = n(y0 / 60, 1.3) * TAU * 2;
+        const Y = x => y0 + A * (Math.sin(TAU * x / lam + ph) + .34 * Math.sin(2 * TAU * x / lam + ph * 1.7));
+        let x = -8;
+        while (x < W + 8) {
+          const run = m < .03 ? W + 20 : lerp(170, 1, Math.pow(m, .6)) * lerp(.4, 1.6, r());
+          const gap = lerp(0, 7, m) * lerp(.4, 1.7, r()) + (r() < .04 + .12 * m ? 8 + r() * 34 : 0);
+          const sc = m * 3.2, ox = (r() - .5) * sc, oy = (r() - .5) * sc, pts = [], step = Math.min(st, Math.max(run / 2, .5));
+          for (let xx = x; xx <= x + run + .01; xx += step) pts.push([xx + ox, Y(xx) + oy]);
+          if (pts.length < 2) pts.push([pts[0][0] + .5, pts[0][1]]);
+          ink.strand('a', pts, px => g.dim(px));
+          x += run + gap;
+        }
+      }
+      const cx = W * .76, cy = Math.max(60, g.yb - 140);
+      for (let R = 22; R < Math.min(280, W * .5); R += 12) ink.add('b', g.m(cy) * g.dim(cx + R) * (1 - R / 300), ring(cx, cy, R));
+    },
+    // an engraving: the clean diagonals of the blade fill in with finer hatching, waver like a tide, and at the end cross
+    'the-guillotine'(g){
+      const {W, H, r, ink} = g, S = 9;
+      const lv = [() => 1, m => ss((m - .12) / .35), m => ss((m - .45) / .4)], y0b = g.ya + 40 - W * .21;
+      const blade = (x, y) => { const d = y - (y0b + x * .42); return ss((d + 90) / 40) * ss((90 - d) / 40) * (1 - g.m(y)); };
+      const mm = (x, y) => Math.min(1, g.m(y) + .62 * blade(x, y));
+      for (let c = -S * 4, k = -4; c < W + H; c += S, k++) {
+        const L = k % 4 === 0 ? 0 : k % 2 === 0 ? 1 : 2, ph = r() * TAU, pts = [];
+        const y0 = Math.max(-10, c - W - 10), y1 = Math.min(H + 10, c + 10);
+        if (y1 <= y0) continue;
+        for (let y = y0; y <= y1; y += 18) { const w = 2.6 * g.m(y) * Math.sin(y / 31 + ph) + (r() - .5) * .8; pts.push([c - y + w * .7, y + w * .7]); }
+        ink.strand('a', pts, (px, py) => lv[L](mm(px, py)) * g.dim(px));
+      }
+      for (let c = -H - 20; c < W + 20; c += 18) {
+        const pts = [], y0 = Math.max(-10, -c - 10), y1 = Math.min(H + 10, W - c + 10);
+        if (y1 <= y0) continue;
+        for (let y = y0; y <= y1; y += 20) pts.push([y + c + (r() - .5) * .8, y]);
+        ink.strand('c', pts, (px, py) => ss((g.m(py) - .72) / .28) * g.dim(px));
+      }
+      for (let i = 0; i < 5; i++) {
+        const c = r() * (W + H), pts = [];
+        for (let y = Math.max(0, c - W); y <= Math.min(H, c); y += 30) pts.push([c - y, y]);
+        ink.strand('b', pts, (px, py) => (1 - g.m(py)) * g.dim(px));
+      }
+    },
+    // leaves and dew, turning in a slow current; they flatten and lie down into the strata of the geyser's steam
+    'the-expedition'(g){
+      const {W, H, r, n, ink} = g, C = 23;
+      for (let y = -C; y < H + C; y += C) for (let x = -C; x < W + C; x += C) {
+        const j = [r(), r(), r(), r(), r(), r()], cx = x + j[0] * C, cy0 = y + j[1] * C, m = g.m(cy0);
+        if (j[2] > .35 + .6 * n(cx / 140, cy0 / 140)) continue;
+        const L = (9 + j[3] * 15) * (1 + 2.4 * m), th = lerp((n(cx / 110 + 9, cy0 / 110) - .5) * Math.PI * 1.6 + (j[4] - .5) * .5, 0, m);
+        const b = L * .42 * (1 - m), cy = lerp(cy0, Math.round(cy0 / 8) * 8, m);
+        const ux = Math.cos(th) * L / 2, uy = Math.sin(th) * L / 2, nx = -Math.sin(th) * b, ny = Math.cos(th) * b, a = g.dim(cx) * lerp(.7, 1, j[5]);
+        ink.add('a', a, 'M' + P(cx - ux, cy - uy) + 'Q' + P(cx + nx, cy + ny) + ' ' + P(cx + ux, cy + uy) + 'Q' + P(cx - nx, cy - ny) + ' ' + P(cx - ux, cy - uy));
+        if (m < .95) ink.add('d', a * (1 - m), seg(cx - ux * .8, cy - uy * .8, cx + ux * .8, cy + uy * .8));
+      }
+      for (let i = 0, k = W * H / 900 | 0; i < k; i++) { const x = r() * W, y = r() * H, R = .9 + r() * 1.1; ink.add('b', (1 - g.m(y)) * g.dim(x), ring(x, y, R)); }
+      const cx = W * .72, base = Math.min(H - 20, g.yb + 40), a0 = g.m(base) * g.dim(cx);
+      for (let i = 0; i < 17; i++) { const cy = base - i * 30, R = 16 + i * 10; ink.add('c', a0 * (1 - i / 19), 'M' + P(cx - R, cy) + 'A' + f(R) + ' ' + f(R) + ' 0 0 1 ' + P(cx + R, cy)); }
+    },
+    // rings on black water; the rings fall onto a grid of pixels and the swell gives way to the interface's scanlines
+    'sleeper'(g){
+      const {W, H, r, ink} = g, C = 120;
+      for (let y = -C / 2; y < H + C / 2; y += C) for (let x = -C / 2; x < W + C / 2; x += C) {
+        const cx = x + r() * C, cy = y + r() * C, k = 2 + (r() * 3 | 0), m = g.m(cy), s = lerp(0, 7, m);
+        let R = 4 + r() * 10;
+        for (let i = 0; i < k; i++, R += 8 + r() * 9) {
+          const a = g.dim(cx) * (1 - i / (k + 1) * .6);
+          if (s < 1.2) { ink.add('a', a, ring(cx, cy, R)); continue; }
+          const N = Math.max(20, R * 1.3 | 0), q = v => Math.round(v / s) * s;
+          let d = '', px = 0, py = 0;
+          for (let t = 0; t <= N; t++) {
+            const X = q(cx + R * Math.cos(t / N * TAU)), Y = q(cy + R * Math.sin(t / N * TAU));
+            if (!t) d += 'M' + P(X, Y); else if (X !== px || Y !== py) d += 'L' + P(X, py) + 'L' + P(X, Y);
+            px = X; py = Y;
+          }
+          ink.add('a', a, d);
+        }
+      }
+      for (const [fx, fy] of [[W * .72, H * .28], [W * .22, H * .74]]) {
+        const m = g.m(fy), s = lerp(0, 7, m), q = v => Math.round(v / s) * s;
+        for (let R = 18; R < Math.min(190, W * .55); R += 10 + R * .06) {
+          const a = g.dim(fx) * (1 - R / 210) * .9;
+          if (s < 1.2) { ink.add('a', a, ring(fx, fy, R)); continue; }
+          const N = Math.max(24, R * 1.3 | 0); let d = '', px = 0, py = 0;
+          for (let t = 0; t <= N; t++) { const X = q(fx + R * Math.cos(t / N * TAU)), Y = q(fy + R * Math.sin(t / N * TAU)); if (!t) d += 'M' + P(X, Y); else if (X !== px || Y !== py) d += 'L' + P(X, py) + 'L' + P(X, Y); px = X; py = Y; }
+          ink.add('a', a, d);
+        }
+      }
+      for (let y0 = 8; y0 < H; y0 += 26) { const pts = []; for (let x = -10; x <= W + 30; x += 20) pts.push([x, y0 + 2.2 * Math.sin(x / 70 + y0 / 13)]); ink.strand('b', pts, (px, py) => (1 - g.m(py)) * g.dim(px)); }
+      for (let y = 2; y < H; y += 4) { const a = ss((g.m(y) - .25) / .6); if (a < .05) continue; for (let x = 0; x < W; x += W / 4) ink.add('c', a * g.dim(x + W / 8), seg(x, y, x + W / 4, y)); }
+    },
+    // the manual's grid on the diagonal, rectangles ordered by size; their tops rise into flames, the fluid running upward,
+    // and sparks go up from the camp fire
+    'instructions'(g){
+      const {W, H, r, ink} = g, C = 64, h = C / 2;
+      for (let c = h - Math.ceil(H / C + 1) * C; c < W + H; c += C) {
+        let pts = [];
+        for (let y = Math.max(-5, c - W - 5); y <= Math.min(H + 5, c + 5); y += 24) pts.push([c - y + (r() - .5) * .7, y]);
+        if (pts.length > 1) ink.strand('b', pts, px => g.dim(px));
+        pts = [];
+        for (let y = Math.max(-5, -c - 5); y <= Math.min(H + 5, W - c + 5); y += 24) pts.push([y + c + (r() - .5) * .7, y]);
+        if (pts.length > 1) ink.strand('b', pts, px => g.dim(px));
+      }
+      const mid = (p, q) => [(p[0] + q[0]) / 2, (p[1] + q[1]) / 2], mix = (p, q, t) => [lerp(p[0], q[0], t), lerp(p[1], q[1], t)];
+      for (let j = -1; j * h < H + C; j++) for (let i = -1; i * C < W + C; i++) {
+        const cx = i * C + (j & 1) * h, cy = j * h, m = g.m(cy);
+        for (const a of [h * .52, h * .26]) {
+          const J = () => (r() - .5) * 1.2;
+          const B = [cx + J(), cy + a * (1 - .1 * m) + J()], Lp = [cx - a * (1 - .22 * m) + J(), cy + J()];
+          const T = [cx + J(), cy - a * (1 + 1.8 * m) + J()], Rp = [cx + a * (1 - .22 * m) + J(), cy + J()];
+          const c1 = mix(mid(B, Lp), [cx - a * 1.08, cy + a * .9], m), c2 = mix(mid(Lp, T), [cx - a * .12, cy - a * .5], m);
+          const c3 = mix(mid(T, Rp), [cx + a * .12, cy - a * .5], m), c4 = mix(mid(Rp, B), [cx + a * 1.08, cy + a * .9], m);
+          ink.add('a', g.dim(cx), 'M' + P(...B) + 'Q' + P(...c1) + ' ' + P(...Lp) + 'Q' + P(...c2) + ' ' + P(...T) + 'Q' + P(...c3) + ' ' + P(...Rp) + 'Q' + P(...c4) + ' ' + P(...B));
+        }
+        const sp = r() * 4 | 0;
+        for (let s = 0; s < sp; s++) { const x = cx + (r() - .5) * h * .6, y = cy - h * .52 * (1 + 1.8 * m) - 6 - r() * 26, L = 2 + r() * 4; ink.add('c', m * m * g.dim(x), seg(x, y, x + (r() - .5) * 1.5, y - L)); }
+      }
+    },
+  };
+
+  // the surface each drawing lies on: the fair's canopy in folds, bubbles drifting, dunes under the ripples, the manual's lens
+  const WARPS = {
+    'the-lever': () => (x, y) => [x + 9 * Math.sin(TAU * x / 170 + 1.4 * Math.sin(y / 260)), y + 5 * Math.sin(TAU * x / 230 + y / 410)],
+    'champagne': () => (x, y) => [x + 12 * Math.sin(y / 170 + x / 260), y],
+    'a-well-kept-secret': (W, H, n) => (x, y) => [x, y + 36 * (n(x / 260, y / 300) - .5) + 8 * Math.sin(TAU * x / Math.max(300, W * .8) + y / 240)],
+    'instructions': (W, H) => { const fx = W * .62, fy = H * .38, s2 = Math.pow(Math.min(W, H) * .45, 2);
+      return (x, y) => { const dx = x - fx, dy = y - fy, k = 1 + .22 * Math.exp(-(dx * dx + dy * dy) / s2); return [fx + dx * k, fy + dy * k]; }; },
+  };
+
+  // how much of the drawing stays behind the text: the light fields whose lines run thick under it keep less
+  const LOW = {'the-lever': .36, 'a-well-kept-secret': .3, 'the-expedition': .55};
+
+  /* ---- the fields ---- */
+  const root = document.documentElement, box = document.createElement('div'), open = document.querySelector('.open');
+  const side = document.querySelector('.margin'), toc = side && side.querySelector('.sticky');
+  box.className = 'fields'; box.setAttribute('aria-hidden', 'true');
+  const mk = (cls, id) => { const el = document.createElement('div'); el.className = cls; if (id) el.dataset.for = id; box.append(el); return el; };
+  const cover = mk('field cover'), F = stories.map(s => mk('field', s.id));
+  document.body.prepend(box); root.classList.add('fx');
+  let G = [], raf = 0;
+  const seed = s => { let h = 2166136261; for (const c of s) h = Math.imul(h ^ c.charCodeAt(0), 16777619); return h >>> 0; };
+  // draw a field again only when its size, its turning point or its text column has moved
+  function paint(el, id, W, H, ya, yb, x0, x1, low){
+    const key = [W, H, ya, yb, x0, x1].map(Math.round).join();
+    if (el._k === key) return; el._k = key;
+    const ink = Ink(STYLE[id]), n = vnoise(rng(seed(id) ^ 0x9e3779b9));
+    WARP = WARPS[id] ? WARPS[id](W, H, n) : null;
+    DRAW[id]({W, H, ya, yb, ink, n, r: rng(seed(id)), m: y => ss((y - ya) / Math.max(1, yb - ya)), dim: x => lerp(low, 1, ss(Math.max(x0 - x, x - x1, 0) / 48))});
+    WARP = null;
+    el.innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none" focusable="false">' + ink.svg() + '</svg>';
+  }
+  // where each field sits: from the end of the story before (its colour melting in over the empty space) to the start of the next
+  function layout(){
+    const y0 = scrollY, W = root.clientWidth, sr = side && side.offsetParent ? side.getBoundingClientRect() : null;
+    G = stories.map(s => {
+      const cs = getComputedStyle(s), top = s.getBoundingClientRect().top + y0;
+      const text = s.querySelector('.text'), turn = s.querySelector('[data-turn]') || text.lastElementChild, tr = text.getBoundingClientRect();
+      return {id: s.id, top, bot: top + s.offsetHeight, pt: parseFloat(cs.paddingTop), pb: parseFloat(cs.paddingBottom), tone: s.dataset.tone, p: null, q: null,
+              a: top + text.offsetTop, b: top + turn.offsetTop + turn.offsetHeight, x0: Math.min(tr.left, sr ? sr.left : tr.left) - 20, x1: tr.right + 20};
+    });
+    G.forEach((g, i) => {
+      const prev = G[i - 1], next = G[i + 1], el = F[i];
+      const start = g.top - (prev ? prev.pb : 0), fi = g.top + g.pt * .8 - start;
+      const end = next ? next.top + next.pt : g.bot, fo = next ? 0 : g.pb * .8;
+      el.style.top = start + 'px'; el.style.height = (end - start) + 'px';
+      el.style.setProperty('--fi', fi + 'px'); el.style.setProperty('--fo', fo + 'px');
+      g.on = start + fi / 2; g.off = next ? Infinity : end - fo / 2;
+      paint(el, g.id, W, Math.round(end - start), g.a - start, g.b - start, g.x0, g.x1, LOW[g.id] || .68);
+    });
+    // the opening: the paper before the stories, warming into the first one's colour
+    const or = open.getBoundingClientRect(), ch = Math.round(G[0].top + G[0].pt), hb = document.querySelector('.top').getBoundingClientRect().bottom + y0;
+    cover.style.top = '0px'; cover.style.height = ch + 'px';
+    paint(cover, 'cover', W, ch, hb + 22, hb + 23, or.left - 16, or.right + 16, .5);
+    tick();
+  }
+  // how far each story has turned: it starts once its first line has risen to the upper third of the screen and has fully
+  // turned when its turning paragraph reaches the middle (never in less than a third of a screen of scrolling, so a short
+  // story read whole without moving still opens as its mask; at the end of the page the last one always arrives)
+  function tick(){
+    raf = 0;
+    const vh = innerHeight, y = scrollY, max = root.scrollHeight - vh;
+    G.forEach((g, i) => {
+      const s1 = Math.min(Math.max(g.a, g.b - vh * .55), max), s0 = Math.min(g.a - vh * .3, s1 - vh * .3);
+      let p = Math.min(1, Math.max(0, (y - s0) / (s1 - s0))); p = p * p * (3 - 2 * p);
+      const v = p.toFixed(2), q = (Math.round(p * 20) / 20).toFixed(2);
+      if (g.p !== v) { g.p = v; F[i].style.setProperty('--p', v); stories[i].style.setProperty('--p', v); }
+      if (g.q !== q) { g.q = q; F[i].style.setProperty('--q', q); }
+    });
+    // the contents in the margin take the ink of the field behind them
+    if (toc && toc.offsetParent) {
+      const r = toc.getBoundingClientRect(), c = y + r.top + Math.min(r.height, vh) / 2;
+      let tone = ''; G.forEach(g => { if (c >= g.on && c < g.off) tone = g.tone; });
+      if ((side.dataset.tone || '') !== tone) { if (tone) side.dataset.tone = tone; else delete side.dataset.tone; }
+    }
+  }
+  const ask = () => { if (!raf) raf = requestAnimationFrame(tick); };
+  let lr = 0; const relay = () => { cancelAnimationFrame(lr); lr = requestAnimationFrame(layout); };
+  addEventListener('scroll', ask, {passive: true});
+  addEventListener('resize', relay); addEventListener('load', relay);
+  if ('ResizeObserver' in window) new ResizeObserver(relay).observe(document.querySelector('.wrap'));
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(relay);
+  layout();
 })();
 </script>
 </body>
