@@ -367,6 +367,7 @@ const osc = $('#osc');
 const toa = $('#toa');
 const cover = $('#cover');
 let active = null, leaveTimer = 0, playing = false, ringRGB = '150 172 255';
+let rafOn = false, lastLight = 0;   // declared up here: a phone can light a screen while the page is still starting
 
 // the colour of a small picture, weighted toward its bright pixels (light is what reaches the room)
 function avgRGB(x, cw, ch) {
@@ -710,7 +711,6 @@ sizeOsc();
 document.fonts && document.fonts.ready.then(() => { sizeOsc(); placeMusicLight(); });
 
 /* ---------- one loop, running only while something moves ---------- */
-let rafOn = false, lastLight = 0;
 function wake() { if (!rafOn) { rafOn = true; requestAnimationFrame(frame); } }
 function frame(t) {
   let busy = false;
