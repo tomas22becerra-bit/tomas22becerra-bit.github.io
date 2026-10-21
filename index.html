@@ -24,6 +24,10 @@
 @font-face{font-family:'Anton';src:url(landing/fonts/anton-latin-400-normal.woff2) format('woff2');font-display:swap}
 @font-face{font-family:'Permanent Marker';src:url(landing/fonts/permanent-marker-latin-400-normal.woff2) format('woff2');font-display:swap}
 @font-face{font-family:'Alegreya';font-style:italic;src:url(landing/fonts/alegreya-latin-400-italic.woff2) format('woff2');font-display:swap}
+@font-face{font-family:'Special Elite';src:url(landing/fonts/special-elite-latin-400-normal.woff2) format('woff2');font-display:swap}
+@font-face{font-family:'Spectral';font-style:italic;src:url(landing/fonts/spectral-latin-400-italic.woff2) format('woff2');font-display:swap}
+@font-face{font-family:'Courier Prime';font-weight:700;src:url(landing/fonts/courier-prime-latin-700-normal.woff2) format('woff2');font-display:swap}
+@font-face{font-family:'Syne';font-weight:600;src:url(landing/fonts/syne-latin-600-normal.woff2) format('woff2');font-display:swap}
 @font-face{font-family:'Archivo';font-weight:100 900;font-stretch:62% 125%;src:url(landing/archivo.woff2) format('woff2');font-display:swap}
 
 :root{
@@ -78,21 +82,21 @@ a.reg{cursor:pointer}
 /* each name is a label from its own world */
 .t-kon{--r:-2deg;--r2:1.2deg}
 .t-kon .lab{font-family:'Pirata One',serif;font-size:clamp(22px,2.3vw,34px);color:#f1d48a;background:#24180f;border:1px solid #7b5b3a}
-.t-kon .sub{font-family:'Alegreya',serif;font-style:italic;font-size:clamp(14px,1.1vw,16px);color:#efe3c4;background:#3a2a1b;border:1px solid #7b5b3a}
+.t-kon .sub{font-family:'Alegreya',serif;font-style:italic;font-size:clamp(15.5px,1.25vw,18px);color:#efe3c4;background:#3a2a1b;border:1px solid #7b5b3a}
 .t-up{--r:1.5deg;--r2:-1.6deg}
 .t-up .lab{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;font-size:clamp(22px,2.3vw,34px);color:#5a1830;background:#f5dce3}
-.t-up .sub{max-width:min(380px,34vw);font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;font-size:clamp(16px,1.3vw,19px);color:#f0e7d9;background:#3a1922}
+.t-up .sub{max-width:min(400px,34vw);font-family:'Special Elite',monospace;font-size:clamp(14px,1.12vw,16.5px);color:#f0e7d9;background:#3a1922}
 .t-why{--r:-1deg;--r2:1.8deg}
 .t-why .lab{font-family:'IM Fell English',serif;font-style:italic;font-size:clamp(19px,1.8vw,26px);color:#151515;background:#fbfaf6}
-.t-why .sub{font-family:'IM Fell English',serif;font-style:italic;font-size:clamp(14px,1.1vw,16px);color:#2a2a2a;background:#e9e6dd}
+.t-why .sub{font-family:'Spectral',serif;font-style:italic;font-size:clamp(15.5px,1.25vw,18px);color:#2a2a2a;background:#e9e6dd}
 .t-cv{--r:2deg;--r2:-2.5deg}
 .t-cv .lab{font-family:'Anton',sans-serif;font-size:clamp(30px,3.4vw,52px);color:var(--cream);background:var(--red);padding:.05em .4em .08em}
-.t-cv .sub{font-family:'Anton',sans-serif;font-size:clamp(17px,1.5vw,22px);letter-spacing:.01em;color:#111;background:var(--cream);white-space:nowrap}
+.t-cv .sub{font-family:'Courier Prime',monospace;font-weight:700;font-size:clamp(16px,1.35vw,19.5px);letter-spacing:.01em;color:#111;background:var(--cream);white-space:nowrap}
 .t-toa{--r:-2deg;--r2:1.4deg}
 .t-toa .lab{font-family:'Permanent Marker',cursive;font-size:clamp(20px,2vw,29px);color:#fff6c9;background:#1b1f4a}
 .t-toa .sub{display:flex;align-items:center;gap:12px;max-width:none;padding:.5em .9em .5em .5em;
-  font-family:'Archivo',sans-serif;font-size:clamp(14px,1.05vw,15.5px);color:#e9e7f5;background:#12142e}
-.t-toa .txt{display:block;max-width:200px}
+  font-family:'Syne',sans-serif;font-weight:600;font-size:clamp(15px,1.2vw,17px);color:#e9e7f5;background:#12142e}
+.t-toa .txt{display:block;max-width:220px}
 /* his portrait is the label of a record: grooves around it, a sheen that turns while the music plays */
 .disc{position:relative;flex:none;width:clamp(76px,6.4vw,96px);aspect-ratio:1;border-radius:50%;
   background:repeating-radial-gradient(circle,#0c0c10 0 1.5px,#1d1d24 1.5px 3px);box-shadow:0 0 0 2px #fff6c9,0 4px 12px rgba(0,0,0,.5)}
@@ -166,17 +170,17 @@ a.reg{cursor:pointer}
     <span class="media"><canvas class="op" id="op"></canvas></span>
     <span class="tag t-up"><span class="lab">Unfinished Paragraphs</span><span class="sub">Short fiction. Horror, dark fantasy, <span class="nw">sci-fi</span>, mere prose.</span></span>
   </a>
-  <a class="reg r-why" data-k="why" href="why.html" aria-label="The person, an essay on power, meaning and constraints">
+  <a class="reg r-why" data-k="why" href="why.html" aria-label="The person, an essay on meaning and constraints">
     <span class="media"><img src="landing/why.jpg" alt="" width="1084" height="722"></span>
-    <span class="tag t-why"><span class="lab">The person</span><span class="sub">An essay on power, meaning and constraints<small>4-minute read</small></span></span>
+    <span class="tag t-why"><span class="lab">The person</span><span class="sub">An essay on meaning and constraints<small>4-minute read</small></span></span>
   </a>
   <a class="reg r-cv" data-k="cv" href="files/CV_TomasBecerra.pdf" target="_blank" rel="noopener" aria-label="CV, the road so far, one page PDF, opens in a new tab">
     <span class="media"><img src="landing/cv.jpg" alt="" width="1200" height="1698"></span>
     <span class="tag t-cv"><span class="lab">CV</span><span class="sub">The road so far</span></span>
   </a>
-  <div class="reg r-toa" data-k="toa" id="toa" role="group" aria-label="Tomás on adventure, a blend of experimental compositions, 2025">
+  <div class="reg r-toa" data-k="toa" id="toa" role="group" aria-label="Tomás on adventure, a fun blend of experimental compositions, 2025">
     <span class="media"><img id="cover" src="landing/toa-rest.jpg" data-ep="rest" alt="" width="900" height="900"><canvas id="osc"></canvas></span>
-    <span class="tag t-toa"><span class="lab">Tomás on adventure</span><span class="sub"><span class="disc" id="disc"><img src="landing/retrato.jpg" alt="" width="320" height="320"></span><span class="txt">A blend of experimental compositions<small>2025</small></span></span></span>
+    <span class="tag t-toa"><span class="lab">Tomás on adventure</span><span class="sub"><span class="disc" id="disc"><img src="landing/retrato.jpg" alt="" width="320" height="320"></span><span class="txt">A fun blend of experimental compositions<small>2025</small></span></span></span>
   </div>
 
   <svg class="borders" id="borders" aria-hidden="true"></svg>
@@ -238,7 +242,7 @@ const BORDERS = [
   { pts: ['p3', 'y4'], color: 'var(--red)' },
 ];
 // where each territory says its name, and where the music's dot sits
-const TAGS = { kon: [16, 49], up: [70, 15], why: [50, 49], cv: [13, 82], toa: [82, 42] };
+const TAGS = { kon: [17, 41], up: [70, 15], why: [50, 49], cv: [13, 82], toa: [82, 51] };
 const TAGS_P = { kon: [24, 38], up: [16, 58], why: [48, 52], cv: [84, 57], toa: [66, 62] };   // phones: the wall turned on its side
 const PLAYER = [79, 76], PLAYER_P = [62, 79];
 // the signature, on its scrap, pasted over the printed name at the top of the CV
