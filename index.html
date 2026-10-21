@@ -49,9 +49,12 @@ a.reg{cursor:pointer}
 .reg .media>img{transition:filter .6s ease}
 .wall.has-on .reg:not(.on) .media>img,.wall.has-on .reg:not(.on) .media>canvas.op{filter:saturate(.75) brightness(.78)}
 
-.r-kon .media>img{object-position:50% 46%}
+.r-kon .media{background:#251a17}
+.r-kon .media>img{inset:auto;width:auto;height:auto;object-fit:fill;
+  -webkit-mask-image:linear-gradient(to right,#000 80%,transparent),linear-gradient(to bottom,transparent,#000 9%,#000 80%,transparent);-webkit-mask-composite:source-in;
+  mask-image:linear-gradient(to right,#000 80%,transparent),linear-gradient(to bottom,transparent,#000 9%,#000 80%,transparent);mask-composite:intersect}
 .r-why .media>img{object-position:44% 50%}
-.r-cv .media>img{object-position:50% 0}
+.r-cv .media>img{object-position:50% 47%}
 .r-toa{pointer-events:none}
 .r-toa .media>img{transition:filter .8s ease,opacity .5s ease}
 .r-toa.playing .media>img{filter:brightness(.42) saturate(.85)}
@@ -132,6 +135,9 @@ a.reg{cursor:pointer}
     <span class="media"><canvas class="op" id="op"></canvas></span>
     <span class="tag t-up">Unfinished Paragraphs</span>
   </a>
+  <a class="reg r-up2" data-k="up2" href="unfinished-paragraphs.html" aria-label="Unfinished Paragraphs, seven short stories" tabindex="-1">
+    <span class="media"><canvas class="op" id="op2"></canvas></span>
+  </a>
   <a class="reg r-why" data-k="why" href="why.html" aria-label="Why Tomás Becerra?, an essay">
     <span class="media"><img src="landing/why.jpg" alt="" width="1084" height="722"></span>
     <span class="tag t-why">Why Tomás Becerra?</span>
@@ -179,31 +185,36 @@ let playing = false, active = null, rafOn = false, buf = null, level = 0;
 /* ---------- the map of the wall, from Tomás's drawing (percent of the screen, landscape) ---------- */
 const BASE = {
   TL: [0, 0], TR: [100, 0], BR: [100, 100], BL: [0, 100],
-  p1: [31.4, 0], p2: [37.8, 20.8], p3: [42.6, 40.5], p4: [53.7, 35.7], J: [59, 33.6],
+  // (21/10, Tomás's red lines) the border of the kingdom moves right so its title reads whole,
+  // and a shard of Unfinished comes down the right edge, eating into the music
+  p1: [41, 0], p2: [46.5, 9.5], p2b: [45.6, 22], p3: [42.6, 40.5], p4: [53.7, 35.7], J: [59, 33.6],
   p5: [66.5, 30.4], p6: [70.7, 53], p7: [87.2, 29.8], p8: [100, 18],
+  q1: [91.6, 41.8], q2: [97.2, 53.5], q3: [100, 57],
   y1: [0, 62.5], y2: [27.7, 72], y3: [32.4, 55.4], y4: [39.9, 53.6], y5: [56.4, 61.3], y6: [59, 39.9],
   b2: [38.8, 68.5], b3: [42, 74.4], b4: [62.2, 82.7], b5: [62.8, 100],
 };
 // which edge a point sits on: it may slide along it, never leave it
-const EDGE = { TL: 'c', TR: 'c', BR: 'c', BL: 'c', p1: 'top', p8: 'right', y1: 'left', b5: 'bottom' };
+const EDGE = { TL: 'c', TR: 'c', BR: 'c', BL: 'c', p1: 'top', p8: 'right', q3: 'right', y1: 'left', b5: 'bottom' };
 const REGIONS = {
-  kon: ['TL', 'p1', 'p2', 'p3', 'y4', 'y3', 'y2', 'y1'],
-  up: ['p1', 'TR', 'p8', 'p7', 'p6', 'p5', 'J', 'p4', 'p3', 'p2'],
-  toa: ['J', 'p5', 'p6', 'p7', 'p8', 'BR', 'b5', 'b4', 'b3', 'b2', 'y4', 'y5', 'y6'],
+  kon: ['TL', 'p1', 'p2', 'p2b', 'p3', 'y4', 'y3', 'y2', 'y1'],
+  up: ['p1', 'TR', 'p8', 'p7', 'p6', 'p5', 'J', 'p4', 'p3', 'p2b', 'p2'],
+  up2: ['p7', 'p8', 'q3', 'q2', 'q1'],
+  toa: ['J', 'p5', 'p6', 'p7', 'q1', 'q2', 'q3', 'BR', 'b5', 'b4', 'b3', 'b2', 'y4', 'y5', 'y6'],
   cv: ['y1', 'y2', 'y3', 'y4', 'b2', 'b3', 'b4', 'b5', 'BL'],
   why: ['p3', 'p4', 'J', 'y6', 'y5', 'y4'],
 };
-// the borders: an ink line and, beside it, its colour (as in his drawing)
+// the borders: bundles of irregular filaments in many colours, each bundle led by the colour of his drawing
 const BORDERS = [
-  { pts: ['p1', 'p2', 'p3', 'p4', 'J', 'p5', 'p6', 'p7', 'p8'], color: 'var(--purple)', off: [6, 4], music: true },
-  { pts: ['y1', 'y2', 'y3', 'y4', 'y5', 'y6', 'J'], color: 'var(--yellow)', off: [2, -6], music: true },
-  { pts: ['y4', 'b2', 'b3', 'b4', 'b5'], color: 'var(--blue)', off: [6, 2], music: true },
-  { pts: ['p3', 'y4'], color: 'var(--red)', off: [-6, 1] },
+  { pts: ['p1', 'p2', 'p2b', 'p3', 'p4', 'J', 'p5', 'p6', 'p7', 'p8'], color: 'var(--purple)', music: true },
+  { pts: ['y1', 'y2', 'y3', 'y4', 'y5', 'y6', 'J'], color: 'var(--yellow)', music: true },
+  { pts: ['y4', 'b2', 'b3', 'b4', 'b5'], color: 'var(--blue)', music: true },
+  { pts: ['p3', 'y4'], color: 'var(--red)' },
+  { pts: ['p7', 'q1', 'q2', 'q3'], color: 'var(--red)', music: true },
 ];
 // where each territory says its name, and where the music's dot sits
 const TAGS = { kon: [15, 47], up: [70, 13], why: [49.5, 49], cv: [8, 79], toa: [83, 44] };
-const TAGS_P = { kon: [34, 7], up: [16, 52], why: [48, 52], cv: [84, 57], toa: [66, 66] };   // phones: the wall turned on its side
-const PLAYER = [79, 76], PLAYER_P = [60, 91];
+const TAGS_P = { kon: [24, 38], up: [16, 58], why: [48, 52], cv: [84, 57], toa: [66, 62] };   // phones: the wall turned on its side
+const PLAYER = [79, 76], PLAYER_P = [62, 79];
 // the signature, on its scrap, pasted over the printed name at the top of the CV
 const SIG = { x: 21, y: 67, w: 23, rot: -5 }, SIG_P = { x: 70, y: 30, w: 50, rot: -7 };
 
@@ -215,15 +226,15 @@ function resetPoints() { for (const k in BASE) { cur[k] = orient(BASE[k]); tgt[k
 
 /* ---------- a small seeded random: the wobble of the hand is the same on every visit ---------- */
 function rng(seed) { let s = seed >>> 0; return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
-const jit = BORDERS.map((b, i) => { const r = rng(17 + i * 31); return b.pts.slice(1).map(() => Array.from({ length: 7 }, () => [(r() - .5) * 3, (r() - .5) * 3])); });
 
 /* ---------- regions, their media and their names ---------- */
 const regs = {};
 document.querySelectorAll('.reg').forEach(el => {
   const k = el.dataset.k;
-  const tag = el.querySelector('.tag'); $('#tags').appendChild(tag);   // names live above the wall, so no border cuts them
+  const tag = el.querySelector('.tag'); if (tag) $('#tags').appendChild(tag);   // names live above the wall, so no border cuts them
   regs[k] = { el, k, media: el.querySelector('.media'), img: el.querySelector('.media>img'), video: el.querySelector('video'), tag };
 });
+regs.up2.tag = regs.up.tag;   // the shard is a piece of the stories: it says their name
 const px = ([x, y]) => [x / 100 * W, y / 100 * H];
 function layoutStatic() {
   W = innerWidth; H = innerHeight;
@@ -237,6 +248,7 @@ function layoutStatic() {
     const l = Math.max(0, Math.min(...xs) - m), t = Math.max(0, Math.min(...ys) - m);
     const r = Math.min(100, Math.max(...xs) + m), b = Math.min(100, Math.max(...ys) + m);
     Object.assign(regs[k].media.style, { left: l + '%', top: t + '%', width: (r - l) + '%', height: (b - t) + '%' });
+    if (k === 'up2') continue;
     const [tx, ty] = portrait ? TAGS_P[k] : TAGS[k];
     Object.assign(regs[k].tag.style, { left: tx + '%', top: ty + '%' });
   }
@@ -244,9 +256,18 @@ function layoutStatic() {
   Object.assign($('#player').style, { left: qx + '%', top: qy + '%' });
   const sig = $('#sig'), S = portrait ? SIG_P : SIG;
   Object.assign(sig.style, { left: S.x + '%', top: S.y + '%', width: S.w + 'vw', transform: `translate(-50%,-50%) rotate(${S.rot}deg)` });
-  tearScrap();
-  drawOp(0); sizeOsc();
+  tearScrap(); placeKingdom();
+  drawOp(opPhase); sizeOsc();
   render();
+}
+
+// the kingdom's title is sized to its territory, so it always reads whole; the smoke fades into its own dark
+function placeKingdom() {
+  const S = portrait ? Math.min(W * .66, H * .45) : Math.min(W * .44, H * .95);
+  const top = portrait ? H * .2 - S / 2 : -.03 * S;   // on a phone the title sits in the middle of its tall territory
+  Object.assign(regs.kon.img.style, { width: S + 'px', height: S + 'px', left: (-.01 * S) + 'px', top: top + 'px' });
+  // the CV looks at its middle, so the printed name does not repeat the signature; a phone's tall box needs a closer look
+  Object.assign(regs.cv.img.style, portrait ? { height: '150%', top: '-25%' } : { height: '', top: '' });
 }
 
 // the scrap is torn by hand on all four sides
@@ -261,58 +282,85 @@ function tearScrap() {
 
 /* ---------- drawing the wall ---------- */
 function polyCSS(k) { return 'polygon(' + REGIONS[k].map(n => `${cur[n][0].toFixed(2)}% ${cur[n][1].toFixed(2)}%`).join(',') + ')'; }
-const pathEls = BORDERS.map(() => { const g = document.createElementNS(NS, 'g'); svg.appendChild(g);
-  const ink = document.createElementNS(NS, 'path'), col = document.createElementNS(NS, 'path'); g.append(ink, col); return { ink, col }; });
-const frame = (() => { const g = document.createElementNS(NS, 'g'); svg.appendChild(g);
-  const ink = document.createElementNS(NS, 'path'), col = document.createElementNS(NS, 'path'); g.append(ink, col); return { ink, col }; })();
+const PALETTE = ['var(--purple)', 'var(--yellow)', 'var(--blue)', 'var(--green)', 'var(--red)', '#f4ecd8'];
+function makeStrands(dominant, seed, n) {
+  const r = rng(seed), list = [];
+  list.push({ color: '#0d0d0d', w: 3.8, off: 0, a: 1.3, f: 1 / 90, ph: r() * 6, g: .55, lag: 0, op: 1 });      // the ink core
+  list.push({ color: dominant, w: 3.6, off: (r() < .5 ? -1 : 1) * (3.5 + r() * 2), a: 2.4, f: 1 / (70 + r() * 60), ph: r() * 6, g: 1, lag: 13, op: 1 });
+  list.push({ color: dominant, w: 1.8, off: (r() - .5) * 16, a: 3.6, f: 1 / (50 + r() * 80), ph: r() * 6, g: 1.3, lag: 29, op: .9 });
+  const others = PALETTE.filter(c => c !== dominant);
+  for (let i = 0; i < n - 3; i++) list.push({ color: others[Math.floor(r() * others.length)], w: 1.1 + r() * 1.9, off: (r() - .5) * 20,
+    a: 2 + r() * 4.5, f: 1 / (40 + r() * 130), ph: r() * 6, g: .8 + r() * 1, lag: Math.floor(r() * 300), op: .7 + r() * .3 });
+  return list;
+}
+function strandEls(strands) {
+  const g = document.createElementNS(NS, 'g'); svg.appendChild(g);
+  return strands.map(st => { const p = document.createElementNS(NS, 'path'); p.setAttribute('stroke', st.color); p.setAttribute('stroke-opacity', st.op); g.appendChild(p); return p; });
+}
+const BUNDLES = BORDERS.map((b, i) => { const strands = makeStrands(b.color, 101 + i * 57, 7); return { strands, els: strandEls(strands) }; });
+const FRAME = (() => {
+  const strands = [
+    { color: '#0d0d0d', w: 5.5, off: 0, a: 1, f: 1 / 160, ph: 1, g: 0, lag: 0, op: 1 },
+    { color: 'var(--green)', w: 3, off: 8, a: 1.6, f: 1 / 120, ph: 2, g: 0, lag: 0, op: 1 },
+    { color: 'var(--purple)', w: 1.2, off: 13, a: 3, f: 1 / 70, ph: 4, g: 0, lag: 0, op: .85 },
+    { color: 'var(--yellow)', w: 1, off: 4, a: 2.6, f: 1 / 95, ph: 5, g: 0, lag: 0, op: .8 },
+    { color: 'var(--blue)', w: 1.1, off: 16, a: 3.4, f: 1 / 140, ph: 3, g: 0, lag: 0, op: .75 },
+  ];
+  return { strands, els: strandEls(strands) };
+})();
 const focusRing = document.createElementNS(NS, 'path'); focusRing.setAttribute('stroke', '#fff'); focusRing.setAttribute('stroke-width', '2'); focusRing.setAttribute('stroke-dasharray', '7 6'); focusRing.style.opacity = 0; svg.appendChild(focusRing);
 
-function borderPts(bi, wave) {
-  const b = BORDERS[bi], out = [];
-  for (let i = 0; i < b.pts.length - 1; i++) {
-    const [x1, y1] = px(cur[b.pts[i]]), [x2, y2] = px(cur[b.pts[i + 1]]);
-    const J = jit[bi][i], n = J.length;
-    const nx = -(y2 - y1), ny = x2 - x1, nl = Math.hypot(nx, ny) || 1;
-    for (let k = 0; k < n; k++) {
-      const t = k / n;
-      let x = x1 + (x2 - x1) * t + (k ? J[k][0] : 0), y = y1 + (y2 - y1) * t + (k ? J[k][1] : 0);
-      if (wave && k) { const s = wave(out.length); x += nx / nl * s; y += ny / nl * s; }
-      out.push([x, y]);
-    }
+const hash = i => { let x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+// a polyline walked every few pixels: where you are, which way is "across", and how far along
+function walk(pts, step) {
+  const out = []; let s = 0;
+  for (let i = 0; i < pts.length - 1; i++) {
+    const [x1, y1] = pts[i], [x2, y2] = pts[i + 1], L = Math.hypot(x2 - x1, y2 - y1) || 1;
+    const nx = -(y2 - y1) / L, ny = (x2 - x1) / L, n = Math.max(1, Math.round(L / step));
+    for (let k = 0; k < n; k++) { const t = k / n; out.push([x1 + (x2 - x1) * t, y1 + (y2 - y1) * t, nx, ny, s + L * t]); }
+    s += L;
   }
-  out.push(px(cur[b.pts[b.pts.length - 1]]));
+  const a = pts[pts.length - 1], b = out[out.length - 1]; out.push([a[0], a[1], b[2], b[3], s]);
   return out;
 }
 const toD = pts => 'M' + pts.map(([x, y]) => x.toFixed(1) + ',' + y.toFixed(1)).join(' L');
-const thick = () => (Math.min(W, H) < 600 ? 3 : 4.2);
+function strandPath(path, st, scale, wave) {
+  const out = new Array(path.length);
+  for (let i = 0; i < path.length; i++) {
+    const [x, y, nx, ny, s] = path[i];
+    let o = (st.off + st.a * Math.sin(s * st.f * 6.283 + st.ph) + (hash(i + st.lag) - .5) * 1.2) * scale;
+    if (wave && st.g) o += wave(i + st.lag) * st.g;
+    out[i] = [x + nx * o, y + ny * o];
+  }
+  return toD(out);
+}
 function render() {
   for (const k in REGIONS) regs[k].el.style.clipPath = polyCSS(k);
-  const t = thick();
+  const small = Math.min(W, H) < 600, scale = small ? .75 : 1, step = small ? 8 : 10;
   BORDERS.forEach((b, i) => {
-    const wave = playing && b.music && buf && !reduce ? (j => buf[(j * 37 + i * 211) % (buf.length >> 1)] * (5 + level * 12)) : null;
-    const pts = borderPts(i, wave);
-    const { ink, col } = pathEls[i];
-    ink.setAttribute('d', toD(pts)); ink.setAttribute('stroke', '#0d0d0d'); ink.setAttribute('stroke-width', t + 1);
-    const [ox, oy] = portrait ? [b.off[1], b.off[0]] : b.off;
-    col.setAttribute('d', toD(pts.map(([x, y]) => [x + ox * t / 4.2, y + oy * t / 4.2]))); col.setAttribute('stroke', b.color); col.setAttribute('stroke-width', t + .4);
+    const path = walk(b.pts.map(n => px(cur[n])), step);
+    const half = buf ? buf.length >> 1 : 0;
+    const wave = playing && b.music && buf && !reduce ? (j => buf[(j * 5 + i * 211) % half] * (6 + level * 14)) : null;
+    const { strands, els } = BUNDLES[i];
+    strands.forEach((st, j) => {
+      if (small && j > 4) { els[j].setAttribute('d', ''); return; }
+      els[j].setAttribute('d', strandPath(path, st, scale, wave)); els[j].setAttribute('stroke-width', st.w * scale);
+    });
   });
-  // the frame: black at the edge, green just inside, both drawn by hand
-  const e = Math.min(W, H) < 600 ? 7 : 11, g = e + t * 1.8;
-  const box = (m, r) => { const R = rng(r); const w = () => (R() - .5) * 3;
-    return toD([[m + w(), m + w()], [W * .5, m + w()], [W - m + w(), m + w()], [W - m + w(), H * .5], [W - m + w(), H - m + w()], [W * .5, H - m + w()], [m + w(), H - m + w()], [m + w(), H * .5], [m + w(), m + w()]]); };
-  frame.ink.setAttribute('d', box(e, 5)); frame.ink.setAttribute('stroke', '#0d0d0d'); frame.ink.setAttribute('stroke-width', t + 3);
-  frame.col.setAttribute('d', box(g, 9)); frame.col.setAttribute('stroke', 'var(--green)'); frame.col.setAttribute('stroke-width', t + .4);
+  // the frame: ink at the edge and a few coloured threads just inside it
+  const e = small ? 6 : 10, fp = walk([[e, e], [W - e, e], [W - e, H - e], [e, H - e], [e, e]], 14);
+  FRAME.strands.forEach((st, j) => { FRAME.els[j].setAttribute('d', strandPath(fp, st, scale, null)); FRAME.els[j].setAttribute('stroke-width', st.w * scale); });
   if (active && active._focus) focusRing.setAttribute('d', toD(REGIONS[active.k].map(n => px(cur[n]))) + ' Z');
 }
 
-/* the borders draw themselves once, when the wall appears */
+/* the filaments draw themselves once, when the wall appears */
 function drawIn() {
   if (reduce) return;
-  const all = [...pathEls.flatMap(p => [p.ink, p.col]), frame.ink, frame.col];
+  const all = [...BUNDLES.flatMap(b => b.els), ...FRAME.els];
   all.forEach((p, i) => {
-    const L = p.getTotalLength();
+    const L = p.getTotalLength(); if (!L) return;
     p.animate([{ strokeDasharray: `${L} ${L}`, strokeDashoffset: L }, { strokeDasharray: `${L} ${L}`, strokeDashoffset: 0 }],
-      { duration: 900 + (i % 2) * 160, delay: 120 + Math.floor(i / 2) * 110, easing: 'cubic-bezier(.6,.1,.3,1)' });
+      { duration: 800 + hash(i) * 700, delay: 80 + hash(i + 9) * 600, easing: 'cubic-bezier(.6,.1,.3,1)' });
   });
   $('#sigInk').animate([{ clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0 0 0)' }], { duration: 1300, delay: 900, easing: 'cubic-bezier(.5,0,.3,1)', fill: 'backwards' });
   $('#sig').animate([{ opacity: 0, transform: $('#sig').style.transform + ' scale(1.04)' }, { opacity: 1, transform: $('#sig').style.transform }], { duration: 500, delay: 500, easing: 'ease-out', fill: 'backwards' });
@@ -352,7 +400,7 @@ function settle() {
 }
 
 const PANS = {
-  cv: { frames: [{ objectPosition: '50% 0%' }, { objectPosition: '50% 100%' }], dur: 16000 },
+  cv: { frames: [{ objectPosition: '50% 47%' }, { objectPosition: '50% 90%' }, { objectPosition: '50% 30%' }], dur: 18000 },
   why: { frames: [{ objectPosition: '44% 50%' }, { objectPosition: '78% 40%' }, { objectPosition: '20% 60%' }], dur: 15000 },
 };
 function activate(k, viaFocus) {
@@ -361,6 +409,7 @@ function activate(k, viaFocus) {
   if (active) deactivate(active.k);
   active = R; R._focus = !!viaFocus;
   R.el.classList.add('on'); R.tag.classList.add('on'); wall.classList.add('has-on');
+  if (k === 'up' || k === 'up2') { regs.up.el.classList.add('on'); regs.up2.el.classList.add('on'); }   // the shard and the field light up together
   focusRing.style.opacity = viaFocus ? 1 : 0;
   pushFor(k); settle();
   if (R.video) {
@@ -368,14 +417,15 @@ function activate(k, viaFocus) {
     R.video.play().then(() => { if (active === R) R.video.classList.add('live'); }).catch(() => {});
   }
   if (PANS[k] && !reduce) R._pan = R.img.animate(PANS[k].frames, { duration: PANS[k].dur, easing: 'ease-in-out', direction: 'alternate', iterations: Infinity });
-  if (k === 'up') opRun(true);
+  if (k === 'up' || k === 'up2') opRun(true);
 }
 function deactivate(k) {
   const R = regs[k]; if (!R) return;
   R.el.classList.remove('on'); if (!touchOnly) R.tag.classList.remove('on');
+  if (k === 'up' || k === 'up2') { regs.up.el.classList.remove('on'); regs.up2.el.classList.remove('on'); }
   if (R.video) { R.video.pause(); R.video.classList.remove('live'); }
   if (R._pan) { R._pan.cancel(); R._pan = null; }
-  if (k === 'up') opRun(false);
+  if (k === 'up' || k === 'up2') opRun(false);
   if (active === R) { active = null; wall.classList.remove('has-on'); focusRing.style.opacity = 0; pushFor(null); settle(); }
 }
 // the pointer: whichever territory is under it (the borders cross, so we ask the wall, not the element)
@@ -408,30 +458,37 @@ const STORIES = [   // background and ink of each story, from the page's own pal
   ['#f5dce3', '#a63053'], ['#3a1922', '#e0bd76'], ['#ead6ae', '#8a4a15'], ['#2a3036', '#aab6c2'],
   ['#d6e5c9', '#36702f'], ['#161815', '#8fb36c'], ['#121c27', '#e5a852'],
 ];
-const op = $('#op'); let opCtx = null, opPhase = 0, opOn = false, opLast = 0;
-function drawOp(phase) {
-  const box = regs.up.media.getBoundingClientRect(); if (!box.width) return;
+const FIELDS = [{ cv: $('#op'), reg: 'up', turn: false }, { cv: $('#op2'), reg: 'up2', turn: true }];
+let opPhase = 0, opOn = false, opLast = 0;
+function drawField(F, phase) {
+  const box = regs[F.reg].media.getBoundingClientRect(); if (!box.width) return;
   const d = Math.min(2, devicePixelRatio || 1), w = Math.round(box.width * d), h = Math.round(box.height * d);
-  if (op.width !== w || op.height !== h) { op.width = w; op.height = h; }
-  const c = opCtx || (opCtx = op.getContext('2d'));
-  // seven slanted bands of colour
-  const bg = c.createLinearGradient(0, h * .2, w, h * .8), ink = c.createLinearGradient(0, h * .2, w, h * .8);
-  STORIES.forEach(([b, a], i) => { const s0 = i / 7, s1 = (i + 1) / 7; bg.addColorStop(s0, b); bg.addColorStop(s1 - .001, b); ink.addColorStop(s0, a); ink.addColorStop(s1 - .001, a); });
-  c.fillStyle = bg; c.fillRect(0, 0, w, h);
+  if (F.cv.width !== w || F.cv.height !== h) { F.cv.width = w; F.cv.height = h; }
+  const c = F.ctx || (F.ctx = F.cv.getContext('2d'));
+  c.save();
+  // the shard is the same field turned on its side: its waves fall instead of running
+  let fw = w, fh = h;
+  if (F.turn) { c.translate(w, 0); c.rotate(Math.PI / 2); fw = h; fh = w; }
+  const order = F.turn ? [...STORIES].reverse() : STORIES;
+  const bg = c.createLinearGradient(0, fh * .2, fw, fh * .8), ink = c.createLinearGradient(0, fh * .2, fw, fh * .8);
+  order.forEach(([b, a], i) => { const s0 = i / 7, s1 = (i + 1) / 7; bg.addColorStop(s0, b); bg.addColorStop(s1 - .001, b); ink.addColorStop(s0, a); ink.addColorStop(s1 - .001, a); });
+  c.fillStyle = bg; c.fillRect(0, 0, fw, fh);
   // Riley's waves: parallel lines whose swing swells and narrows across the field
-  const gap = 7 * d, n = Math.ceil(h / gap) + 6;
+  const gap = 7 * d, n = Math.ceil(fh / gap) + 6, ph = phase + (F.turn ? 2.1 : 0);
   c.strokeStyle = ink; c.lineWidth = 1.7 * d;
   for (let i = -3; i < n; i++) {
     const y0 = i * gap;
     c.beginPath();
-    for (let x = 0; x <= w; x += 4 * d) {
-      const u = x / w, swell = Math.pow(Math.sin(Math.PI * (u * 1.3 + .1 + .05 * Math.sin(i * .21 + phase * .4))), 2);
-      const y = y0 + swell * 11 * d * Math.sin(u * 22 + i * .33 + phase);
+    for (let x = 0; x <= fw; x += 4 * d) {
+      const u = x / fw, swell = Math.pow(Math.sin(Math.PI * (u * 1.3 + .1 + .05 * Math.sin(i * .21 + ph * .4))), 2);
+      const y = y0 + swell * 11 * d * Math.sin(u * 22 + i * .33 + ph);
       x ? c.lineTo(x, y) : c.moveTo(x, y);
     }
     c.stroke();
   }
+  c.restore();
 }
+function drawOp(phase) { FIELDS.forEach(F => drawField(F, phase)); }
 function opRun(on) {
   opOn = on && !reduce;
   if (opOn) { opLast = performance.now(); requestAnimationFrame(function tick(t) { if (!opOn) return; opPhase += (t - opLast) / 1000 * 1.1; opLast = t; drawOp(opPhase); requestAnimationFrame(tick); }); }
