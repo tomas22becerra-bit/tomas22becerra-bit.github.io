@@ -84,8 +84,8 @@ h1{margin:0;font-weight:220;font-stretch:125%;font-size:clamp(36px,4.7vw,80px);l
 .contact a:hover{color:var(--vinyl);border-color:var(--vinyl-2)}
 
 /* ---------- the wall: every screen hung on the same centre line ---------- */
-.wall{position:relative;z-index:1;flex:1;
-  --H:min(calc((100vw - 2 * var(--pad) - 4 * var(--gap)) / 4.75), 34svh, 330px);
+.wall{position:relative;z-index:1;flex:1;overflow-x:clip;
+  --H:min(calc((100vw - 2 * var(--pad) - 4 * var(--gap)) / 5.12), 34svh, 330px);
   display:grid;grid-template-columns:repeat(5,auto);grid-template-rows:var(--H) auto minmax(calc(var(--H) * .55),1fr);
   column-gap:var(--gap);justify-content:center;padding-top:clamp(24px,6svh,72px)}
 /* the floor: where the light pools */
@@ -99,7 +99,7 @@ h1{margin:0;font-weight:220;font-stretch:125%;font-size:clamp(36px,4.7vw,80px);l
   text-decoration:none;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .k-kon{--ar:1.7778;--hh:1;--c:var(--kon);grid-column:1}
 .k-up{--ar:.7143;--hh:1;--c:var(--up);grid-column:2}
-.k-why{--ar:.75;--hh:.92;--c:var(--why);grid-column:3}
+.k-why{--ar:1.5;--hh:.72;--c:var(--why);grid-column:3}
 .k-cv{--ar:.7071;--hh:1;--c:var(--cv);grid-column:4}
 .k-toa{--ar:1;--hh:.86;--c:var(--toa);grid-column:5;cursor:default}
 
@@ -205,7 +205,7 @@ a.work:focus-visible .screen{outline:1px solid rgb(var(--c));outline-offset:6px}
     --H:min(calc((100vw - 2 * var(--pad)) / 1.7778), 330px)}
   .wall::after{display:none}
   .work{grid-template-rows:auto auto auto;width:var(--w);--cy:calc(var(--h) / 2)}
-  .k-up{--hh:1.7}.k-why{--hh:1.6}.k-cv{--hh:1.7}.k-toa{--hh:1.25}
+  .k-up{--hh:1.7}.k-why{--hh:1}.k-cv{--hh:1.7}.k-toa{--hh:1.25}
   .pool{grid-row:2;margin-top:8px;height:calc(var(--h) * .3)}
   .placard{grid-row:3;width:max(100%,min(280px,calc(100vw - 2 * var(--pad))));max-width:none;padding-top:10px}
 }
@@ -260,9 +260,9 @@ a.work:focus-visible .screen{outline:1px solid rgb(var(--c));outline-offset:6px}
     <span class="pool"><canvas></canvas></span>
   </a>
 
-  <a class="work k-why" style="--i:2" href="why.html" data-video="landing/why.mp4" aria-labelledby="t-why" aria-describedby="d-why">
+  <a class="work k-why" data-pan="why" style="--i:2" href="why.html" aria-labelledby="t-why" aria-describedby="d-why">
     <span class="amb"><canvas></canvas></span>
-    <span class="screen"><img src="landing/why.jpg" alt="" width="480" height="640"><video muted loop playsinline preload="none"></video></span>
+    <span class="screen"><img src="landing/why.jpg" alt="" width="960" height="640"></span>
     <span class="placard">
       <span class="t" id="t-why"><i>Why Tomás Becerra?</i>, 2026</span>
       <span class="m">Essay</span>
@@ -272,7 +272,7 @@ a.work:focus-visible .screen{outline:1px solid rgb(var(--c));outline-offset:6px}
     <span class="pool"><canvas></canvas></span>
   </a>
 
-  <a class="work k-cv" style="--i:3" href="files/CV_TomasBecerra.pdf" target="_blank" rel="noopener" aria-labelledby="t-cv" aria-describedby="d-cv">
+  <a class="work k-cv" data-pan="cv" style="--i:3" href="files/CV_TomasBecerra.pdf" target="_blank" rel="noopener" aria-labelledby="t-cv" aria-describedby="d-cv">
     <span class="amb"><canvas></canvas></span>
     <span class="screen"><img src="landing/cv.jpg" alt="" width="720" height="1019"></span>
     <span class="placard">
@@ -327,6 +327,7 @@ a.work:focus-visible .screen{outline:1px solid rgb(var(--c));outline-offset:6px}
 'use strict';
 // The first play of every visit drops into Threadlining at 1:05 (on the beat at 65.06 s).
 const FIRST_START = 64.96;
+const MASTER = .62;   // overall level of the player (Tomás, 21/10: a bit lower)
 const EPS = {
   cartography: { title: 'Cartography', cover: 'landing/ep-cartography.jpg' },
   quantum: { title: 'Something wrong with the quantum machine', cover: 'landing/ep-quantum-machine.jpg' },
@@ -430,32 +431,36 @@ function activate(w) {
   placeTint(w);
   if (w._tint) root.style.setProperty('--tc', w._tint);
   if (w._video) { loadVideo(w); w._video.play().then(() => { if (w.classList.contains('on')) w._video.classList.add('live'); }).catch(() => {}); }
-  if (w.classList.contains('k-cv') && !reduce) panCV(w, true);
+  if (PANS[w.dataset.pan] && !reduce) pan(w, true);
   wake();
 }
 function deactivate(w) {
   w.classList.remove('on');
   // the projector goes back to its still; the film keeps its place for next time
   if (w._video) { w._video.pause(); w._video.classList.remove('live'); setTimeout(() => paintLight(w), 480); }
-  if (w.classList.contains('k-cv')) panCV(w, false);
+  if (PANS[w.dataset.pan]) pan(w, false);
   if (active === w) {
     active = null;
     wall.classList.remove('has-on');
     document.body.classList.remove('lit');
   }
 }
-function panCV(w, on) {
-  const img = w._img;
+// the stills that are read by moving the camera over them: the CV down its page, the drawing across the bar
+const PANS = {
+  cv: { origin: '50% 0', dur: 20000, frames: [
+    { transform: 'scale(1)' }, { transform: 'scale(1.5) translateY(0)', offset: .07 }, { transform: 'scale(1.5) translateY(-33.3%)' }] },
+  why: { origin: '50% 50%', dur: 16000, frames: [
+    { transform: 'scale(1)' }, { transform: 'scale(1.45) translate(9%, 4%)', offset: .1 }, { transform: 'scale(1.45) translate(-12%, -2%)' }] },
+};
+function pan(w, on) {
+  const img = w._img, P = PANS[w.dataset.pan];
+  img.style.transformOrigin = P.origin;
   if (on) {
-    w._pan = img.animate([
-      { transform: 'scale(1)', transformOrigin: '50% 0' },
-      { transform: 'scale(1.5) translateY(0)', transformOrigin: '50% 0', offset: .07 },
-      { transform: 'scale(1.5) translateY(-33.3%)', transformOrigin: '50% 0' }
-    ], { duration: 20000, easing: 'linear', fill: 'forwards' });
+    w._pan = img.animate(P.frames, { duration: P.dur, easing: 'linear', fill: 'forwards' });
   } else if (w._pan) {
     const cur = getComputedStyle(img).transform;
     w._pan.cancel();
-    img.animate([{ transform: cur, transformOrigin: '50% 0' }, { transform: 'none', transformOrigin: '50% 0' }], { duration: 700, easing: 'cubic-bezier(.2,.7,.2,1)' });
+    img.animate([{ transform: cur }, { transform: 'none' }], { duration: 700, easing: 'cubic-bezier(.2,.7,.2,1)' });
     w._pan = null;
   }
 }
@@ -544,7 +549,7 @@ function ensureAudioGraph() {
   } catch (e) { actx = null; analyser = null; gainNode = null; }
 }
 function fadeIn() {
-  const g = TRACKS[ti].gain;
+  const g = TRACKS[ti].gain * MASTER;
   if (gainNode) {
     const now = actx.currentTime;
     gainNode.gain.cancelScheduledValues(now);
