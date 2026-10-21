@@ -23,6 +23,7 @@
 @font-face{font-family:'IM Fell English';font-style:italic;src:url(landing/fonts/im-fell-english-latin-400-italic.woff2) format('woff2');font-display:swap}
 @font-face{font-family:'Anton';src:url(landing/fonts/anton-latin-400-normal.woff2) format('woff2');font-display:swap}
 @font-face{font-family:'Permanent Marker';src:url(landing/fonts/permanent-marker-latin-400-normal.woff2) format('woff2');font-display:swap}
+@font-face{font-family:'Alegreya';font-style:italic;src:url(landing/fonts/alegreya-latin-400-italic.woff2) format('woff2');font-display:swap}
 @font-face{font-family:'Archivo';font-weight:100 900;font-stretch:62% 125%;src:url(landing/archivo.woff2) format('woff2');font-display:swap}
 
 :root{
@@ -63,15 +64,45 @@ a.reg{cursor:pointer}
 
 /* the names, each in its own letter, only when you come close (always on a touch screen) */
 .tags{position:absolute;inset:0;pointer-events:none;z-index:6}
-.tag{position:absolute;transform:translate(-50%,-50%) rotate(var(--r,0deg));white-space:nowrap;opacity:0;transition:opacity .35s ease;
-  padding:.18em .5em .22em;line-height:1.05;box-shadow:0 3px 10px rgba(0,0,0,.35)}
+.tag{position:absolute;transform:translate(-50%,-50%) rotate(var(--r,0deg));display:flex;flex-direction:column;align-items:flex-start;
+  opacity:0;transition:opacity .3s ease}
 .tag.on{opacity:1}
+.tag .lab{display:block;white-space:nowrap;padding:.18em .5em .22em;line-height:1.05;box-shadow:0 3px 10px rgba(0,0,0,.35)}
+/* the second label unfolds from under the first, a moment later, slightly askew */
+.tag .sub{display:block;margin:-2px 0 0 .9em;max-width:min(300px,30vw);padding:.45em .7em .5em;line-height:1.25;
+  box-shadow:0 3px 10px rgba(0,0,0,.35);transform:rotate(var(--r2,1.5deg));transform-origin:0 0;
+  clip-path:inset(0 0 100% 0);transition:clip-path .45s cubic-bezier(.3,.7,.2,1) .12s}
+.tag.on .sub{clip-path:inset(-4px -4px -4px -4px)}
+.tag .nw{white-space:nowrap}
+.tag .sub small{display:block;margin-top:.35em;font-size:.82em;opacity:.8}
 /* each name is a label from its own world */
-.t-kon{--r:-2deg;font-family:'Pirata One',serif;font-size:clamp(22px,2.3vw,34px);color:#f1d48a;background:#24180f;border:1px solid #7b5b3a}
-.t-up{--r:1.5deg;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;font-size:clamp(22px,2.3vw,34px);color:#5a1830;background:#f5dce3}
-.t-why{--r:-1deg;font-family:'IM Fell English',serif;font-style:italic;font-size:clamp(17px,1.6vw,23px);color:#151515;background:#fbfaf6}
-.t-cv{--r:2deg;font-family:'Anton',sans-serif;font-size:clamp(30px,3.4vw,52px);color:var(--cream);background:var(--red);padding:.05em .4em .08em}
-.t-toa{--r:-2deg;font-family:'Permanent Marker',cursive;font-size:clamp(20px,2vw,29px);color:#fff6c9;background:#1b1f4a}
+.t-kon{--r:-2deg;--r2:1.2deg}
+.t-kon .lab{font-family:'Pirata One',serif;font-size:clamp(22px,2.3vw,34px);color:#f1d48a;background:#24180f;border:1px solid #7b5b3a}
+.t-kon .sub{font-family:'Alegreya',serif;font-style:italic;font-size:clamp(14px,1.1vw,16px);color:#efe3c4;background:#3a2a1b;border:1px solid #7b5b3a}
+.t-up{--r:1.5deg;--r2:-1.6deg}
+.t-up .lab{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;font-size:clamp(22px,2.3vw,34px);color:#5a1830;background:#f5dce3}
+.t-up .sub{max-width:min(380px,34vw);font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;font-size:clamp(16px,1.3vw,19px);color:#f0e7d9;background:#3a1922}
+.t-why{--r:-1deg;--r2:1.8deg}
+.t-why .lab{font-family:'IM Fell English',serif;font-style:italic;font-size:clamp(19px,1.8vw,26px);color:#151515;background:#fbfaf6}
+.t-why .sub{font-family:'IM Fell English',serif;font-style:italic;font-size:clamp(14px,1.1vw,16px);color:#2a2a2a;background:#e9e6dd}
+.t-cv{--r:2deg;--r2:-2.5deg}
+.t-cv .lab{font-family:'Anton',sans-serif;font-size:clamp(30px,3.4vw,52px);color:var(--cream);background:var(--red);padding:.05em .4em .08em}
+.t-cv .sub{font-family:'Anton',sans-serif;font-size:clamp(17px,1.5vw,22px);letter-spacing:.01em;color:#111;background:var(--cream);white-space:nowrap}
+.t-toa{--r:-2deg;--r2:1.4deg}
+.t-toa .lab{font-family:'Permanent Marker',cursive;font-size:clamp(20px,2vw,29px);color:#fff6c9;background:#1b1f4a}
+.t-toa .sub{display:flex;align-items:center;gap:12px;max-width:none;padding:.5em .9em .5em .5em;
+  font-family:'Archivo',sans-serif;font-size:clamp(14px,1.05vw,15.5px);color:#e9e7f5;background:#12142e}
+.t-toa .txt{display:block;max-width:200px}
+/* his portrait is the label of a record: grooves around it, a sheen that turns while the music plays */
+.disc{position:relative;flex:none;width:clamp(76px,6.4vw,96px);aspect-ratio:1;border-radius:50%;
+  background:repeating-radial-gradient(circle,#0c0c10 0 1.5px,#1d1d24 1.5px 3px);box-shadow:0 0 0 2px #fff6c9,0 4px 12px rgba(0,0,0,.5)}
+.disc img{position:absolute;inset:23%;width:54%;height:54%;border-radius:50%;object-fit:cover;box-shadow:0 0 0 2px #c21ee0}
+.disc::after{content:"";position:absolute;inset:0;border-radius:50%;
+  background:conic-gradient(from 0deg,transparent 0 12%,rgba(255,255,255,.18) 16%,transparent 22% 62%,rgba(255,255,255,.12) 66%,transparent 72%);
+  -webkit-mask:radial-gradient(circle,transparent 27%,#000 28%);mask:radial-gradient(circle,transparent 27%,#000 28%);
+  animation:spin 1.8s linear infinite;animation-play-state:paused}
+.playing-now .disc::after{animation-play-state:running}
+@keyframes spin{to{transform:rotate(1turn)}}
 
 /* the borders that collide, and the frame */
 .borders{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
@@ -108,10 +139,10 @@ a.reg{cursor:pointer}
 .mail:hover,.mail:focus-visible{color:var(--cream);text-decoration:underline;outline:none}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
-@media (hover:none){ .tag{opacity:1} }
+@media (hover:none){ .tag{opacity:1} .tag .sub{display:none} }
 @media (max-width:600px){
-  .tag{white-space:normal;text-align:center;max-width:38vw}
-  .t-kon,.t-up{font-size:19px}.t-why{font-size:15px}.t-cv{font-size:30px}.t-toa{font-size:17px}
+  .tag .lab{white-space:normal;text-align:center;max-width:38vw}
+  .t-kon .lab,.t-up .lab{font-size:19px}.t-why .lab{font-size:15px}.t-cv .lab{font-size:30px}.t-toa .lab{font-size:17px}
 }
 @media (max-width:1180px){ .eps{display:none} }
 @media (max-width:600px){
@@ -120,35 +151,32 @@ a.reg{cursor:pointer}
   .trk{max-width:120px}.trk .tt{font-size:14px}
   .eps{display:none}
 }
-@media (prefers-reduced-motion:reduce){ .media>video,.tag{transition:none} }
+@media (prefers-reduced-motion:reduce){ .media>video,.tag,.tag .sub{transition:none} .disc::after{animation:none} }
 </style>
 </head>
 <body>
 <main class="wall" id="wall">
   <h1 class="sr">Tomás Becerra</h1>
 
-  <a class="reg r-kon" data-k="kon" href="kingdom-of-none.html" aria-label="Kingdom of None, a turn-based roguelite card RPG in development">
+  <a class="reg r-kon" data-k="kon" href="kingdom-of-none.html" aria-label="Kingdom of None, a turn-based roguelite card RPG about power, love, war and the mundane, in development">
     <span class="media"><img src="landing/kon-sq.jpg" alt="" width="1100" height="1100"><video muted loop playsinline preload="none" data-src="landing/kon.mp4"></video></span>
-    <span class="tag t-kon">Kingdom of None</span>
+    <span class="tag t-kon"><span class="lab">Kingdom of None</span><span class="sub">A turn-based roguelite card RPG about power, love, war and the mundane. In development.</span></span>
   </a>
-  <a class="reg r-up" data-k="up" href="unfinished-paragraphs.html" aria-label="Unfinished Paragraphs, seven short stories">
+  <a class="reg r-up" data-k="up" href="unfinished-paragraphs.html" aria-label="Unfinished Paragraphs, short fiction: horror, dark fantasy, sci-fi, mere prose">
     <span class="media"><canvas class="op" id="op"></canvas></span>
-    <span class="tag t-up">Unfinished Paragraphs</span>
+    <span class="tag t-up"><span class="lab">Unfinished Paragraphs</span><span class="sub">Short fiction. Horror, dark fantasy, <span class="nw">sci-fi</span>, mere prose.</span></span>
   </a>
-  <a class="reg r-up2" data-k="up2" href="unfinished-paragraphs.html" aria-label="Unfinished Paragraphs, seven short stories" tabindex="-1">
-    <span class="media"><canvas class="op" id="op2"></canvas></span>
-  </a>
-  <a class="reg r-why" data-k="why" href="why.html" aria-label="Why Tomás Becerra?, an essay">
+  <a class="reg r-why" data-k="why" href="why.html" aria-label="The person, an essay on power, meaning and constraints">
     <span class="media"><img src="landing/why.jpg" alt="" width="1084" height="722"></span>
-    <span class="tag t-why">Why Tomás Becerra?</span>
+    <span class="tag t-why"><span class="lab">The person</span><span class="sub">An essay on power, meaning and constraints<small>4-minute read</small></span></span>
   </a>
-  <a class="reg r-cv" data-k="cv" href="files/CV_TomasBecerra.pdf" target="_blank" rel="noopener" aria-label="CV, one page PDF, opens in a new tab">
+  <a class="reg r-cv" data-k="cv" href="files/CV_TomasBecerra.pdf" target="_blank" rel="noopener" aria-label="CV, the road so far, one page PDF, opens in a new tab">
     <span class="media"><img src="landing/cv.jpg" alt="" width="1200" height="1698"></span>
-    <span class="tag t-cv">CV</span>
+    <span class="tag t-cv"><span class="lab">CV</span><span class="sub">The road so far</span></span>
   </a>
-  <div class="reg r-toa" data-k="toa" id="toa" role="group" aria-label="Tomás on adventure, experimental music">
+  <div class="reg r-toa" data-k="toa" id="toa" role="group" aria-label="Tomás on adventure, a blend of experimental compositions, 2025">
     <span class="media"><img id="cover" src="landing/toa-rest.jpg" data-ep="rest" alt="" width="900" height="900"><canvas id="osc"></canvas></span>
-    <span class="tag t-toa">Tomás on adventure</span>
+    <span class="tag t-toa"><span class="lab">Tomás on adventure</span><span class="sub"><span class="disc" id="disc"><img src="landing/retrato.jpg" alt="" width="320" height="320"></span><span class="txt">A blend of experimental compositions<small>2025</small></span></span></span>
   </div>
 
   <svg class="borders" id="borders" aria-hidden="true"></svg>
@@ -188,31 +216,29 @@ const BASE = {
   // (21/10, Tomás's red lines) the border of the kingdom moves right so its title reads whole,
   // and a shard of Unfinished comes down the right edge, eating into the music
   p1: [41, 0], p2: [46.5, 9.5], p2b: [45.6, 22], p3: [42.6, 40.5], p4: [53.7, 35.7], J: [59, 33.6],
-  p5: [66.5, 30.4], p6: [70.7, 53], p7: [87.2, 29.8], p8: [100, 18],
+  p5: [66.5, 30.4], p6: [70.7, 53], p7: [87.2, 29.8],
   q1: [91.6, 41.8], q2: [97.2, 53.5], q3: [100, 57],
   y1: [0, 62.5], y2: [27.7, 72], y3: [32.4, 55.4], y4: [39.9, 53.6], y5: [56.4, 61.3], y6: [59, 39.9],
   b2: [38.8, 68.5], b3: [42, 74.4], b4: [62.2, 82.7], b5: [62.8, 100],
 };
 // which edge a point sits on: it may slide along it, never leave it
-const EDGE = { TL: 'c', TR: 'c', BR: 'c', BL: 'c', p1: 'top', p8: 'right', q3: 'right', y1: 'left', b5: 'bottom' };
+const EDGE = { TL: 'c', TR: 'c', BR: 'c', BL: 'c', p1: 'top', q3: 'right', y1: 'left', b5: 'bottom' };
 const REGIONS = {
   kon: ['TL', 'p1', 'p2', 'p2b', 'p3', 'y4', 'y3', 'y2', 'y1'],
-  up: ['p1', 'TR', 'p8', 'p7', 'p6', 'p5', 'J', 'p4', 'p3', 'p2b', 'p2'],
-  up2: ['p7', 'p8', 'q3', 'q2', 'q1'],
+  up: ['p1', 'TR', 'q3', 'q2', 'q1', 'p7', 'p6', 'p5', 'J', 'p4', 'p3', 'p2b', 'p2'],
   toa: ['J', 'p5', 'p6', 'p7', 'q1', 'q2', 'q3', 'BR', 'b5', 'b4', 'b3', 'b2', 'y4', 'y5', 'y6'],
   cv: ['y1', 'y2', 'y3', 'y4', 'b2', 'b3', 'b4', 'b5', 'BL'],
   why: ['p3', 'p4', 'J', 'y6', 'y5', 'y4'],
 };
 // the borders: bundles of irregular filaments in many colours, each bundle led by the colour of his drawing
 const BORDERS = [
-  { pts: ['p1', 'p2', 'p2b', 'p3', 'p4', 'J', 'p5', 'p6', 'p7', 'p8'], color: 'var(--purple)', music: true },
+  { pts: ['p1', 'p2', 'p2b', 'p3', 'p4', 'J', 'p5', 'p6', 'p7', 'q1', 'q2', 'q3'], color: 'var(--purple)', music: true },
   { pts: ['y1', 'y2', 'y3', 'y4', 'y5', 'y6', 'J'], color: 'var(--yellow)', music: true },
   { pts: ['y4', 'b2', 'b3', 'b4', 'b5'], color: 'var(--blue)', music: true },
   { pts: ['p3', 'y4'], color: 'var(--red)' },
-  { pts: ['p7', 'q1', 'q2', 'q3'], color: 'var(--red)', music: true },
 ];
 // where each territory says its name, and where the music's dot sits
-const TAGS = { kon: [15, 47], up: [70, 13], why: [49.5, 49], cv: [8, 79], toa: [83, 44] };
+const TAGS = { kon: [16, 49], up: [70, 15], why: [50, 49], cv: [13, 82], toa: [82, 42] };
 const TAGS_P = { kon: [24, 38], up: [16, 58], why: [48, 52], cv: [84, 57], toa: [66, 62] };   // phones: the wall turned on its side
 const PLAYER = [79, 76], PLAYER_P = [62, 79];
 // the signature, on its scrap, pasted over the printed name at the top of the CV
@@ -234,7 +260,6 @@ document.querySelectorAll('.reg').forEach(el => {
   const tag = el.querySelector('.tag'); if (tag) $('#tags').appendChild(tag);   // names live above the wall, so no border cuts them
   regs[k] = { el, k, media: el.querySelector('.media'), img: el.querySelector('.media>img'), video: el.querySelector('video'), tag };
 });
-regs.up2.tag = regs.up.tag;   // the shard is a piece of the stories: it says their name
 const px = ([x, y]) => [x / 100 * W, y / 100 * H];
 function layoutStatic() {
   W = innerWidth; H = innerHeight;
@@ -248,7 +273,6 @@ function layoutStatic() {
     const l = Math.max(0, Math.min(...xs) - m), t = Math.max(0, Math.min(...ys) - m);
     const r = Math.min(100, Math.max(...xs) + m), b = Math.min(100, Math.max(...ys) + m);
     Object.assign(regs[k].media.style, { left: l + '%', top: t + '%', width: (r - l) + '%', height: (b - t) + '%' });
-    if (k === 'up2') continue;
     const [tx, ty] = portrait ? TAGS_P[k] : TAGS[k];
     Object.assign(regs[k].tag.style, { left: tx + '%', top: ty + '%' });
   }
@@ -340,7 +364,9 @@ function render() {
   BORDERS.forEach((b, i) => {
     const path = walk(b.pts.map(n => px(cur[n])), step);
     const half = buf ? buf.length >> 1 : 0;
-    const wave = playing && b.music && buf && !reduce ? (j => buf[(j * 5 + i * 211) % half] * (6 + level * 14)) : null;
+    // the visitor starts this motion with play and stops it with pause, so it runs even when the system asks for less
+    // motion (Windows with its animation effects off says so); it is only gentler then
+    const wave = playing && b.music && buf ? (j => buf[(j * 5 + i * 211) % half] * (6 + level * 14) * (reduce ? .6 : 1)) : null;
     const { strands, els } = BUNDLES[i];
     strands.forEach((st, j) => {
       if (small && j > 4) { els[j].setAttribute('d', ''); return; }
@@ -409,7 +435,6 @@ function activate(k, viaFocus) {
   if (active) deactivate(active.k);
   active = R; R._focus = !!viaFocus;
   R.el.classList.add('on'); R.tag.classList.add('on'); wall.classList.add('has-on');
-  if (k === 'up' || k === 'up2') { regs.up.el.classList.add('on'); regs.up2.el.classList.add('on'); }   // the shard and the field light up together
   focusRing.style.opacity = viaFocus ? 1 : 0;
   pushFor(k); settle();
   if (R.video) {
@@ -417,15 +442,14 @@ function activate(k, viaFocus) {
     R.video.play().then(() => { if (active === R) R.video.classList.add('live'); }).catch(() => {});
   }
   if (PANS[k] && !reduce) R._pan = R.img.animate(PANS[k].frames, { duration: PANS[k].dur, easing: 'ease-in-out', direction: 'alternate', iterations: Infinity });
-  if (k === 'up' || k === 'up2') opRun(true);
+  if (k === 'up') opRun(true);
 }
 function deactivate(k) {
   const R = regs[k]; if (!R) return;
   R.el.classList.remove('on'); if (!touchOnly) R.tag.classList.remove('on');
-  if (k === 'up' || k === 'up2') { regs.up.el.classList.remove('on'); regs.up2.el.classList.remove('on'); }
   if (R.video) { R.video.pause(); R.video.classList.remove('live'); }
   if (R._pan) { R._pan.cancel(); R._pan = null; }
-  if (k === 'up' || k === 'up2') opRun(false);
+  if (k === 'up') opRun(false);
   if (active === R) { active = null; wall.classList.remove('has-on'); focusRing.style.opacity = 0; pushFor(null); settle(); }
 }
 // the pointer: whichever territory is under it (the borders cross, so we ask the wall, not the element)
@@ -458,7 +482,7 @@ const STORIES = [   // background and ink of each story, from the page's own pal
   ['#f5dce3', '#a63053'], ['#3a1922', '#e0bd76'], ['#ead6ae', '#8a4a15'], ['#2a3036', '#aab6c2'],
   ['#d6e5c9', '#36702f'], ['#161815', '#8fb36c'], ['#121c27', '#e5a852'],
 ];
-const FIELDS = [{ cv: $('#op'), reg: 'up', turn: false }, { cv: $('#op2'), reg: 'up2', turn: true }];
+const FIELDS = [{ cv: $('#op'), reg: 'up', turn: false }];
 let opPhase = 0, opOn = false, opLast = 0;
 function drawField(F, phase) {
   const box = regs[F.reg].media.getBoundingClientRect(); if (!box.width) return;
@@ -560,7 +584,7 @@ function play() {
 function toggle() { au.paused ? play() : au.pause(); }
 function reflect() {
   playing = !au.paused;
-  toa.classList.toggle('playing', playing);
+  toa.classList.toggle('playing', playing); document.body.classList.toggle('playing-now', playing);
   ppIcon.firstElementChild.setAttribute('d', playing ? ICON_PAUSE : ICON_PLAY);
   pp.setAttribute('aria-label', `${playing ? 'Pause' : 'Play'} Tomás on adventure`);
   if (playing) wake(); else render();
@@ -631,7 +655,7 @@ function loop(t) {
   avg += (lo - avg) * ease(tau); dev += (Math.abs(lo - avg) - dev) * ease(tau);
   const target = Math.min(1, Math.max(0, .38 + (lo - avg) / (2.6 * dev + .004)));
   level += (target - level) * (target > level ? ease(.06) : ease(.35));
-  if (!reduce) root.style.setProperty('--lv', level.toFixed(3));
+  root.style.setProperty('--lv', (reduce ? level * .6 : level).toFixed(3));
   drawRing(); render();
   requestAnimationFrame(loop);
 }
