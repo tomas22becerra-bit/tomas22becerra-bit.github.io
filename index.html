@@ -4,328 +4,614 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Tomás Becerra</title>
-<meta name="description" content="Tomás Becerra, narrative and systems designer based in Rome. Kingdom of None, seven short stories, an essay, a CV and experimental music.">
-<meta name="theme-color" content="#000000">
+<meta name="description" content="Tomás Becerra: narrative and systems designer, writer, draughtsman and singer, based in Rome. Kingdom of None, seven short stories, an essay, a CV and experimental music.">
+<meta name="theme-color" content="#d8d3c7">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Tomás Becerra">
-<meta property="og:description" content="Narrative and systems designer based in Rome, open to relocation. Kingdom of None, seven short stories, an essay, a CV and experimental music.">
+<meta property="og:description" content="Narrative and systems designer, trained in the implications of words. Kingdom of None, seven short stories, an essay, a CV and experimental music.">
 <meta property="og:url" content="https://tomas22becerra-bit.github.io/">
 <meta property="og:image" content="https://tomas22becerra-bit.github.io/landing/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="628">
-<meta property="og:image:alt" content="Five lit screens in a dark room: Kingdom of None, Unfinished Paragraphs, Why Tomás Becerra?, the CV and Tomás on adventure.">
+<meta property="og:image:alt" content="A collage: Tomás Becerra's name in ink, with torn papers for Kingdom of None, Unfinished Paragraphs, Why Tomás Becerra?, the CV and Tomás on adventure, joined by a zigzag line.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://tomas22becerra-bit.github.io/landing/og.jpg">
-<link rel="preload" href="landing/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="landing/fonts/special-elite-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <style>
-@font-face{font-family:'Archivo';font-style:normal;font-weight:100 900;font-stretch:62% 125%;font-display:swap;
-  src:url(landing/archivo.woff2) format('woff2');
-  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
-@font-face{font-family:'Archivo';font-style:normal;font-weight:100 900;font-stretch:62% 125%;font-display:swap;
-  src:url(landing/archivo-ext.woff2) format('woff2');
-  unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
-@font-face{font-family:'Archivo';font-style:italic;font-weight:100 900;font-stretch:62% 125%;font-display:swap;
-  src:url(landing/archivo-italic.woff2) format('woff2')}
+/* One typeface per space, each from that space's own world. */
+@font-face{font-family:'Special Elite';src:url(landing/fonts/special-elite-latin-400-normal.woff2) format('woff2');font-display:swap}
+@font-face{font-family:'Cormorant Garamond';font-style:italic;font-weight:500;src:url(landing/fonts/cormorant-garamond-latin-500-italic.woff2) format('woff2');font-display:swap}
+@font-face{font-family:'Cormorant Garamond';font-weight:600;src:url(landing/fonts/cormorant-garamond-latin-600-normal.woff2) format('woff2');font-display:swap}
+@font-face{font-family:'IM Fell English';src:url(landing/fonts/im-fell-english-latin-400-normal.woff2) format('woff2');font-display:swap}
+@font-face{font-family:'IM Fell English';font-style:italic;src:url(landing/fonts/im-fell-english-latin-400-italic.woff2) format('woff2');font-display:swap}
+@font-face{font-family:'Pirata One';src:url(landing/fonts/pirata-one-latin-400-normal.woff2) format('woff2');font-display:swap}
+@font-face{font-family:'Anton';src:url(landing/fonts/anton-latin-400-normal.woff2) format('woff2');font-display:swap}
+@font-face{font-family:'Permanent Marker';src:url(landing/fonts/permanent-marker-latin-400-normal.woff2) format('woff2');font-display:swap}
+@font-face{font-family:'Archivo';font-weight:100 900;font-stretch:62% 125%;src:url(landing/archivo.woff2) format('woff2');font-display:swap}
 
-/* The room is a black box: every colour on this page is light coming off a screen. */
 :root{
-  --room:#000;
-  --vinyl:#cfc9bd;      /* wall lettering */
-  --vinyl-2:#8f8a80;    /* label text */
-  --vinyl-3:#5f5b54;    /* medium line, quiet parts */
-  --kon:214 165 72;
-  --up:238 177 197;
-  --why:240 236 228;
-  --cv:212 58 44;
-  --toa:150 172 255;
-  --pad:clamp(20px,4vw,64px);
-  --gap:clamp(28px,3vw,52px);
-  --lv:0;               /* music level, 0..1, set by the player */
-  color-scheme:dark;
+  --paper:#d8d3c7;     /* newsprint: the sheet everything is glued on */
+  --ink:#1f2433;       /* blue-black ink */
+  --ink-2:#4a4c52;
+  --red:#e0473a; --green:#1fa65a; --yellow:#efc72b; --blue:#1d96dc; --violet:#a33bd2; --brown:#7b5b47;
+  --pad:clamp(16px,4.4vw,60px);
+  --lv:0;
+  color-scheme:light;
 }
 *{box-sizing:border-box}
-html{background:var(--room)}
-body{margin:0;min-height:100svh;background:var(--room);color:var(--vinyl);
-  font-family:'Archivo',system-ui,sans-serif;font-weight:380;font-stretch:100%;
-  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden;
-  display:flex;flex-direction:column}
+html{background:var(--paper)}
+body{margin:0;min-height:100svh;color:var(--ink);background:var(--paper);
+  font-family:'Special Elite','Courier New',monospace;font-size:16px;line-height:1.45;overflow-x:clip;position:relative}
+/* the grain of the newsprint */
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;mix-blend-mode:multiply;background-size:300px 300px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .32 0 0 0 0 .27 0 0 0 .32 0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E")}
 a{color:inherit}
 button{font:inherit;color:inherit}
-:focus-visible{outline:1px solid var(--vinyl);outline-offset:6px}
+:focus-visible{outline:2px dashed var(--ink);outline-offset:6px}
 
-/* ---------- the air ---------- */
-.fx{position:fixed;inset:0;pointer-events:none;z-index:0}
-.haze{background:
-    radial-gradient(42vmax 26vmax at 24% 34%, rgba(255,255,255,.032), transparent 70%),
-    radial-gradient(48vmax 30vmax at 76% 58%, rgba(255,255,255,.026), transparent 70%);
-  opacity:calc(.8 + var(--lv) * .6);
-  animation:drift 90s ease-in-out infinite alternate}
-@keyframes drift{to{transform:translate3d(-3vw,2vh,0) scale(1.08)}}
-.tint{background:radial-gradient(64vmax 46vmax at var(--tx,50%) var(--ty,42%), rgb(var(--tc,255 255 255) / .15), transparent 66%);
-  opacity:0;transition:opacity .8s ease}
-body.lit .tint{opacity:1}
-.tint-music{background:radial-gradient(70vmax 50vmax at var(--mx,80%) var(--my,42%), rgb(var(--toa) / .2), transparent 70%);
-  opacity:calc(var(--lv) * .9)}
-.grain{opacity:.07;mix-blend-mode:screen;background-size:240px 240px;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E")}
+/* two drawing layers: the washes go under the papers, the ink lines over them */
+.layer{position:absolute;left:0;top:0;width:100%;pointer-events:none;overflow:visible}
+.under{z-index:1}
+.over{z-index:4}
+.over path{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.over .ink{stroke:var(--ink);stroke-width:2.8}
+.over .col{stroke-width:3.6;opacity:.92}
 
-/* ---------- title wall ---------- */
-.top{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:flex-start;gap:32px;
-  padding:var(--pad) var(--pad) 0}
-h1{margin:0;font-weight:220;font-stretch:125%;font-size:clamp(36px,4.7vw,80px);line-height:.94;letter-spacing:-.015em;color:#ddd7cb}
-.role{margin:.85em 0 0;max-width:34ch;font-size:clamp(14.5px,1.08vw,16.5px);line-height:1.45;color:var(--vinyl-2)}
-.hint{margin:.35em 0 0;font-size:clamp(14.5px,1.08vw,16.5px);color:var(--vinyl-3)}
-.contact{text-align:right;font-size:14px;line-height:1.5;color:var(--vinyl-2);padding-top:.5em}
-.contact p{margin:0 0 .45em}
-.contact code{font-family:inherit;color:var(--vinyl)}
-.contact .copy{margin-left:.6em;background:none;border:0;border-bottom:1px solid var(--vinyl-3);padding:0 0 1px;cursor:pointer;color:var(--vinyl-2)}
-.contact .copy:hover{color:var(--vinyl);border-color:var(--vinyl-2)}
-.contact a{text-decoration:none;border-bottom:1px solid var(--vinyl-3)}
-.contact a:hover{color:var(--vinyl);border-color:var(--vinyl-2)}
+.sheet{position:relative;z-index:3;max-width:1180px;margin:0 auto;overflow-x:clip;padding:clamp(44px,7vw,84px) var(--pad) 40px;
+  display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:clamp(14px,2.2vw,30px);align-items:start}
 
-/* ---------- the wall: every screen hung on the same centre line ---------- */
-.wall{position:relative;z-index:1;flex:1;overflow-x:clip;
-  --H:min(calc((100vw - 2 * var(--pad) - 4 * var(--gap)) / 5.12), 34svh, 330px);
-  display:grid;grid-template-columns:repeat(5,auto);grid-template-rows:var(--H) auto minmax(calc(var(--H) * .55),1fr);
-  column-gap:var(--gap);justify-content:center;padding-top:clamp(24px,6svh,72px)}
-/* the floor: where the light pools */
-.wall::after{content:"";grid-column:1/-1;grid-row:3;margin:clamp(14px,2.4svh,30px) calc(50% - 50vw) 0;pointer-events:none;
-  background:linear-gradient(to bottom, rgba(255,255,255,.028), rgba(255,255,255,0) 55%);
-  border-top:1px solid transparent;
-  border-image:linear-gradient(90deg, transparent, rgba(255,255,255,.07) 30%, rgba(255,255,255,.07) 70%, transparent) 1}
+/* ---------- Tomás as a whole ---------- */
+.name{grid-column:1/8;grid-row:1;margin:0;align-self:end}
+.name svg{display:block;width:100%;height:auto;overflow:visible}
+.name path{fill:none;stroke:var(--ink);stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.typed{margin:0;display:flex;flex-direction:column;align-items:flex-start;gap:9px}
+.strip{display:inline-block;background:#f2efe6;padding:5px 11px 4px;line-height:1.35;box-shadow:0 1px 1.5px rgba(40,30,10,.25);
+  transform:rotate(var(--r,0deg));max-width:100%}
+.strip .v{color:var(--red);margin-right:.5em;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+.b1{grid-column:8/13;grid-row:1;align-self:end;padding-bottom:6px}
+.b2{grid-column:8/13;grid-row:2;align-self:center}
+.b3{grid-column:1/5;grid-row:3;align-self:center}
+.b4{grid-column:7/13;grid-row:4;align-self:center}
+.closing{grid-column:2/8;grid-row:6;margin:clamp(-120px,-8vw,-60px) 0 0;font-family:'Special Elite',monospace;font-size:clamp(17px,1.7vw,22px)}
 
-.work{--w:calc(var(--H) * var(--hh) * var(--ar));--h:calc(var(--H) * var(--hh));
-  position:relative;grid-row:1/-1;display:grid;grid-template-rows:subgrid;grid-template-columns:minmax(0,1fr);width:var(--w);--cy:calc(var(--H) / 2);
-  text-decoration:none;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
-.k-kon{--ar:1.7778;--hh:1;--c:var(--kon);grid-column:1}
-.k-up{--ar:.7143;--hh:1;--c:var(--up);grid-column:2}
-.k-why{--ar:1.5;--hh:.72;--c:var(--why);grid-column:3}
-.k-cv{--ar:.7071;--hh:1;--c:var(--cv);grid-column:4}
-.k-toa{--ar:1;--hh:.86;--c:var(--toa);grid-column:5;cursor:default}
-
-/* light thrown on the wall around a screen */
-.amb{position:absolute;left:50%;top:var(--cy);transform:translate(-50%,-50%);width:calc(var(--w) * 1.9);height:calc(var(--h) * 1.8);
-  z-index:-1;pointer-events:none;
-  -webkit-mask-image:radial-gradient(closest-side, #000 30%, transparent);mask-image:radial-gradient(closest-side, #000 30%, transparent);
-  opacity:calc(var(--a,.32) + var(--lv) * .45);transition:opacity .7s ease}
-.amb canvas{width:100%;height:100%;display:block;filter:blur(28px) saturate(1.35);animation:lightup 1.8s calc(.7s + var(--i) * .2s) both}
-.screen{grid-row:1;grid-column:1;align-self:center;width:var(--w);height:var(--h);position:relative;overflow:hidden;
-  background:#060606;filter:brightness(.8) saturate(.9);transition:filter .6s ease;
-  animation:power 1.15s calc(.35s + var(--i) * .2s) both;border:0;padding:0;margin:0}
-.screen>img,.screen>video,.screen>canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+/* ---------- the papers ---------- */
+.piece{position:relative;display:block;text-decoration:none;color:inherit;cursor:pointer;
+  transform:rotate(var(--rot,0deg));transition:transform .45s cubic-bezier(.2,.7,.2,1),filter .45s ease;
+  filter:drop-shadow(0 2px 2px rgba(30,25,15,.28)) drop-shadow(0 9px 14px rgba(30,25,15,.16));-webkit-tap-highlight-color:transparent}
+.piece.on{transform:rotate(0deg) translateY(-5px);filter:drop-shadow(0 3px 3px rgba(30,25,15,.3)) drop-shadow(0 18px 24px rgba(30,25,15,.22))}
+a.piece:focus-visible{outline:none}
+a.piece:focus-visible .paper{outline:2px dashed var(--ink);outline-offset:8px}
+.paper{position:relative;display:block}
+.screen{position:relative;display:block;overflow:hidden;background:#222}
+.screen>img,.screen>video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 .screen>video{opacity:0;transition:opacity .45s ease}
 .screen>video.live{opacity:1}
-/* projector hotspot and fall-off */
-.screen::after{content:"";position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(ellipse 70% 60% at 50% 44%, rgba(255,255,255,.07), transparent 70%),
-             radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,.4))}
-@keyframes power{0%{opacity:0}10%{opacity:.75}16%{opacity:.08}27%{opacity:.9}33%{opacity:.35}52%,100%{opacity:1}}
-@keyframes lightup{from{opacity:0}to{opacity:1}}
+.tape{position:absolute;width:74px;height:22px;opacity:.72;mix-blend-mode:multiply;z-index:2;pointer-events:none;
+  clip-path:polygon(3% 8%,12% 0,24% 10%,37% 2%,51% 9%,64% 0,78% 8%,90% 1%,100% 10%,97% 92%,86% 100%,73% 91%,59% 100%,45% 92%,31% 100%,18% 91%,6% 100%,0 90%)}
 
-.pool{grid-row:3;grid-column:1;align-self:start;width:var(--w);height:calc(var(--h) * .62);pointer-events:none;
-  margin-top:calc((var(--H) - var(--h)) / 2 + clamp(26px,4svh,48px));
-  -webkit-mask-image:linear-gradient(to bottom, rgba(0,0,0,.5), transparent 88%);mask-image:linear-gradient(to bottom, rgba(0,0,0,.5), transparent 88%);
-  opacity:calc(var(--p,.5) + var(--lv) * .4);transition:opacity .7s ease}
-.pool canvas{width:100%;height:100%;display:block;transform:scaleY(-1);transform-origin:50% 50%;filter:blur(5px) saturate(1.2);
-  animation:lightup 1.8s calc(.9s + var(--i) * .2s) both}
 
-/* the wall label */
-.placard{grid-row:2;grid-column:1;width:max(100%,150px);max-width:290px;padding-top:clamp(16px,2.4svh,28px);
-  font-size:13.5px;line-height:1.5;color:var(--vinyl-2);transition:color .5s ease,opacity .5s ease}
-.placard .t{display:block;font-size:15.5px;line-height:1.3;font-weight:440;color:var(--vinyl)}
-.placard .m{display:block;margin-top:.15em;font-stretch:86%;color:var(--vinyl-3)}
-.placard .d{display:block;margin-top:.6em}
-.placard .go{display:inline-block;margin-top:.7em;color:var(--vinyl);padding-bottom:1px;
-  background:linear-gradient(rgb(var(--c) / .55),rgb(var(--c) / .55)) 0 100%/100% 1px no-repeat;transition:background-size .4s ease}
+/* the scraps under each paper: the material each space is made of */
+.scrap{position:absolute;z-index:-1;pointer-events:none}
+.kraft{inset:18% -7% -9% 30%;transform:rotate(4.5deg);background:#b5915f;
+  background-image:radial-gradient(rgba(70,45,20,.18) 1px,transparent 1.2px);background-size:7px 7px}
+.lined{inset:-14% 52% 30% -9%;transform:rotate(-6deg);background:#f7f5ee;
+  background-image:linear-gradient(90deg,transparent 34px,rgba(214,70,70,.55) 34px,rgba(214,70,70,.55) 35.5px,transparent 35.5px),
+    repeating-linear-gradient(180deg,transparent 0 21px,rgba(70,120,200,.35) 21px 22px)}
+.columns{inset:-10% -12% 34% 40%;transform:rotate(3deg);background:#ebe7dc;
+  background-image:repeating-linear-gradient(180deg,rgba(40,40,40,.32) 0 1.5px,transparent 1.5px 6px),
+    linear-gradient(90deg,transparent 31%,#ebe7dc 31% 35%,transparent 35% 65%,#ebe7dc 65% 69%,transparent 69%);
+  background-blend-mode:normal}
+.graph{inset:22% 22% -12% -6%;transform:rotate(-3deg);background:#eef2f2;
+  background-image:linear-gradient(rgba(40,120,160,.28) 1px,transparent 1px),linear-gradient(90deg,rgba(40,120,160,.28) 1px,transparent 1px);background-size:12px 12px}
+.staff{inset:34% -16% -9% 34%;transform:rotate(6deg);background:#f4f1e8;
+  background-image:repeating-linear-gradient(180deg,transparent 0 18px,rgba(30,30,30,.55) 18px 19px,transparent 19px 26px,rgba(30,30,30,.55) 26px 27px,transparent 27px 34px,rgba(30,30,30,.55) 34px 35px,transparent 35px 42px,rgba(30,30,30,.55) 42px 43px,transparent 43px 50px,rgba(30,30,30,.55) 50px 51px,transparent 51px 74px)}
 
-/* states */
-.work.on{--a:.78;--p:.85}
-.work.on .screen{filter:brightness(1.05) saturate(1)}
-.work.on .placard{color:#aca69b}
-.wall.has-on .work:not(.on){--a:.1;--p:.22}
-.wall.has-on .work:not(.on) .screen{filter:brightness(.42) saturate(.7)}
-.wall.has-on .work:not(.on) .placard{opacity:.5}
-a.work:focus-visible{outline:none}
-a.work:focus-visible .screen{outline:1px solid rgb(var(--c));outline-offset:6px}
+/* Kingdom of None: a painting in its wooden frame, inside a drawn box */
+.kon{grid-column:1/7;grid-row:2;--rot:-.6deg;margin-top:clamp(24px,3vw,40px)}
+.kon .paper{background:#efeadf;padding:clamp(10px,1.4vw,16px);border:1.6px solid var(--ink)}
+.kon .frame{display:block;padding:clamp(7px,.9vw,11px);background:linear-gradient(135deg,#8a6750,#5e4334 45%,#7b5b47 70%,#4b3528);
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.35),inset 0 0 8px rgba(0,0,0,.5)}
+.kon .screen{aspect-ratio:16/9}
+.kon .cap{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:11px 2px 0;font-family:'Pirata One',serif}
+.kon .cap b{font-weight:400;font-size:clamp(25px,2.4vw,32px);line-height:1;color:#3c2a1e}
+.kon .cap span{font-size:17px;color:#5a4636}
 
-/* ---------- Tomás on adventure ---------- */
-.k-toa .screen{cursor:pointer;background:#000}
-.k-toa .screen .play{position:absolute;inset:0;display:grid;place-items:center;transition:opacity .4s ease}
-.k-toa .screen .play svg{width:30%;height:30%;padding:5%;box-sizing:border-box;border-radius:50%;background:rgba(0,0,0,.5);
-  fill:rgb(var(--toa) / .95);filter:drop-shadow(0 0 14px rgb(var(--toa) / .5));transition:background .3s ease}
-.k-toa .screen:hover .play svg{background:rgba(0,0,0,.66)}
-.k-toa.playing .screen .play{opacity:0}
-.k-toa .screen>img{transition:filter .8s ease,opacity .5s ease}
-.k-toa.playing .screen>img{filter:brightness(.34) saturate(.75)}
-.k-toa .screen>img.swap{opacity:0}
-.eps{display:flex;gap:7px;margin-top:.8em}
-.ep{display:block;flex:none;width:26px;height:26px;padding:0;border:0;background:#000;cursor:pointer;opacity:.42;transition:opacity .3s ease,transform .3s ease}
+/* Unfinished Paragraphs: a typed sheet, torn along the bottom */
+.up{grid-column:6/13;grid-row:3;--rot:1.1deg;margin-top:clamp(56px,6vw,84px)}
+.up .paper{display:grid;grid-template-columns:38% 1fr;gap:clamp(14px,1.8vw,22px);align-items:center;
+  padding:clamp(14px,1.8vw,22px) clamp(16px,2vw,26px) clamp(26px,3vw,36px);background:#f6eef0}
+.up .screen{aspect-ratio:5/7}
+.up .t{display:block;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;font-size:clamp(28px,2.9vw,40px);line-height:1}
+.up .t .pil{font-style:normal;font-weight:600;color:#a1334d;margin-right:.08em}
+.up .d{display:block;margin-top:.6em;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(18px,1.6vw,21px);line-height:1.3;color:#4b3940}
+
+/* Why Tomás Becerra?: a strip of his drawing with a printed label */
+.why{grid-column:1/6;grid-row:4;--rot:-1.6deg;margin-top:clamp(50px,5.5vw,76px)}
+.why .paper{background:#f4f2ec;padding:10px 10px 14px}
+.why .screen{aspect-ratio:3/2;background:#ddd}
+.why .lab{display:block;margin-top:10px;font-family:'IM Fell English',serif;font-size:clamp(22px,2vw,27px);line-height:1.1}
+.why .lab i{display:block;font-size:17px;margin-top:4px;color:var(--ink-2)}
+
+/* CV: the page itself, black, pinned beside its own lines */
+.cv{grid-column:1/8;grid-row:5;--rot:.5deg;margin-top:clamp(60px,6.5vw,92px)}
+.cv .paper{display:grid;grid-template-columns:42% 1fr;gap:clamp(14px,1.8vw,24px);align-items:stretch;background:#1b1a1d;color:#f1e6d2;
+  padding:clamp(14px,1.6vw,20px);border-top:5px solid var(--red)}
+.cv .screen{aspect-ratio:720/1019;background:#111}
+.cv .txt{display:flex;flex-direction:column;justify-content:space-between;padding:4px 0 2px}
+.cv .t{display:block;font-family:'Anton',sans-serif;font-size:clamp(44px,4.6vw,64px);line-height:.9;color:#f1e6d2}
+.cv .d{display:block;margin-top:.7em;font-family:'Anton',sans-serif;font-size:clamp(16px,1.35vw,19px);line-height:1.25;letter-spacing:.01em;color:#cfc4b1}
+.cv .d em{font-style:normal;color:var(--red)}
+
+/* Tomás on adventure: a record sleeve with its dot */
+.toa{grid-column:8/13;grid-row:5;--rot:-1.2deg;margin-top:clamp(120px,13vw,180px);cursor:default}
+.toa .paper{background:#13162a;color:#e9e7f5;padding:clamp(12px,1.4vw,16px)}
+.toa .screen{aspect-ratio:1;background:#000;cursor:pointer;border:0;padding:0;width:100%}
+.toa .screen>canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.toa .screen>img{transition:filter .8s ease,opacity .5s ease}
+.toa.playing .screen>img{filter:brightness(.38) saturate(.8)}
+.toa .screen>img.swap{opacity:0}
+.toa .t{display:block;margin-top:12px;font-family:'Permanent Marker',cursive;font-size:clamp(23px,2.2vw,29px);line-height:1.05;color:#fff6c9}
+.player{display:flex;align-items:center;gap:12px;margin-top:12px}
+.dot{flex:none;width:46px;height:46px;border-radius:50%;border:0;background:#fff6c9;display:grid;place-items:center;cursor:pointer;padding:0;
+  box-shadow:0 0 0 calc(var(--lv) * 9px) rgba(255,246,201,.22);transition:transform .2s ease}
+.dot:hover{transform:scale(1.06)}
+.dot svg{width:15px;height:15px;fill:#13162a}
+.trk{min-width:0;font-family:'Archivo',sans-serif;line-height:1.3}
+.trk .tt{display:block;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.trk .tm{display:block;font-size:13px;font-stretch:86%;color:#9c9bb8;font-variant-numeric:tabular-nums}
+.skip{flex:none;width:28px;height:28px;border:0;background:none;cursor:pointer;padding:0;display:grid;place-items:center;margin-left:auto}
+.skip svg{width:12px;height:12px;fill:#e9e7f5}
+.seek{-webkit-appearance:none;appearance:none;display:block;width:100%;height:14px;margin:8px 0 0;background:transparent;cursor:pointer}
+.seek::-webkit-slider-runnable-track{height:2px;background:linear-gradient(90deg,#fff6c9 var(--pr,0%),rgba(255,255,255,.18) var(--pr,0%))}
+.seek::-moz-range-track{height:2px;background:rgba(255,255,255,.18)}
+.seek::-moz-range-progress{height:2px;background:#fff6c9}
+.seek::-webkit-slider-thumb{-webkit-appearance:none;width:10px;height:10px;margin-top:-4px;border-radius:50%;background:#fff6c9;border:0}
+.seek::-moz-range-thumb{width:10px;height:10px;border-radius:50%;background:#fff6c9;border:0}
+.eps{display:flex;gap:8px;margin-top:10px}
+.ep{display:block;flex:none;width:30px;height:30px;padding:0;border:0;background:#000;cursor:pointer;opacity:.45;transition:opacity .3s ease}
 .ep img{display:block;width:100%;height:100%}
 .ep:hover,.ep:focus-visible,.ep.cur{opacity:1}
-.ep.cur{outline:1px solid rgb(var(--toa) / .7);outline-offset:3px}
-.epname{display:block;margin-top:.45em;font-stretch:86%;color:var(--vinyl-3);min-height:3em}
-.k-toa .screen:focus-visible{outline:1px solid rgb(var(--toa));outline-offset:6px}
-.player{display:flex;align-items:center;gap:10px;margin-top:.75em}
-.player button{flex:none;width:34px;height:34px;border-radius:50%;border:1px solid rgb(var(--toa) / .45);background:transparent;cursor:pointer;
-  display:grid;place-items:center;padding:0;transition:border-color .3s,background .3s}
-.player button:hover{border-color:rgb(var(--toa));background:rgb(var(--toa) / .08)}
-.player button svg{width:12px;height:12px;fill:var(--vinyl)}
-.player .skip{width:26px;height:26px;border-color:transparent}
-.player .skip svg{width:10px;height:10px}
-.player .skip[hidden]{display:none}
-.trk{min-width:0;line-height:1.3}
-.trk .tt{display:block;color:var(--vinyl);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.trk .tm{display:block;font-stretch:86%;color:var(--vinyl-3);font-variant-numeric:tabular-nums}
-.seek{-webkit-appearance:none;appearance:none;display:block;width:100%;height:14px;margin:.5em 0 0;background:transparent;cursor:pointer}
-.seek::-webkit-slider-runnable-track{height:1px;background:linear-gradient(90deg,rgb(var(--toa) / .8) var(--pr,0%),rgba(255,255,255,.14) var(--pr,0%))}
-.seek::-moz-range-track{height:1px;background:rgba(255,255,255,.14)}
-.seek::-moz-range-progress{height:1px;background:rgb(var(--toa) / .8)}
-.seek::-webkit-slider-thumb{-webkit-appearance:none;width:9px;height:9px;margin-top:-4px;border-radius:50%;background:var(--vinyl);border:0}
-.seek::-moz-range-thumb{width:9px;height:9px;border-radius:50%;background:var(--vinyl);border:0}
-.k-toa .go{text-decoration:none}
+.ep.cur{outline:2px solid #fff6c9;outline-offset:2px}
+.epname{display:block;margin-top:6px;font-family:'Archivo',sans-serif;font-size:13px;font-stretch:86%;color:#9c9bb8;min-height:2.6em}
+.spot{font-family:'Archivo',sans-serif;font-size:14px;color:#e9e7f5;text-underline-offset:3px}
 
-/* small player that follows you when the screen is out of sight */
-.mini{position:fixed;z-index:5;left:50%;bottom:calc(16px + env(safe-area-inset-bottom));transform:translate(-50%,20px);opacity:0;pointer-events:none;
-  display:flex;align-items:center;gap:10px;max-width:calc(100vw - 32px);padding:6px 16px 6px 6px;border-radius:999px;
-  background:rgba(8,9,14,.82);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgb(var(--toa) / .25);
-  font-size:13.5px;color:var(--vinyl);transition:opacity .4s ease,transform .4s ease}
+/* ---------- foot ---------- */
+.foot{grid-column:1/-1;grid-row:7;display:flex;flex-wrap:wrap;gap:12px 28px;align-items:baseline;justify-content:space-between;
+  margin-top:clamp(90px,11vw,140px);padding-top:26px;font-size:15px}
+.foot code{font-family:inherit}
+.foot .copy{margin-left:.5em;background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:3px;color:var(--ink-2)}
+.foot a{text-underline-offset:3px}
+
+.mini{position:fixed;z-index:9;left:50%;bottom:calc(14px + env(safe-area-inset-bottom));transform:translate(-50%,20px);opacity:0;pointer-events:none;
+  display:flex;align-items:center;gap:10px;max-width:calc(100vw - 32px);padding:6px 16px 6px 6px;border-radius:999px;background:#13162a;color:#e9e7f5;
+  font-family:'Archivo',sans-serif;font-size:14px;box-shadow:0 6px 18px rgba(0,0,0,.25);transition:opacity .4s ease,transform .4s ease}
 .mini.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
-.mini button{width:32px;height:32px;border-radius:50%;border:1px solid rgb(var(--toa) / .45);background:transparent;display:grid;place-items:center;cursor:pointer;padding:0;flex:none}
-.mini button svg{width:11px;height:11px;fill:var(--vinyl)}
+.mini button{width:34px;height:34px;border-radius:50%;border:0;background:#fff6c9;display:grid;place-items:center;cursor:pointer;padding:0;flex:none}
+.mini button svg{width:12px;height:12px;fill:#13162a}
 .mini span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
-/* ---------- narrow screens and short windows: a corridor instead of a wall ---------- */
-@media (max-width:1099px), (max-height:599px){
-  .top{flex-direction:column;gap:18px}
-  .contact{text-align:left;padding-top:0}
-  .wall{display:flex;flex-direction:column;align-items:center;gap:clamp(64px,12vw,96px);
-    padding:clamp(48px,10vw,80px) var(--pad) clamp(96px,16vw,140px);
-    --H:min(calc((100vw - 2 * var(--pad)) / 1.7778), 330px)}
-  .wall::after{display:none}
-  .work{grid-template-rows:auto auto auto;width:var(--w);--cy:calc(var(--h) / 2)}
-  .k-up{--hh:1.7}.k-why{--hh:1}.k-cv{--hh:1.7}.k-toa{--hh:1.25}
-  .pool{grid-row:2;margin-top:8px;height:calc(var(--h) * .3)}
-  .placard{grid-row:3;width:max(100%,min(280px,calc(100vw - 2 * var(--pad))));max-width:none;padding-top:10px}
+/* ---------- phones: the sheet is your drawing, almost to the letter ---------- */
+@media (max-width:759px){
+  .sheet{grid-template-columns:repeat(6,minmax(0,1fr));column-gap:12px;padding-top:40px}
+  .name{grid-column:1/-1;grid-row:auto}
+  .b1{grid-column:2/-1;grid-row:auto;margin-top:22px}
+  .kon{grid-column:1/-1;grid-row:auto;margin-top:44px}
+  .b2{grid-column:2/-1;grid-row:auto;margin-top:46px}
+  .up{grid-column:1/-1;grid-row:auto;margin-top:62px}
+  .up .paper{grid-template-columns:40% 1fr}
+  .b3{grid-column:1/6;grid-row:auto;margin-top:58px}
+  .why{grid-column:1/6;grid-row:auto;margin-top:54px}
+  .b4{grid-column:2/-1;grid-row:auto;margin-top:54px}
+  .cv{grid-column:1/-1;grid-row:auto;margin-top:66px}
+  .cv .paper{grid-template-columns:44% 1fr}
+  .toa{grid-column:2/-1;grid-row:auto;margin-top:96px}
+  .closing{grid-column:1/-1;grid-row:auto;margin-top:70px}
+  .foot{grid-row:auto;flex-direction:column;align-items:flex-start}
 }
 @media (prefers-reduced-motion:reduce){
-  .haze,.screen,.amb canvas,.pool canvas{animation:none}
-  .haze{opacity:.85}.tint-music{opacity:0}
-  .amb{opacity:var(--a,.32)}.pool{opacity:var(--p,.5)}
+  .piece{transition:none}
 }
 </style>
 </head>
 <body>
-<div class="fx haze" aria-hidden="true"></div>
-<div class="fx tint" aria-hidden="true"></div>
-<div class="fx tint-music" aria-hidden="true"></div>
-<div class="fx grain" aria-hidden="true"></div>
+<svg class="layer under" id="under" aria-hidden="true">
+  <defs>
+    <filter id="wc" x="-30%" y="-30%" width="160%" height="160%">
+      <feTurbulence type="fractalNoise" baseFrequency=".011" numOctaves="3" seed="7" result="t"/>
+      <feDisplacementMap in="SourceGraphic" in2="t" scale="70" xChannelSelector="R" yChannelSelector="G"/>
+      <feGaussianBlur stdDeviation="3"/>
+    </filter>
+  </defs>
+  <g id="washes"></g>
+</svg>
+<svg class="layer over" id="over" aria-hidden="true"><g id="lines"></g></svg>
 
-<header class="top">
-  <div>
-    <h1>Tomás Becerra</h1>
-    <p class="role">Narrative and systems designer.<br>Based in Rome, open to relocation.</p>
-    <p class="hint">Pick a screen.</p>
-  </div>
-  <div class="contact">
-    <p><code id="mail">tomas22becerra@gmail.com</code><button class="copy" id="copy" type="button">Copy</button></p>
-    <p><a href="files/KoN_Narrative_Portfolio_TomasBecerra.pdf" target="_blank" rel="noopener">Narrative portfolio (PDF)</a></p>
-  </div>
-</header>
+<main class="sheet" id="sheet">
+  <h1 class="name"><span class="sr">Tomás Becerra</span>
+    <svg viewBox="52 -802 5676 990" aria-hidden="true" id="namesvg"><path d="M284.0,50.4 C308.7,47.8 418.5,36.2 432.0,34.6 C445.5,33.0 381.8,153.9 365.0,41.0 C348.2,-71.9 300.0,-528.0 331.0,-643.0 C362.0,-758.0 513.8,-653.8 551.0,-649.0 C588.2,-644.2 554.0,-614.0 554.0,-614.0 C554.0,-614.0 548.8,-632.2 551.0,-649.0 C553.2,-665.8 567.0,-715.0 567.0,-715.0 C567.0,-715.0 630.8,-663.7 551.0,-649.0 C471.2,-634.3 164.3,-618.2 88.2,-627.0 C12.1,-635.8 94.0,-703.0 94.5,-702.0 C95.0,-701.0 93.5,-645.0 91.4,-621.0 C89.3,-597.0 83.5,-568.5 81.9,-558.0"/><path d="M863.0,-472.0 C853.2,-474.2 827.5,-487.5 804.0,-485.0 C780.5,-482.5 741.5,-472.7 722.0,-457.0 C702.5,-441.3 692.3,-417.3 687.0,-391.0 C681.7,-364.7 683.7,-324.3 690.0,-299.0 C696.3,-273.7 705.5,-255.8 725.0,-239.0 C744.5,-222.2 775.5,-199.0 807.0,-198.0 C838.5,-197.0 888.8,-214.0 914.0,-233.0 C939.2,-252.0 950.2,-283.2 958.0,-312.0 C965.8,-340.8 966.8,-381.8 961.0,-406.0 C955.2,-430.2 937.7,-448.5 923.0,-457.0 C908.3,-465.5 881.3,-457.0 873.0,-457.0"/><path d="M1119.0,41.0 C1129.0,37.3 1156.0,24.7 1179.0,18.9 C1202.0,13.1 1257.5,6.3 1257.0,6.3 C1256.5,6.3 1190.2,64.6 1176.0,18.9 C1161.8,-26.8 1176.3,-190.4 1172.0,-268.0 C1167.7,-345.6 1146.3,-415.0 1150.0,-447.0 C1153.7,-479.0 1206.5,-462.0 1194.0,-460.0 C1181.5,-458.0 1081.5,-437.2 1074.8,-435.0 C1068.1,-432.8 1136.1,-481.2 1154.0,-447.0 C1171.9,-412.8 1167.8,-247.3 1182.0,-230.0 C1196.2,-212.7 1213.3,-312.0 1239.0,-343.0 C1264.7,-374.0 1312.0,-402.8 1336.0,-416.0 C1360.0,-429.2 1370.8,-426.8 1383.0,-422.0 C1395.2,-417.2 1402.7,-414.3 1409.0,-387.0 C1415.3,-359.7 1419.0,-296.8 1421.0,-258.0 C1423.0,-219.2 1415.7,-148.2 1421.0,-154.0 C1426.3,-159.8 1436.7,-251.5 1453.0,-293.0 C1469.3,-334.5 1496.5,-375.2 1519.0,-403.0 C1541.5,-430.8 1567.5,-449.5 1588.0,-460.0 C1608.5,-470.5 1628.8,-476.0 1642.0,-466.0 C1655.2,-456.0 1661.3,-433.5 1667.0,-400.0 C1672.7,-366.5 1675.5,-325.9 1676.0,-265.0 C1676.5,-204.1 1682.5,-77.2 1670.0,-34.6 C1657.5,8.0 1586.8,-7.9 1601.0,-9.4 C1615.2,-11.0 1729.3,-38.3 1755.0,-44.1"/><path d="M1862.0,-350.0 C1859.3,-360.5 1843.8,-394.7 1846.0,-413.0 C1848.2,-431.3 1859.7,-445.3 1875.0,-460.0 C1890.3,-474.7 1913.8,-497.3 1938.0,-501.0 C1962.2,-504.7 1999.0,-496.7 2020.0,-482.0 C2041.0,-467.3 2054.7,-438.7 2064.0,-413.0 C2073.3,-387.3 2073.5,-363.8 2076.0,-328.0 C2078.5,-292.2 2081.0,-228.0 2079.0,-198.0 C2077.0,-168.0 2077.0,-163.7 2064.0,-148.0 C2051.0,-132.3 2022.7,-117.1 2001.0,-104.0 C1979.3,-90.9 1955.0,-76.6 1934.0,-69.3 C1913.0,-61.9 1892.8,-56.8 1875.0,-59.9 C1857.2,-63.0 1835.9,-71.9 1827.4,-88.2 C1818.9,-104.5 1820.6,-139.0 1824.2,-158.0 C1827.8,-177.0 1833.2,-191.7 1849.0,-202.0 C1864.8,-212.3 1892.7,-217.0 1919.0,-220.0 C1945.3,-223.0 1988.2,-221.0 2007.0,-220.0 C2025.8,-219.0 2021.5,-221.8 2032.0,-214.0 C2042.5,-206.2 2061.7,-186.7 2070.0,-173.0 C2078.3,-159.3 2079.3,-149.3 2082.0,-132.0 C2084.7,-114.7 2085.3,-91.3 2086.0,-69.3 C2086.7,-47.3 2085.5,-15.8 2086.0,-0.0 C2086.5,15.8 2082.8,19.9 2089.0,25.2 C2095.2,30.4 2114.2,30.4 2123.0,31.5 C2131.8,32.5 2135.2,31.5 2142.0,31.5 C2148.8,31.5 2156.0,33.6 2164.0,31.5 C2172.0,29.4 2185.7,21.0 2190.0,18.9"/><path d="M2068.0,-754.0 C2067.0,-747.8 2066.2,-731.2 2062.0,-717.0 C2057.8,-702.8 2049.8,-682.7 2043.0,-669.0 C2036.2,-655.3 2028.3,-645.5 2021.0,-635.0 C2013.7,-624.5 2002.7,-610.8 1999.0,-606.0"/><path d="M2252.0,25.2 C2247.8,19.4 2236.9,-3.7 2227.0,-9.4 C2217.1,-15.2 2202.8,-16.3 2192.3,-9.4 C2181.8,-2.6 2166.1,12.6 2164.0,31.5 C2161.9,50.4 2170.3,84.6 2179.7,104.0 C2189.1,123.4 2201.2,139.0 2220.6,148.0 C2240.0,157.0 2271.8,162.7 2296.0,158.0 C2320.2,153.3 2347.5,135.8 2366.0,120.0 C2384.5,104.2 2399.2,89.3 2407.0,63.0 C2414.8,36.7 2420.5,2.0 2413.0,-37.8 C2405.5,-77.6 2382.5,-127.1 2362.0,-176.0 C2341.5,-224.9 2305.2,-285.3 2290.0,-331.0 C2274.8,-376.7 2266.8,-415.8 2271.0,-450.0 C2275.2,-484.2 2296.7,-518.7 2315.0,-536.0 C2333.3,-553.3 2362.0,-553.5 2381.0,-554.0 C2400.0,-554.5 2416.8,-546.8 2429.0,-539.0 C2441.2,-531.2 2444.7,-506.5 2454.0,-507.0 C2463.3,-507.5 2490.8,-553.5 2485.0,-542.0 C2479.2,-530.5 2430.0,-455.3 2419.0,-438.0"/><path d="M2983.0,31.5 C3006.7,22.6 3084.7,-1.6 3125.0,-22.1 C3165.3,-42.6 3204.0,-70.9 3225.0,-91.4 C3246.0,-111.9 3247.8,-127.2 3251.0,-145.0 C3254.2,-162.8 3250.8,-180.7 3244.0,-198.0 C3237.2,-215.3 3221.0,-235.3 3210.0,-249.0 C3199.0,-262.7 3191.2,-272.7 3178.0,-280.0 C3164.8,-287.3 3155.7,-294.0 3131.0,-293.0 C3106.3,-292.0 3029.5,-273.5 3030.0,-274.0 C3030.5,-274.5 3098.8,-280.8 3134.0,-296.0 C3169.2,-311.2 3214.2,-339.8 3241.0,-365.0 C3267.8,-390.2 3283.5,-419.2 3295.0,-447.0 C3306.5,-474.8 3309.0,-503.7 3310.0,-532.0 C3311.0,-560.3 3307.8,-591.7 3301.0,-617.0 C3294.2,-642.3 3286.3,-663.0 3269.0,-684.0 C3251.7,-705.0 3222.7,-728.3 3197.0,-743.0 C3171.3,-757.7 3145.5,-768.3 3115.0,-772.0 C3084.5,-775.7 3053.4,-767.7 3014.0,-765.0 C2974.6,-762.3 2882.5,-757.5 2878.8,-756.0 C2875.1,-754.5 2965.3,-885.1 2992.0,-756.0 C3018.7,-626.9 3031.2,-110.2 3039.0,18.9"/><path d="M3663.0,-44.1 C3656.7,-35.2 3642.8,-3.2 3625.0,9.4 C3607.2,22.0 3579.7,35.7 3556.0,31.5 C3532.3,27.3 3500.3,12.6 3483.0,-15.8 C3465.7,-44.2 3455.7,-95.0 3452.0,-139.0 C3448.3,-183.0 3451.7,-236.0 3461.0,-280.0 C3470.3,-324.0 3494.3,-378.8 3508.0,-403.0 C3521.7,-427.2 3529.3,-422.3 3543.0,-425.0 C3556.7,-427.7 3576.3,-425.8 3590.0,-419.0 C3603.7,-412.2 3611.8,-408.2 3625.0,-384.0 C3638.2,-359.8 3678.5,-293.3 3669.0,-274.0 C3659.5,-254.7 3602.2,-269.5 3568.0,-268.0 C3533.8,-266.5 3481.3,-265.5 3464.0,-265.0"/><path d="M4018.0,-312.0 C4022.2,-336.2 4040.3,-441.8 4043.0,-457.0 C4045.7,-472.2 4045.0,-405.2 4034.0,-403.0 C4023.0,-400.8 3995.8,-435.5 3977.0,-444.0 C3958.2,-452.5 3942.5,-458.7 3921.0,-454.0 C3899.5,-449.3 3867.5,-438.7 3848.0,-416.0 C3828.5,-393.3 3813.5,-350.0 3804.0,-318.0 C3794.5,-286.0 3788.8,-252.3 3791.0,-224.0 C3793.2,-195.7 3801.7,-172.2 3817.0,-148.0 C3832.3,-123.8 3858.3,-91.9 3883.0,-78.8 C3907.7,-65.7 3943.0,-66.7 3965.0,-69.3 C3987.0,-71.9 4003.5,-86.5 4015.0,-94.5 C4026.5,-102.5 4030.8,-113.2 4034.0,-117.0"/><path d="M4403.0,-44.1 C4396.7,-35.2 4382.8,-3.2 4365.0,9.4 C4347.2,22.0 4319.7,35.7 4296.0,31.5 C4272.3,27.3 4240.3,12.6 4223.0,-15.8 C4205.7,-44.2 4195.7,-95.0 4192.0,-139.0 C4188.3,-183.0 4191.7,-236.0 4201.0,-280.0 C4210.3,-324.0 4234.3,-378.8 4248.0,-403.0 C4261.7,-427.2 4269.3,-422.3 4283.0,-425.0 C4296.7,-427.7 4316.3,-425.8 4330.0,-419.0 C4343.7,-412.2 4351.8,-408.2 4365.0,-384.0 C4378.2,-359.8 4418.5,-293.3 4409.0,-274.0 C4399.5,-254.7 4342.2,-269.5 4308.0,-268.0 C4273.8,-266.5 4221.3,-265.5 4204.0,-265.0"/><path d="M4541.0,25.2 C4553.0,21.5 4591.5,9.4 4613.0,3.1 C4634.5,-3.1 4673.2,-13.6 4670.0,-12.6 C4666.8,-11.6 4609.7,36.7 4594.0,9.4 C4578.3,-17.8 4579.0,-117.8 4576.0,-176.0 C4573.0,-234.2 4578.2,-287.5 4576.0,-340.0 C4573.8,-392.5 4576.2,-467.8 4563.0,-491.0 C4549.8,-514.2 4496.8,-479.5 4496.8,-479.0 C4496.8,-478.5 4547.8,-514.3 4563.0,-488.0 C4578.2,-461.7 4574.8,-332.0 4588.0,-321.0 C4601.2,-310.0 4618.8,-393.7 4642.0,-422.0 C4665.2,-450.3 4702.8,-476.8 4727.0,-491.0 C4751.2,-505.2 4771.8,-509.0 4787.0,-507.0 C4802.2,-505.0 4809.7,-489.5 4818.0,-479.0 C4826.3,-468.5 4835.3,-457.2 4837.0,-444.0 C4838.7,-430.8 4832.7,-410.5 4828.0,-400.0 C4823.3,-389.5 4817.0,-384.2 4809.0,-381.0 C4801.0,-377.8 4784.8,-381.0 4780.0,-381.0"/><path d="M4954.0,25.2 C4966.0,21.5 5004.5,9.4 5026.0,3.1 C5047.5,-3.1 5086.2,-13.6 5083.0,-12.6 C5079.8,-11.6 5022.7,36.7 5007.0,9.4 C4991.3,-17.8 4992.0,-117.8 4989.0,-176.0 C4986.0,-234.2 4991.2,-287.5 4989.0,-340.0 C4986.8,-392.5 4989.2,-467.8 4976.0,-491.0 C4962.8,-514.2 4909.8,-479.5 4909.8,-479.0 C4909.8,-478.5 4960.8,-514.3 4976.0,-488.0 C4991.2,-461.7 4987.8,-332.0 5001.0,-321.0 C5014.2,-310.0 5031.8,-393.7 5055.0,-422.0 C5078.2,-450.3 5115.8,-476.8 5140.0,-491.0 C5164.2,-505.2 5184.8,-509.0 5200.0,-507.0 C5215.2,-505.0 5222.7,-489.5 5231.0,-479.0 C5239.3,-468.5 5248.3,-457.2 5250.0,-444.0 C5251.7,-430.8 5245.7,-410.5 5241.0,-400.0 C5236.3,-389.5 5230.0,-384.2 5222.0,-381.0 C5214.0,-377.8 5197.8,-381.0 5193.0,-381.0"/><path d="M5370.0,-350.0 C5367.3,-360.5 5351.8,-394.7 5354.0,-413.0 C5356.2,-431.3 5367.7,-445.3 5383.0,-460.0 C5398.3,-474.7 5421.8,-497.3 5446.0,-501.0 C5470.2,-504.7 5507.0,-496.7 5528.0,-482.0 C5549.0,-467.3 5562.7,-438.7 5572.0,-413.0 C5581.3,-387.3 5581.5,-363.8 5584.0,-328.0 C5586.5,-292.2 5589.0,-228.0 5587.0,-198.0 C5585.0,-168.0 5585.0,-163.7 5572.0,-148.0 C5559.0,-132.3 5530.7,-117.1 5509.0,-104.0 C5487.3,-90.9 5463.0,-76.6 5442.0,-69.3 C5421.0,-61.9 5400.8,-56.8 5383.0,-59.9 C5365.2,-63.0 5343.9,-71.9 5335.4,-88.2 C5326.9,-104.5 5328.6,-139.0 5332.2,-158.0 C5335.8,-177.0 5341.2,-191.7 5357.0,-202.0 C5372.8,-212.3 5400.7,-217.0 5427.0,-220.0 C5453.3,-223.0 5496.2,-221.0 5515.0,-220.0 C5533.8,-219.0 5529.5,-221.8 5540.0,-214.0 C5550.5,-206.2 5569.7,-186.7 5578.0,-173.0 C5586.3,-159.3 5587.3,-149.3 5590.0,-132.0 C5592.7,-114.7 5593.3,-91.3 5594.0,-69.3 C5594.7,-47.3 5593.5,-15.8 5594.0,-0.0 C5594.5,15.8 5590.8,19.9 5597.0,25.2 C5603.2,30.4 5622.2,30.4 5631.0,31.5 C5639.8,32.5 5643.2,31.5 5650.0,31.5 C5656.8,31.5 5664.0,33.6 5672.0,31.5 C5680.0,29.4 5693.7,21.0 5698.0,18.9"/></svg>
+  </h1>
 
-<main class="wall" id="wall" aria-label="Spaces">
+  <p class="typed b1">
+    <span class="strip" style="--r:-.8deg">Narrative and systems designer.</span>
+    <span class="strip" style="--r:.6deg">Trained in the implications of words.</span>
+    <span class="strip" style="--r:-.3deg">Based in Rome, open to relocation.</span>
+  </p>
 
-  <a class="work k-kon" style="--i:0" href="kingdom-of-none.html" data-video="landing/kon.mp4" aria-labelledby="t-kon" aria-describedby="d-kon">
-    <span class="amb"><canvas></canvas></span>
-    <span class="screen"><img src="landing/kon.jpg" alt="" width="1280" height="720"><video muted loop playsinline preload="none"></video></span>
-    <span class="placard">
-      <span class="t" id="t-kon"><i>Kingdom of None</i>, 2026–</span>
-      <span class="m">Turn-based roguelite card RPG, in development</span>
-      <span class="d" id="d-kon">The world, its 36 territories, the card engine and a codex of everything built so far. Made in Godot 4.</span>
-      <span class="go">Visit the game’s site</span>
+  <a class="piece kon" href="kingdom-of-none.html" data-video="landing/kon.mp4" aria-label="Kingdom of None: a turn-based roguelite card RPG, in development. Visit the game’s site.">
+    <span class="scrap kraft"></span>
+    <span class="tape" style="left:-18px;top:-8px;transform:rotate(-28deg);background:var(--green)"></span>
+    <span class="paper">
+      <span class="frame"><span class="screen"><img src="landing/kon.jpg" alt="" width="1280" height="720"><video muted loop playsinline preload="none"></video></span></span>
+      <span class="cap"><b>Kingdom of None</b><span>A turn-based roguelite card RPG, in development.</span></span>
     </span>
-    <span class="pool"><canvas></canvas></span>
   </a>
 
-  <a class="work k-up" style="--i:1" href="unfinished-paragraphs.html" data-video="landing/up.mp4" aria-labelledby="t-up" aria-describedby="d-up">
-    <span class="amb"><canvas></canvas></span>
-    <span class="screen"><img src="landing/up.jpg" alt="" width="480" height="672"><video muted loop playsinline preload="none"></video></span>
-    <span class="placard">
-      <span class="t" id="t-up"><i>Unfinished Paragraphs</i>, 2025–26</span>
-      <span class="m">Short fiction</span>
-      <span class="d" id="d-up">Seven stories written before Kingdom of None. Each one changes colour as you read.</span>
-      <span class="go">Read the stories</span>
+  <p class="typed b2">
+    <span class="strip" style="--r:.7deg"><span class="v">writes</span>short fiction, horror, dark humour and fantasy.</span>
+    <span class="strip" style="--r:-.5deg"><span class="v">draws</span>in ink, with a natural inclination for art and aesthetics.</span>
+  </p>
+
+  <a class="piece up" href="unfinished-paragraphs.html" data-video="landing/up.mp4" data-torn="bottom" aria-label="Unfinished Paragraphs: seven stories written before Kingdom of None. Read the stories.">
+    <span class="scrap lined"></span>
+    <span class="tape" style="right:18%;top:-10px;transform:rotate(4deg);background:var(--yellow)"></span>
+    <span class="paper">
+      <span class="screen"><img src="landing/up.jpg" alt="" width="480" height="672"><video muted loop playsinline preload="none"></video></span>
+      <span><span class="t"><span class="pil">¶</span>Unfinished Paragraphs</span>
+      <span class="d">Seven stories written before Kingdom of None. Each one changes colour as you read.</span></span>
     </span>
-    <span class="pool"><canvas></canvas></span>
   </a>
 
-  <a class="work k-why" data-pan="why" style="--i:2" href="why.html" aria-labelledby="t-why" aria-describedby="d-why">
-    <span class="amb"><canvas></canvas></span>
-    <span class="screen"><img src="landing/why.jpg" alt="" width="960" height="640"></span>
-    <span class="placard">
-      <span class="t" id="t-why"><i>Why Tomás Becerra?</i>, 2026</span>
-      <span class="m">Essay</span>
-      <span class="d" id="d-why">From court rulings and modern-slavery reports to immersive rooms and a card game: on power, words and constraints.</span>
-      <span class="go">Read the essay</span>
+  <p class="typed b3">
+    <span class="strip" style="--r:-.6deg"><span class="v">asks</span>What is power? Who decides what it is for?</span>
+    <span class="strip" style="--r:.5deg">Are there limits to the forms of meaning?</span>
+  </p>
+
+  <a class="piece why" href="why.html" data-pan="why" data-torn="right" aria-label="Why Tomás Becerra?: an essay on power, words and constraints. Read the essay.">
+    <span class="scrap columns"></span>
+    <span class="paper">
+      <span class="screen"><img src="landing/why.jpg" alt="" width="960" height="640"></span>
+      <span class="lab">Why Tomás Becerra?<i>An essay on power, words and constraints.</i></span>
     </span>
-    <span class="pool"><canvas></canvas></span>
   </a>
 
-  <a class="work k-cv" data-pan="cv" style="--i:3" href="files/CV_TomasBecerra.pdf" target="_blank" rel="noopener" aria-labelledby="t-cv" aria-describedby="d-cv">
-    <span class="amb"><canvas></canvas></span>
-    <span class="screen"><img src="landing/cv.jpg" alt="" width="720" height="1019"></span>
-    <span class="placard">
-      <span class="t" id="t-cv"><i>CV</i>, 2026</span>
-      <span class="m">One page, PDF</span>
-      <span class="d" id="d-cv">Judicial writer, modern-slavery researcher, narrative lead at IKONO, and now Kingdom of None.</span>
-      <span class="go">Open the CV</span>
+  <p class="typed b4">
+    <span class="strip" style="--r:.6deg"><span class="v">sings</span>opera, and in the street.</span>
+    <span class="strip" style="--r:-.7deg">Experimental music as Tomás on adventure.</span>
+  </p>
+
+  <a class="piece cv" href="files/CV_TomasBecerra.pdf" target="_blank" rel="noopener" data-pan="cv" aria-label="CV, one page, PDF. Opens in a new tab.">
+    <span class="scrap graph"></span>
+    <span class="tape" style="left:46%;top:-12px;transform:rotate(-3deg);background:var(--blue)"></span>
+    <span class="paper">
+      <span class="screen"><img src="landing/cv.jpg" alt="" width="720" height="1019"></span>
+      <span class="txt"><span class="t">CV</span>
+      <span class="d">Judicial writer for six years. Modern-slavery researcher. Narrative lead at IKONO. <em>Now Kingdom of None.</em></span></span>
     </span>
-    <span class="pool"><canvas></canvas></span>
   </a>
 
-  <div class="work k-toa" style="--i:4" id="toa" role="group" aria-labelledby="t-toa">
-    <span class="amb"><canvas></canvas></span>
-    <button class="screen" id="toaScreen" type="button" aria-label="Play Tomás on adventure">
-      <img id="cover" src="landing/toa-rest.jpg" data-ep="rest" alt="" width="480" height="480">
-      <canvas id="osc"></canvas>
-      <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l12.5-7.5z"/></svg></span>
-    </button>
-    <div class="placard">
-      <span class="t" id="t-toa"><i>Tomás on adventure</i></span>
-      <span class="m">Experimental music</span>
-      <div class="player">
-        <button class="pp" id="pp" type="button" aria-label="Play"><svg viewBox="0 0 24 24" id="ppIcon"><path d="M7 4.5v15l12.5-7.5z"/></svg></button>
-        <div class="trk"><span class="tt" id="tt">Threadlining</span><span class="tm" id="tm">0:00</span></div>
-        <button class="skip" id="next" type="button" aria-label="Next track" hidden><svg viewBox="0 0 24 24"><path d="M4 4.5v15L15 12zM16.5 4.5h3v15h-3z"/></svg></button>
-      </div>
+  <div class="piece toa" id="toa" role="group" aria-labelledby="t-toa">
+    <span class="scrap staff"></span>
+    <span class="tape" style="right:-16px;top:-6px;transform:rotate(32deg);background:var(--violet)"></span>
+    <span class="paper">
+      <button class="screen" id="toaScreen" type="button" aria-label="Play Tomás on adventure">
+        <img id="cover" src="landing/toa-rest.jpg" data-ep="rest" alt="" width="480" height="480">
+        <canvas id="osc"></canvas>
+      </button>
+      <span class="t" id="t-toa">Tomás on adventure</span>
+      <span class="player">
+        <button class="dot" id="pp" type="button" aria-label="Play"><svg viewBox="0 0 24 24" id="ppIcon"><path d="M7 4.5v15l12.5-7.5z"/></svg></button>
+        <span class="trk"><span class="tt" id="tt">Compass reach</span><span class="tm" id="tm">0:00</span></span>
+        <button class="skip" id="next" type="button" aria-label="Next track"><svg viewBox="0 0 24 24"><path d="M4 4.5v15L15 12zM16.5 4.5h3v15h-3z"/></svg></button>
+      </span>
       <label class="sr" for="seek">Position in the track</label>
       <input class="seek" id="seek" type="range" min="0" max="1000" value="0" step="1">
-      <div class="eps" role="group" aria-label="EPs">
+      <span class="eps" role="group" aria-label="EPs">
         <button class="ep" type="button" data-ep="cartography" aria-label="Play Cartography"><img src="landing/ep-cartography-s.jpg" alt="" width="52" height="52"></button>
         <button class="ep" type="button" data-ep="quantum" aria-label="Play Something wrong with the quantum machine"><img src="landing/ep-quantum-machine-s.jpg" alt="" width="52" height="52"></button>
         <a class="ep" data-ep="sillage" href="https://open.spotify.com/artist/0u3MztL3JelbFfD4odTNO4" target="_blank" rel="noopener" aria-label="Madame Sillage, on Spotify"><img src="landing/ep-madame-sillage-s.jpg" alt="" width="52" height="52"></a>
         <a class="ep" data-ep="outfit" href="https://open.spotify.com/artist/0u3MztL3JelbFfD4odTNO4" target="_blank" rel="noopener" aria-label="An Outfit, on Spotify"><img src="landing/ep-an-outfit-s.jpg" alt="" width="52" height="52"></a>
-      </div>
+      </span>
       <span class="epname" id="epname" aria-hidden="true">From Cartography</span>
-      <a class="go" href="https://open.spotify.com/artist/0u3MztL3JelbFfD4odTNO4" target="_blank" rel="noopener">Listen on Spotify</a>
-    </div>
-    <span class="pool"><canvas></canvas></span>
+      <a class="spot" href="https://open.spotify.com/artist/0u3MztL3JelbFfD4odTNO4" target="_blank" rel="noopener">Listen on Spotify</a>
+    </span>
   </div>
 
+  <p class="closing"><span class="strip" style="--r:-.4deg">And is essentially into semantic density.</span></p>
+
+  <footer class="foot">
+    <span><code id="mail">tomas22becerra@gmail.com</code><button class="copy" id="copy" type="button">Copy</button></span>
+    <a href="files/KoN_Narrative_Portfolio_TomasBecerra.pdf" target="_blank" rel="noopener">Narrative portfolio (PDF)</a>
+  </footer>
 </main>
 
 <div class="mini" id="mini" aria-hidden="true">
   <button type="button" id="miniPP" aria-label="Pause" tabindex="-1"><svg viewBox="0 0 24 24"><path d="M6.5 4.5h4v15h-4zM13.5 4.5h4v15h-4z"/></svg></button>
-  <span id="miniT">Threadlining · Tomás on adventure</span>
+  <span id="miniT">Compass reach · Tomás on adventure</span>
 </div>
-
 <audio id="au" preload="none"></audio>
 
 <script>
 (() => {
 'use strict';
-// The first play of every visit drops into Threadlining at 1:05 (on the beat at 65.06 s).
+const $ = s => document.querySelector(s);
+const root = document.documentElement, sheet = $('#sheet');
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const finePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
+const NS = 'http://www.w3.org/2000/svg';
+let playing = false, active = null, rafOn = false;
+
+/* ---------- a small seeded random, so the tears and the wobble are the same on every visit ---------- */
+function rng(seed) { let s = seed >>> 0; return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
+
+/* ---------- torn edges: the paper is cut by hand along one side ---------- */
+function tear(el, side, seed, amp) {
+  const r = rng(seed), pts = [], N = 34;
+  const j = () => (r() * amp).toFixed(1);
+  if (side === 'bottom') {
+    pts.push('0 0', '100% 0');
+    for (let i = N; i >= 0; i--) pts.push(`${(i / N * 100).toFixed(2)}% calc(100% - ${j()}px)`);
+  } else if (side === 'right') {
+    pts.push('0 0');
+    for (let i = 0; i <= N; i++) pts.push(`calc(100% - ${j()}px) ${(i / N * 100).toFixed(2)}%`);
+    pts.push('0 100%');
+  }
+  el.style.clipPath = `polygon(${pts.join(',')})`;
+}
+document.querySelectorAll('[data-torn]').forEach((p, i) => tear(p.querySelector('.paper'), p.dataset.torn, 11 + i * 7, 9));
+// the scraps behind each paper are torn on every side
+function tearAll(el, seed, amp) {
+  const r = rng(seed), N = 16, pts = [];
+  const j = () => (r() * amp).toFixed(1);
+  for (let i = 0; i <= N; i++) pts.push(`${(i / N * 100).toFixed(1)}% ${j()}px`);
+  for (let i = 0; i <= N; i++) pts.push(`calc(100% - ${j()}px) ${(i / N * 100).toFixed(1)}%`);
+  for (let i = N; i >= 0; i--) pts.push(`${(i / N * 100).toFixed(1)}% calc(100% - ${j()}px)`);
+  for (let i = N; i >= 0; i--) pts.push(`${j()}px ${(i / N * 100).toFixed(1)}%`);
+  el.style.clipPath = `polygon(${pts.join(',')})`;
+}
+document.querySelectorAll('.scrap').forEach((el, i) => tearAll(el, 90 + i * 13, 7));
+
+/* ---------- the name, written by the pen ---------- */
+const nameStrokes = [...document.querySelectorAll('#namesvg path')];
+(function writeName() {
+  let t = .25;
+  const total = nameStrokes.reduce((a, p) => a + p.getTotalLength(), 0);
+  for (const p of nameStrokes) {
+    const L = p.getTotalLength();
+    const dur = Math.max(.05, L / total * 1.5);   // the whole name in about a second and a half
+    p.style.strokeDasharray = L; p.style.strokeDashoffset = reduce ? 0 : L;
+    if (!reduce) p.animate([{ strokeDashoffset: L }, { strokeDashoffset: 0 }], { duration: dur * 1000, delay: t * 1000, fill: 'forwards', easing: 'ease-in-out' });
+    t += dur + .015;
+  }
+})();
+
+/* ---------- the line that goes for a walk, and the colours between spaces ---------- */
+const under = $('#under'), over = $('#over'), washes = $('#washes'), lines = $('#lines');
+const P = {
+  kon: $('.kon'), up: $('.up'), why: $('.why'), cv: $('.cv'), toa: $('#toa'), b2: $('.b2'), b3: $('.b3'), b4: $('.b4'), foot: $('.foot'),
+};
+function rect(el) {
+  const r = el.getBoundingClientRect();
+  return { l: r.left + scrollX, t: r.top + scrollY, r: r.right + scrollX, b: r.bottom + scrollY, w: r.width, h: r.height,
+           cx: r.left + scrollX + r.width / 2, cy: r.top + scrollY + r.height / 2 };
+}
+// a hand-drawn line through points: each stretch subdivided and nudged, then smoothed
+function handPath(pts, seed, wob = 1.6, sharp = false) {
+  const r = rng(seed), out = [];
+  for (let i = 0; i < pts.length - 1; i++) {
+    const [x1, y1] = pts[i], [x2, y2] = pts[i + 1];
+    const n = Math.max(2, Math.round(Math.hypot(x2 - x1, y2 - y1) / 38));
+    for (let k = 0; k < n; k++) {
+      const t = k / n;
+      out.push([x1 + (x2 - x1) * t + (k ? (r() - .5) * wob * 2 : 0), y1 + (y2 - y1) * t + (k ? (r() - .5) * wob * 2 : 0)]);
+    }
+  }
+  out.push(pts[pts.length - 1]);
+  if (sharp) return 'M' + out.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(' L');   // zigzags keep their corners
+  let d = `M${out[0][0].toFixed(1)},${out[0][1].toFixed(1)}`;
+  for (let i = 1; i < out.length; i++) {
+    const p0 = out[i - 1], p1 = out[i];
+    const mx = (p0[0] + p1[0]) / 2, my = (p0[1] + p1[1]) / 2;
+    d += i === 1 ? ` L${mx.toFixed(1)},${my.toFixed(1)}` : ` Q${p0[0].toFixed(1)},${p0[1].toFixed(1)} ${mx.toFixed(1)},${my.toFixed(1)}`;
+  }
+  d += ` L${out[out.length - 1][0].toFixed(1)},${out[out.length - 1][1].toFixed(1)}`;
+  return d;
+}
+const offset = (pts, dx, dy) => pts.map(([x, y]) => [x + dx, y + dy]);
+function mk(tag, attrs, parent) { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent.appendChild(e); return e; }
+
+// a defined border: the ink line and, beside it, the coloured one (as in Tomás's drawing)
+const drawn = new Set();
+function border(pts, color, seed, extra = {}) {
+  const g = mk('g', { class: 'stroke' + (extra.cls ? ' ' + extra.cls : '') }, lines);
+  g.dataset.key = seed; if (drawn.has(seed)) g.dataset.done = '1';
+  const sharp = extra.sharp ?? pts.length > 4;
+  const ink = extra.noInk ? null : mk('path', { class: 'ink', d: handPath(pts, seed, 1.4, sharp) }, g);
+  const col = mk('path', { class: 'col', d: handPath(offset(pts, extra.dx ?? 3.5, extra.dy ?? -3.5), seed + 101, 1.4, sharp), stroke: color }, g);
+  return { g, ink, col };
+}
+// a diffuse space: a watercolour wash that bleeds under the papers
+function wash(cx, cy, rx, ry, color, op = .5) {
+  const id = 'g' + Math.random().toString(36).slice(2, 8);
+  const gr = mk('radialGradient', { id }, washes);
+  mk('stop', { offset: '0', 'stop-color': color, 'stop-opacity': op }, gr);
+  mk('stop', { offset: '.55', 'stop-color': color, 'stop-opacity': op * .55 }, gr);
+  mk('stop', { offset: '1', 'stop-color': color, 'stop-opacity': 0 }, gr);
+  mk('ellipse', { cx, cy, rx, ry, fill: `url(#${id})`, filter: 'url(#wc)' }, washes);
+}
+
+let vib = null, vibBase = null;   // the last line, which the music makes vibrate
+function zig(a, b, n, amp, seed) {
+  const r = rng(seed), pts = [a];
+  for (let i = 1; i < n; i++) {
+    const t = i / n, s = i % 2 ? 1 : -1;
+    pts.push([a[0] + (b[0] - a[0]) * t + s * amp * (.7 + r() * .6), a[1] + (b[1] - a[1]) * t + (r() - .5) * amp * .25]);
+  }
+  pts.push(b); return pts;
+}
+function stairs(a, b, steps) {
+  const pts = [a]; let [x, y] = a;
+  const dx = (b[0] - a[0]) / steps, dy = (b[1] - a[1]) / steps;
+  for (let i = 0; i < steps; i++) { y += dy; pts.push([x, y]); x += dx; pts.push([x, y]); }
+  return pts;
+}
+
+function drawLines() {
+  lines.textContent = ''; washes.textContent = '';
+  const H = document.documentElement.scrollHeight, W = document.documentElement.clientWidth;
+  for (const s of [under, over]) { s.setAttribute('width', W); s.setAttribute('height', H); s.style.height = H + 'px'; }
+  const S = rect(sheet), K = rect(P.kon), U = rect(P.up), Y = rect(P.why), C = rect(P.cv), T = rect(P.toa), F = rect(P.foot);
+  const narrow = W < 760;
+
+  // the top band: ink across the whole width, the red just under it
+  const top = S.t + 18;
+  border([[-10, top], [W * .35, top - 4], [W * .7, top + 3], [W + 10, top - 2]], 'var(--red)', 3, { dy: 6, dx: 0 });
+
+  // diffuse spaces: watercolour washes that bleed out from under some papers
+  wash(K.cx, K.cy, K.w * .8, K.h * .78, '#5f9a68', .55);
+  wash(K.l + K.w * .2, K.t + K.h * .15, K.w * .42, K.h * .45, '#d1a23e', .5);
+  wash(U.cx, U.cy, U.w * .7, U.h * .9, '#e993ae', .62);
+  wash(T.cx, T.cy, T.w * 1.05, T.h * .75, '#4f66e0', .5);
+  wash(T.cx + T.w * .2, T.b, T.w * .85, T.h * .5, '#a33bd2', .45);
+  wash(C.l + C.w * .25, C.cy, C.w * .5, C.h * .7, '#d0362b', .28);
+
+  const dotR = rect($('#pp'));
+  if (!narrow) {
+    // the line walks down the gutter, touching each paper on its inner edge, and ends at the music's dot
+    const v0 = [K.r + 8, K.t + K.h * .62], v1 = [U.l - 12, U.t + U.h * .38];
+    border(zig(v0, v1, 5, 46, 21), 'var(--green)', 21, { sharp: true });
+    // defined: the yellow edge under the stories, out to the margin
+    const yY = U.b + 30;
+    border([[U.l - 70, yY], [U.cx, yY + 5], [W + 10, yY + 1]], 'var(--yellow)', 33, { dx: 0, dy: 4 });
+    const v2 = [Y.r + 14, Y.t + Y.h * .3];
+    border(stairs([v1[0], U.b - 20], v2, 3), 'var(--green)', 41, { sharp: true });
+    const v3 = [C.r + 14, C.t + C.h * .22];
+    border(zig([v2[0], Y.b - 10], v3, 6, 26, 51), 'var(--green)', 51, { sharp: true });
+    // the blue V: under the CV and up to the record
+    const v4 = [T.l - 14, T.t + T.h * .55];
+    border([v3, [v3[0] + 6, C.b + 30], [(v3[0] + v4[0]) / 2 + 10, C.b + 70], v4], 'var(--blue)', 61, { sharp: true });
+    border([v4, [v4[0] + 8, dotR.cy + 30], [dotR.l - 6, dotR.cy + 4]], 'var(--violet)', 65, { dx: 3, dy: 3 });
+  } else {
+    // on a phone the borders run across the width, in the gaps above each paper
+    const gapAbove = (el, prev) => (rect(prev).b + rect(el).t) / 2;
+    const span = (y, n, amp, color, seed) => border(zig([S.l + 4, y], [S.r - 4, y + 6], n, amp, seed).map(([x, yy], i) => i % 2 ? [x, yy + amp] : [x, yy - amp * .2]), color, seed);
+    const yU = gapAbove(P.up, P.b2) - 6;
+    border(zig([S.l + 2, yU - 14], [S.r - 2, yU + 10], 7, 0, 21).map((p, i) => [p[0], p[1] + (i % 2 ? 14 : -10)]), 'var(--green)', 21, { sharp: true });
+    const yY = U.b + 24;
+    border([[S.l - 4, yY], [W * .5, yY + 4], [W + 10, yY]], 'var(--yellow)', 33, { dx: 0, dy: 4 });
+    const yW = gapAbove(P.why, P.b3);
+    border(stairs([S.l + 6, yW - 16], [S.r - 10, yW + 16], 4), 'var(--green)', 41, { sharp: true });
+    const yC = gapAbove(P.cv, P.b4);
+    border(zig([S.r - 4, yC - 12], [S.l + 4, yC + 12], 6, 0, 51).map((p, i) => [p[0], p[1] + (i % 2 ? 16 : -12)]), 'var(--green)', 51, { sharp: true });
+    const yT = (C.b + T.t) / 2;
+    border([[S.l + 4, yT - 18], [S.l + S.w * .35, yT + 20], [S.r - 8, yT - 22]], 'var(--blue)', 61, { sharp: true });
+  }
+
+  // the bottom band: the ink line and the violet one, which vibrates when music plays
+  const bot = F.t - 6;
+  vibBase = { y: bot + 7, w: W };
+  const st = border([[-10, bot], [W * .3, bot + 5], [W * .66, bot - 3], [W + 10, bot + 2]], 'var(--violet)', 71, { dx: 0, dy: 7 });
+  vib = st.col; vib._restD = vib.getAttribute('d');
+
+  revealSetup();
+}
+
+/* the line draws itself as you arrive at each stretch */
+let revealIO = null;
+function revealSetup() {
+  if (revealIO) revealIO.disconnect();
+  const groups = [...lines.querySelectorAll('g.stroke')];
+  const pending = new Map();
+  for (const g of groups) {
+    const ps = [...g.querySelectorAll('path')];
+    const bb = g.getBBox();
+    if (reduce || g.dataset.done) continue;
+    for (const p of ps) { const L = p.getTotalLength(); p.style.strokeDasharray = L; p.style.strokeDashoffset = L; p._L = L; }
+    pending.set(g, { ps, top: bb.y, bottom: bb.y + bb.height });
+  }
+  const check = () => {
+    const vb = scrollY + innerHeight * .92;
+    for (const [g, o] of pending) {
+      if (o.top < vb) {
+        o.ps.forEach((p, i) => p.animate([{ strokeDashoffset: p._L }, { strokeDashoffset: 0 }],
+          { duration: Math.min(1800, 500 + p._L * .9), delay: 120 + i * 90, easing: 'cubic-bezier(.6,.1,.3,1)', fill: 'forwards' }));
+        g.dataset.done = '1'; drawn.add(+g.dataset.key); pending.delete(g);
+      }
+    }
+    if (!pending.size) removeEventListener('scroll', check);
+  };
+  addEventListener('scroll', check, { passive: true });
+  setTimeout(check, reduce ? 0 : 1100);   // after the name has started to write itself
+}
+
+let resizeT = 0;
+addEventListener('resize', () => { clearTimeout(resizeT); resizeT = setTimeout(drawLines, 180); });
+const ready = () => drawLines();
+(document.fonts ? document.fonts.ready : Promise.resolve()).then(() => requestAnimationFrame(ready));
+addEventListener('load', () => drawLines());
+
+/* ---------- the papers you are looking at ---------- */
+const pieces = [...document.querySelectorAll('.piece')];
+for (const w of pieces) {
+  w._screen = w.querySelector('.screen');
+  w._img = w._screen && w._screen.querySelector('img');
+  w._video = w._screen && w._screen.querySelector('video');
+}
+let leaveTimer = 0;
+function loadVideo(w) {
+  const v = w._video; if (!v || v.src) return;
+  v.src = w.dataset.video; v.preload = 'auto';
+}
+const PANS = {
+  cv: { origin: '50% 0', dur: 20000, frames: [{ transform: 'scale(1)' }, { transform: 'scale(1.5) translateY(0)', offset: .07 }, { transform: 'scale(1.5) translateY(-33.3%)' }] },
+  why: { origin: '50% 50%', dur: 16000, frames: [{ transform: 'scale(1)' }, { transform: 'scale(1.45) translate(9%, 4%)', offset: .1 }, { transform: 'scale(1.45) translate(-12%, -2%)' }] },
+};
+function pan(w, on) {
+  const img = w._img, Pn = PANS[w.dataset.pan]; if (!Pn) return;
+  img.style.transformOrigin = Pn.origin;
+  if (on) w._pan = img.animate(Pn.frames, { duration: Pn.dur, easing: 'linear', fill: 'forwards' });
+  else if (w._pan) {
+    const cur = getComputedStyle(img).transform; w._pan.cancel();
+    img.animate([{ transform: cur }, { transform: 'none' }], { duration: 700, easing: 'cubic-bezier(.2,.7,.2,1)' }); w._pan = null;
+  }
+}
+function activate(w) {
+  clearTimeout(leaveTimer);
+  if (active === w) return;
+  if (active) deactivate(active);
+  active = w; w.classList.add('on');
+  if (w._video) { loadVideo(w); w._video.play().then(() => { if (w.classList.contains('on')) w._video.classList.add('live'); }).catch(() => {}); }
+  if (w.dataset.pan && !reduce) pan(w, true);
+}
+function deactivate(w) {
+  w.classList.remove('on');
+  if (w._video) { w._video.pause(); w._video.classList.remove('live'); }
+  if (w.dataset.pan) pan(w, false);
+  if (active === w) active = null;
+}
+for (const w of pieces) {
+  w.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse' || e.pointerType === 'pen') activate(w); });
+  w.addEventListener('pointerleave', e => { if (e.pointerType !== 'mouse' && e.pointerType !== 'pen') return; leaveTimer = setTimeout(() => { if (active === w) deactivate(w); }, 120); });
+  w.addEventListener('focusin', e => { if (e.target.matches(':focus-visible')) activate(w); });
+  w.addEventListener('focusout', e => { if (!w.contains(e.relatedTarget) && active === w) deactivate(w); });
+}
+// on a phone, the paper whose screen is nearest the middle of the view comes alive
+let pickQueued = false;
+function pickByScroll() {
+  pickQueued = false;
+  if (finePointer) return;
+  const mid = innerHeight / 2, reach = innerHeight * .2;
+  let best = null, bd = Infinity;
+  for (const w of pieces) { if (!w._screen) continue; const r = w._screen.getBoundingClientRect(); const d = Math.abs(r.top + r.height / 2 - mid); if (d < bd) { bd = d; best = w; } }
+  if (best && bd < reach) activate(best); else if (active && bd > reach * 1.4) deactivate(active);
+}
+addEventListener('scroll', () => { if (!pickQueued) { pickQueued = true; requestAnimationFrame(pickByScroll); } }, { passive: true });
+if (finePointer && !(navigator.connection && navigator.connection.saveData)) {
+  addEventListener('load', () => setTimeout(() => { const go = () => pieces.forEach(w => w._video && loadVideo(w)); 'requestIdleCallback' in window ? requestIdleCallback(go, { timeout: 3000 }) : go(); }, 2500));
+}
+
+/* ---------- Tomás on adventure ---------- */
+// The first play of every visit drops into Compass reach at 1:05 (on the beat at 65.06 s).
 const FIRST_START = 64.96;
 const MASTER = .62;   // overall level of the player (Tomás, 21/10: a bit lower)
 const EPS = {
@@ -335,193 +621,26 @@ const EPS = {
   outfit: { title: 'An Outfit', cover: 'landing/ep-an-outfit.jpg' },
 };
 const TRACKS = [
-  { title: 'Threadlining', ep: 'cartography', src: 'music/threadlining.m4a', gain: 1 },
+  { title: 'Compass reach', ep: 'cartography', src: 'music/compass-reach.m4a', gain: 1 },
   { title: 'So much natural machinery', ep: 'cartography', src: 'music/so-much-natural-machinery.m4a', gain: 1 },
   { title: 'Royal beasts', ep: 'cartography', src: 'music/royal-beasts.m4a', gain: .79 },   // mastered 2 dB louder than the rest
   { title: 'A blue extension', ep: 'quantum', src: 'music/a-blue-extension.m4a', gain: 1 },
 ];
-
-const $ = s => document.querySelector(s);
-const root = document.documentElement;
-const wall = $('#wall');
-const works = [...document.querySelectorAll('.work')];
-const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const finePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
-const corridor = matchMedia('(max-width: 1099px), (max-height: 599px)');
-const ICON_PLAY = 'M7 4.5v15l12.5-7.5z', ICON_PAUSE = 'M6.5 4.5h4v15h-4zM13.5 4.5h4v15h-4z';
-
-/* ---------- light: each screen paints the wall and the floor ---------- */
-for (const w of works) {
-  w._screen = w.querySelector('.screen');
-  w._img = w._screen.querySelector('img');
-  w._video = w._screen.querySelector('video');
-  w._amb = w.querySelector('.amb canvas');
-  w._pool = w.querySelector('.pool canvas');
-  const ar = parseFloat(getComputedStyle(w).getPropertyValue('--ar')) || 1;
-  w._amb.width = 40; w._amb.height = Math.max(8, Math.round(40 / ar));
-  w._pool.width = 64; w._pool.height = Math.max(8, Math.round(64 / ar));
-  w._ambCtx = w._amb.getContext('2d', { willReadFrequently: true });
-  w._poolCtx = w._pool.getContext('2d');
-}
-const osc = $('#osc');
-const toa = $('#toa');
-const cover = $('#cover');
-let active = null, leaveTimer = 0, playing = false, ringRGB = '150 172 255';
-let rafOn = false, lastLight = 0;   // declared up here: a phone can light a screen while the page is still starting
-
-// the colour of a small picture, weighted toward its bright pixels (light is what reaches the room)
-function avgRGB(x, cw, ch) {
-  const d = x.getImageData(0, 0, cw, ch).data;
-  let r = 0, g = 0, b = 0, n = 0;
-  for (let i = 0; i < d.length; i += 4) {
-    const k = 0.15 + (d[i] + d[i + 1] + d[i + 2]) / 765;
-    r += d[i] * k; g += d[i + 1] * k; b += d[i + 2] * k; n += k;
-  }
-  return [r / n, g / n, b / n];
-}
-
-function sourceOf(w) {
-  const v = w._video;
-  if (v && v.classList.contains('live') && v.readyState >= 2) return v;
-  if (w._img && w._img.complete && w._img.naturalWidth) return w._img;
-  return null;
-}
-function paintLight(w) {
-  const s = sourceOf(w);
-  if (!s) return;
-  try {
-    for (const [c, x] of [[w._amb, w._ambCtx], [w._pool, w._poolCtx]]) {
-      if (w === toa) {   // the cover, dimmed while the ring plays over it
-        x.globalAlpha = 1; x.fillStyle = '#000'; x.fillRect(0, 0, c.width, c.height);
-        x.globalAlpha = playing ? .34 : 1; x.drawImage(s, 0, 0, c.width, c.height);
-        x.globalAlpha = 1; if (playing) x.drawImage(osc, 0, 0, c.width, c.height);
-      } else x.drawImage(s, 0, 0, c.width, c.height);
-    }
-    // the colour the screen throws into the room
-    const [r, g, b] = avgRGB(w._ambCtx, w._amb.width, w._amb.height);
-    const m = Math.max(r, g, b, 1), lift = Math.min(1.6, 225 / m);
-    w._tint = `${Math.round(r * lift)} ${Math.round(g * lift)} ${Math.round(b * lift)}`;
-    if (w === active) root.style.setProperty('--tc', w._tint);
-  } catch (e) { /* a frame that is not ready yet */ }
-}
-for (const w of works) {
-  if (w._img) { if (w._img.complete) paintLight(w); else w._img.addEventListener('load', () => paintLight(w), { once: true }); }
-}
-
-/* ---------- the projector you are standing in front of ---------- */
-function placeTint(w) {
-  const r = w._screen.getBoundingClientRect();
-  root.style.setProperty('--tx', `${r.left + r.width / 2}px`);
-  root.style.setProperty('--ty', `${r.top + r.height / 2}px`);
-}
-function loadVideo(w) {
-  const v = w._video;
-  if (!v || v.src) return;
-  v.src = w.dataset.video;
-  v.preload = 'auto';
-  v.addEventListener('playing', () => { if (w.classList.contains('on')) v.classList.add('live'); });
-}
-function activate(w) {
-  clearTimeout(leaveTimer);
-  if (active === w) return;
-  if (active) deactivate(active);
-  active = w;
-  w.classList.add('on');
-  wall.classList.add('has-on');
-  document.body.classList.add('lit');
-  placeTint(w);
-  if (w._tint) root.style.setProperty('--tc', w._tint);
-  if (w._video) { loadVideo(w); w._video.play().then(() => { if (w.classList.contains('on')) w._video.classList.add('live'); }).catch(() => {}); }
-  if (PANS[w.dataset.pan] && !reduce) pan(w, true);
-  wake();
-}
-function deactivate(w) {
-  w.classList.remove('on');
-  // the projector goes back to its still; the film keeps its place for next time
-  if (w._video) { w._video.pause(); w._video.classList.remove('live'); setTimeout(() => paintLight(w), 480); }
-  if (PANS[w.dataset.pan]) pan(w, false);
-  if (active === w) {
-    active = null;
-    wall.classList.remove('has-on');
-    document.body.classList.remove('lit');
-  }
-}
-// the stills that are read by moving the camera over them: the CV down its page, the drawing across the bar
-const PANS = {
-  cv: { origin: '50% 0', dur: 20000, frames: [
-    { transform: 'scale(1)' }, { transform: 'scale(1.5) translateY(0)', offset: .07 }, { transform: 'scale(1.5) translateY(-33.3%)' }] },
-  why: { origin: '50% 50%', dur: 16000, frames: [
-    { transform: 'scale(1)' }, { transform: 'scale(1.45) translate(9%, 4%)', offset: .1 }, { transform: 'scale(1.45) translate(-12%, -2%)' }] },
-};
-function pan(w, on) {
-  const img = w._img, P = PANS[w.dataset.pan];
-  img.style.transformOrigin = P.origin;
-  if (on) {
-    w._pan = img.animate(P.frames, { duration: P.dur, easing: 'linear', fill: 'forwards' });
-  } else if (w._pan) {
-    const cur = getComputedStyle(img).transform;
-    w._pan.cancel();
-    img.animate([{ transform: cur }, { transform: 'none' }], { duration: 700, easing: 'cubic-bezier(.2,.7,.2,1)' });
-    w._pan = null;
-  }
-}
-
-function wireHover() {
-  for (const w of works) {
-    w.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse' || e.pointerType === 'pen') activate(w); });
-    w.addEventListener('pointerleave', e => {
-      if (e.pointerType !== 'mouse' && e.pointerType !== 'pen') return;
-      leaveTimer = setTimeout(() => { if (active === w) deactivate(w); }, 120);
-    });
-    w.addEventListener('focusin', e => { if (e.target.matches(':focus-visible')) activate(w); });
-    w.addEventListener('focusout', e => { if (!w.contains(e.relatedTarget) && active === w) deactivate(w); });
-  }
-}
-wireHover();
-
-// in the corridor (phones), the screen in front of you is the one whose middle is nearest the middle of the view
-let corridorQueued = false;
-function pickInCorridor() {
-  corridorQueued = false;
-  if (!corridor.matches) return;
-  const mid = innerHeight / 2, reach = innerHeight * .16;
-  let best = null, bd = Infinity;
-  for (const w of works) {
-    const r = w._screen.getBoundingClientRect();
-    const d = Math.abs(r.top + r.height / 2 - mid);
-    if (d < bd) { bd = d; best = w; }
-  }
-  if (best && bd < reach) activate(best);
-  else if (active && bd > reach * 1.4) deactivate(active);
-}
-function wireCorridor() {
-  if (corridor.matches) pickInCorridor();
-  else if (active && !active.matches(':hover') && !active.contains(document.activeElement)) deactivate(active);
-}
-wireCorridor();
-corridor.addEventListener('change', wireCorridor);
-addEventListener('scroll', () => {
-  if (active) placeTint(active);
-  placeMusicLight();
-  if (corridor.matches && !corridorQueued) { corridorQueued = true; requestAnimationFrame(pickInCorridor); }
-}, { passive: true });
-addEventListener('resize', () => { if (active) placeTint(active); sizeOsc(); placeMusicLight(); });
-
-// warm up the projectors once the page has settled, on desktop with a decent connection
-if (finePointer && !(navigator.connection && navigator.connection.saveData)) {
-  addEventListener('load', () => setTimeout(() => {
-    const go = () => works.forEach(w => w._video && loadVideo(w));
-    'requestIdleCallback' in window ? requestIdleCallback(go, { timeout: 3000 }) : go();
-  }, 2500));
-}
-
-/* ---------- Tomás on adventure ---------- */
-const au = $('#au'), pp = $('#pp'), ppIcon = $('#ppIcon'), seek = $('#seek'), tt = $('#tt'), tm = $('#tm');
+const toa = $('#toa'), au = $('#au'), pp = $('#pp'), ppIcon = $('#ppIcon'), seek = $('#seek'), tt = $('#tt'), tm = $('#tm');
 const nextBtn = $('#next'), mini = $('#mini'), miniPP = $('#miniPP'), miniT = $('#miniT'), toaScreen = $('#toaScreen');
-let ti = 0, actx = null, analyser = null, gainNode = null, buf = null, fbuf = null, avg = -1, dev = .05, level = 0, lastT = 0, warmFrom = 0, seeking = false;
-let pendingStart = null, started = false;
-nextBtn.hidden = TRACKS.length < 2;
+const cover = $('#cover'), osc = $('#osc'), epname = $('#epname'), epBtns = [...document.querySelectorAll('.ep')];
+const ICON_PLAY = 'M7 4.5v15l12.5-7.5z', ICON_PAUSE = 'M6.5 4.5h4v15h-4zM13.5 4.5h4v15h-4z';
+let ti = 0, actx = null, analyser = null, gainNode = null, buf = null, level = 0, pendingStart = null, started = false, seeking = false;
+let avg = -1, dev = .05, lastT = 0, warmFrom = 0, fbuf = null;
 
+function markEP(key) { for (const b of epBtns) b.classList.toggle('cur', b.dataset.ep === key); epname.textContent = `From ${EPS[key].title}`; }
+function showEP(key) {
+  markEP(key);
+  if (cover.dataset.ep === key) return;
+  cover.dataset.ep = key; cover.classList.add('swap');
+  setTimeout(() => { cover.src = EPS[key].cover; }, 260);
+}
+cover.addEventListener('load', () => cover.classList.remove('swap'));
 function setTrack(i, autoplay, at) {
   ti = (i + TRACKS.length) % TRACKS.length;
   pendingStart = at || null;
@@ -530,7 +649,7 @@ function setTrack(i, autoplay, at) {
   tt.textContent = TRACKS[ti].title;
   showEP(TRACKS[ti].ep);
   miniT.textContent = `${TRACKS[ti].title} · Tomás on adventure`;
-  if ('mediaSession' in navigator) navigator.mediaSession.metadata = new MediaMetadata({ title: TRACKS[ti].title, artist: 'Tomás on adventure' });
+  if ('mediaSession' in navigator) navigator.mediaSession.metadata = new MediaMetadata({ title: TRACKS[ti].title, artist: 'Tomás on adventure', album: EPS[TRACKS[ti].ep].title });
   if (autoplay) play();
 }
 const fmt = s => isFinite(s) ? `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}` : '0:00';
@@ -540,23 +659,16 @@ function ensureAudioGraph() {
     actx = new (window.AudioContext || window.webkitAudioContext)();
     const src = actx.createMediaElementSource(au);
     gainNode = actx.createGain();
-    analyser = actx.createAnalyser();
-    analyser.fftSize = 2048;
-    analyser.smoothingTimeConstant = .6;
+    analyser = actx.createAnalyser(); analyser.fftSize = 2048; analyser.smoothingTimeConstant = .6;
     analyser.minDecibels = -85; analyser.maxDecibels = -12;
-    buf = new Float32Array(analyser.fftSize);
-    fbuf = new Uint8Array(analyser.frequencyBinCount);
+    buf = new Float32Array(analyser.fftSize); fbuf = new Uint8Array(analyser.frequencyBinCount);
     src.connect(gainNode); gainNode.connect(analyser); analyser.connect(actx.destination);
   } catch (e) { actx = null; analyser = null; gainNode = null; }
 }
 function fadeIn() {
   const g = TRACKS[ti].gain * MASTER;
-  if (gainNode) {
-    const now = actx.currentTime;
-    gainNode.gain.cancelScheduledValues(now);
-    gainNode.gain.setValueAtTime(0, now);
-    gainNode.gain.linearRampToValueAtTime(g, now + .12);
-  } else au.volume = g;
+  if (gainNode) { const now = actx.currentTime; gainNode.gain.cancelScheduledValues(now); gainNode.gain.setValueAtTime(0, now); gainNode.gain.linearRampToValueAtTime(g, now + .12); }
+  else au.volume = g;
 }
 function play() {
   if (!started) { started = true; setTrack(0, false, FIRST_START); }
@@ -573,8 +685,7 @@ function reflect() {
   ppIcon.firstElementChild.setAttribute('d', playing ? ICON_PAUSE : ICON_PLAY);
   miniPP.firstElementChild.firstElementChild.setAttribute('d', playing ? ICON_PAUSE : ICON_PLAY);
   const label = playing ? 'Pause' : 'Play';
-  pp.setAttribute('aria-label', label);
-  miniPP.setAttribute('aria-label', label);
+  pp.setAttribute('aria-label', label); miniPP.setAttribute('aria-label', label);
   toaScreen.setAttribute('aria-label', `${label} Tomás on adventure`);
   updateMini();
   if (playing) wake();
@@ -585,7 +696,7 @@ miniPP.addEventListener('click', toggle);
 nextBtn.addEventListener('click', () => { started = true; setTrack(ti + 1, true); });
 au.addEventListener('play', reflect);
 au.addEventListener('pause', reflect);
-au.addEventListener('ended', () => { if (TRACKS.length > 1) setTrack(ti + 1, true); else { au.currentTime = 0; reflect(); } });
+au.addEventListener('ended', () => setTrack(ti + 1, true));
 au.addEventListener('timeupdate', () => {
   tm.textContent = `${fmt(au.currentTime)} / ${fmt(au.duration)}`;
   if (!seeking && au.duration) { seek.value = Math.round(au.currentTime / au.duration * 1000); seek.style.setProperty('--pr', `${seek.value / 10}%`); }
@@ -600,42 +711,10 @@ seek.addEventListener('change', () => { if (au.duration) au.currentTime = seek.v
 if ('mediaSession' in navigator) {
   navigator.mediaSession.setActionHandler('play', play);
   navigator.mediaSession.setActionHandler('pause', () => au.pause());
-  if (TRACKS.length > 1) {
-    navigator.mediaSession.setActionHandler('nexttrack', () => { started = true; setTrack(ti + 1, true); });
-    navigator.mediaSession.setActionHandler('previoustrack', () => { started = true; setTrack(ti - 1, true); });
-  }
+  navigator.mediaSession.setActionHandler('nexttrack', () => { started = true; setTrack(ti + 1, true); });
+  navigator.mediaSession.setActionHandler('previoustrack', () => { started = true; setTrack(ti - 1, true); });
 }
-tt.textContent = TRACKS[0].title;
-miniT.textContent = `${TRACKS[0].title} · Tomás on adventure`;
-
-/* the EPs: the screen projects the cover of the one that is playing, and the light takes its colour */
-const epBtns = [...document.querySelectorAll('.ep')], epname = $('#epname');
 const epLabel = e => EPS[e.dataset.ep].title + (e.tagName === 'A' ? ', on Spotify' : '');
-function markEP(key) {
-  for (const b of epBtns) b.classList.toggle('cur', b.dataset.ep === key);
-  epname.textContent = `From ${EPS[key].title}`;
-}
-// before the first play the screen shows the invitation; after that, the cover of the EP that is playing
-function showEP(key) {
-  markEP(key);
-  if (cover.dataset.ep === key) return;
-  cover.dataset.ep = key;
-  cover.classList.add('swap');
-  setTimeout(() => { cover.src = EPS[key].cover; }, 260);
-}
-function coverTint() {
-  const x = toa._ambCtx;
-  x.globalAlpha = 1;
-  x.drawImage(cover, 0, 0, toa._amb.width, toa._amb.height);
-  let [r, g, b] = avgRGB(x, toa._amb.width, toa._amb.height);
-  const m = Math.max(r, g, b, 1), lift = Math.min(2, 230 / m);
-  [r, g, b] = [r, g, b].map(v => Math.round(Math.min(255, v * lift + (255 - v * lift) * .3)));
-  ringRGB = `${r} ${g} ${b}`;
-  root.style.setProperty('--toa', ringRGB);
-  paintLight(toa);
-}
-cover.addEventListener('load', () => { cover.classList.remove('swap'); coverTint(); });
-if (cover.complete && cover.naturalWidth) coverTint();
 for (const e of epBtns) {
   const show = () => { epname.textContent = epLabel(e); };
   const back = () => { epname.textContent = `From ${EPS[TRACKS[ti].ep].title}`; };
@@ -645,38 +724,26 @@ for (const e of epBtns) {
   e.addEventListener('click', () => {
     const k = e.dataset.ep;
     if (started && TRACKS[ti].ep === k) { toggle(); return; }
-    if (!started && k === TRACKS[0].ep) { play(); return; }   // the first play still drops into Threadlining at 1:05
-    started = true;
-    setTrack(TRACKS.findIndex(t => t.ep === k), true);
+    if (!started && k === TRACKS[0].ep) { play(); return; }   // the first play still drops into Compass reach at 1:05
+    started = true; setTrack(TRACKS.findIndex(t => t.ep === k), true);
   });
 }
 markEP(TRACKS[0].ep);
 
-// the small player shows up only while music plays and its screen is out of sight
 let toaVisible = true;
 new IntersectionObserver(es => { toaVisible = es[0].isIntersecting; updateMini(); }, { threshold: .25 }).observe(toaScreen);
 function updateMini() {
   const show = playing && !toaVisible;
-  mini.classList.toggle('show', show);
-  mini.setAttribute('aria-hidden', String(!show));
-  miniPP.tabIndex = show ? 0 : -1;
+  mini.classList.toggle('show', show); mini.setAttribute('aria-hidden', String(!show)); miniPP.tabIndex = show ? 0 : -1;
 }
-function placeMusicLight() {
-  const r = toaScreen.getBoundingClientRect();
-  root.style.setProperty('--mx', `${r.left + r.width / 2}px`);
-  root.style.setProperty('--my', `${r.top + r.height / 2}px`);
-}
-placeMusicLight();
 
-/* the sound screen: a ring of light drawn by the waveform, with phosphor afterglow */
+/* the record's screen: a ring of light drawn by the waveform over the cover */
 let og = null, oscS = 0, dpr = 1;
 function sizeOsc() {
   dpr = Math.min(2, window.devicePixelRatio || 1);
   const r = toaScreen.getBoundingClientRect();
   oscS = Math.max(64, Math.round(Math.min(r.width, r.height) * dpr));
-  osc.width = osc.height = oscS;
-  og = osc.getContext('2d');
-  drawRest();
+  osc.width = osc.height = oscS; og = osc.getContext('2d'); og.clearRect(0, 0, oscS, oscS);
 }
 function ring(samples, gain, alpha, width) {
   const c = oscS / 2, R = oscS * .3, N = 200;
@@ -685,78 +752,63 @@ function ring(samples, gain, alpha, width) {
     const a = (i / N) * Math.PI * 2 - Math.PI / 2;
     let s = 0;
     if (samples) { const j = Math.floor((i % N) / N * (samples.length - 16) * .5); for (let q = 0; q < 12; q++) s += samples[j + q]; s /= 12; }
-    const rr = R * (1 + s * gain);
-    const x = c + Math.cos(a) * rr, y = c + Math.sin(a) * rr;
+    const rr = R * (1 + s * gain), x = c + Math.cos(a) * rr, y = c + Math.sin(a) * rr;
     i ? og.lineTo(x, y) : og.moveTo(x, y);
   }
-  og.closePath();
-  og.strokeStyle = `rgb(${ringRGB} / ${alpha})`;
-  og.lineWidth = width * dpr;
-  og.stroke();
-}
-function drawRest() {
-  if (!og) return;
-  og.clearRect(0, 0, oscS, oscS);
-  paintLight(toa);
+  og.closePath(); og.strokeStyle = `rgb(255 246 201 / ${alpha})`; og.lineWidth = width * dpr; og.stroke();
 }
 function drawOsc() {
-  // phosphor afterglow on a transparent canvas, so the cover shows through
-  og.globalCompositeOperation = 'destination-out';
-  og.fillStyle = 'rgba(0,0,0,.24)'; og.fillRect(0, 0, oscS, oscS);
+  og.globalCompositeOperation = 'destination-out'; og.fillStyle = 'rgba(0,0,0,.24)'; og.fillRect(0, 0, oscS, oscS);
   og.globalCompositeOperation = 'source-over';
-  const g = .42 + level * .38;
-  ring(buf, g, .18, 9); ring(buf, g, .95, 1.4);
+  const g = .42 + level * .38; ring(buf, g, .18, 9); ring(buf, g, .95, 1.4);
 }
 sizeOsc();
-document.fonts && document.fonts.ready.then(() => { sizeOsc(); placeMusicLight(); });
+addEventListener('resize', sizeOsc);
 
-/* ---------- one loop, running only while something moves ---------- */
+// the violet line at the foot of the sheet becomes a string the music plays
+function drawVib() {
+  if (!vib || !vibBase || !buf) return;
+  const N = 140, W = vibBase.w, y0 = vibBase.y, amp = 10 + level * 26;
+  let d = '';
+  for (let i = 0; i <= N; i++) {
+    const x = -10 + (W + 20) * i / N;
+    const env = Math.sin(Math.PI * i / N);
+    const s = buf[Math.floor(i / N * (buf.length * .5))];
+    d += (i ? ' L' : 'M') + x.toFixed(1) + ',' + (y0 + s * amp * env).toFixed(1);
+  }
+  vib.setAttribute('d', d); vib.style.strokeDasharray = 'none'; vib.style.strokeDashoffset = 0;
+}
+
+/* one loop, running only while something moves */
 function wake() { if (!rafOn) { rafOn = true; requestAnimationFrame(frame); } }
 function frame(t) {
-  let busy = false;
   const tPrev = lastT; lastT = t;
   if (playing && analyser) {
-    analyser.getFloatTimeDomainData(buf);
-    analyser.getByteFrequencyData(fbuf);
-    // the low end (about 25-180 Hz) against its own recent average, so the light follows the music's swells
+    analyser.getFloatTimeDomainData(buf); analyser.getByteFrequencyData(fbuf);
     let lo = 0; for (let i = 1; i < 9; i++) lo += fbuf[i]; lo /= 8 * 255;
-    const dt = Math.min(.1, (t - tPrev) / 1000 || .016);
-    const ease = tau => 1 - Math.exp(-dt / tau);
+    const dt = Math.min(.1, (t - tPrev) / 1000 || .016), ease = tau => 1 - Math.exp(-dt / tau);
     if (avg < 0) { if (lo < .03) { requestAnimationFrame(frame); return; } avg = lo; dev = .04; warmFrom = t; }
-    const tau = t - warmFrom < 1500 ? .3 : 2.5;   // learn the track's level quickly, then follow it slowly
-    avg += (lo - avg) * ease(tau);
-    dev += (Math.abs(lo - avg) - dev) * ease(tau);
+    const tau = t - warmFrom < 1500 ? .3 : 2.5;
+    avg += (lo - avg) * ease(tau); dev += (Math.abs(lo - avg) - dev) * ease(tau);
     const target = Math.min(1, Math.max(0, .38 + (lo - avg) / (2.6 * dev + .004)));
     level += (target - level) * (target > level ? ease(.06) : ease(.35));
-    if (!reduce) root.style.setProperty('--lv', level.toFixed(3));
+    if (!reduce) { root.style.setProperty('--lv', level.toFixed(3)); drawVib(); }
     drawOsc();
-    busy = true;
-  } else if (level > .002) {
-    level *= .92;
-    if (!reduce) root.style.setProperty('--lv', level.toFixed(3));
-    busy = true;
-  } else if (level) {
-    level = 0; root.style.setProperty('--lv', '0'); drawRest();
+    requestAnimationFrame(frame);
+  } else {
+    level = 0; root.style.setProperty('--lv', '0');
+    if (og) og.clearRect(0, 0, oscS, oscS);
+    if (vib && vib._restD) vib.setAttribute('d', vib._restD);
+    rafOn = false;
   }
-  if (active && active._video && !active._video.paused) busy = true;
-  if (t - lastLight > 70) {
-    if (active) paintLight(active);
-    if (playing) paintLight(toa);
-    lastLight = t;
-  }
-  if (busy) requestAnimationFrame(frame); else rafOn = false;
 }
-document.addEventListener('visibilitychange', () => { if (!document.hidden) wake(); });
-works.forEach(w => w._video && w._video.addEventListener('playing', wake));
 
 /* ---------- copy the address ---------- */
 const copy = $('#copy');
 copy.addEventListener('click', async () => {
-  const text = $('#mail').textContent.trim();
-  let ok = false;
+  const text = $('#mail').textContent.trim(); let ok = false;
   try { await navigator.clipboard.writeText(text); ok = true; } catch (e) {
-    const r = document.createRange(); r.selectNodeContents($('#mail'));
-    const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+    const r = document.createRange(); r.selectNodeContents($('#mail')); const s = getSelection(); s.removeAllRanges(); s.addRange(r);
     try { ok = document.execCommand('copy'); } catch (e2) {}
   }
   copy.textContent = ok ? 'Copied' : 'Select and copy';
