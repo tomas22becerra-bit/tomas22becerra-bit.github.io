@@ -181,6 +181,15 @@ a.reg{cursor:pointer}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
 @media (hover:none){ .tag{opacity:1} .tag .sub{display:none} }
+/* A phone has no pointer to come close with, so each name keeps its second label unfolded (Tomás, 22/10).
+   They unfold one after another when the wall arrives; the CV's name goes up to the top of its territory. */
+@media (hover:none) and (orientation:portrait){
+  .tag .sub{display:block;max-width:56vw;padding:.38em .6em .42em;clip-path:inset(-4px -4px -4px -4px);animation:unf .5s cubic-bezier(.3,.7,.2,1) both}
+  .t-kon .sub,.t-why .sub{font-size:14px}.t-up .lab{white-space:nowrap}.t-up .sub{font-size:13px;max-width:44vw}.t-why .sub{max-width:46vw}.t-cv .sub{font-size:14px}.t-toa .sub{font-size:13.5px;gap:9px;padding:.4em .7em .4em .4em}
+  .t-toa .sub{display:flex}.t-toa .disc{width:52px}.t-toa .txt{max-width:150px}
+  .t-kon .sub{animation-delay:.35s}.t-cv .sub{animation-delay:.6s}.t-why .sub{animation-delay:.85s}.t-up .sub{animation-delay:1.1s}.t-toa .sub{animation-delay:1.35s}
+}
+@keyframes unf{from{clip-path:inset(0 0 100% 0)}}
 @media (max-width:600px){
   .tag .lab{white-space:normal;text-align:center;max-width:38vw}
   .t-kon .lab,.t-up .lab{font-size:19px}.t-why .lab{font-size:15px}.t-cv .lab{font-size:30px}.t-toa .lab{font-size:17px}
@@ -194,7 +203,7 @@ a.reg{cursor:pointer}
   .player.rest .trk,.player.cast .trk{max-width:190px}
   .eps{display:none}
 }
-@media (prefers-reduced-motion:reduce){ .player.cast{animation:none} .player.cast .w{animation-name:wFade;animation-duration:.3s} @keyframes wFade{to{opacity:1}} .media>video,.tag,.tag .sub{transition:none} .disc::after{animation:none} .r-cv.on .scan{animation-duration:4.5s;opacity:.55} }
+@media (prefers-reduced-motion:reduce){ .tag .sub{animation:none} .player.cast{animation:none} .player.cast .w{animation-name:wFade;animation-duration:.3s} @keyframes wFade{to{opacity:1}} .media>video,.tag,.tag .sub{transition:none} .disc::after{animation:none} .r-cv.on .scan{animation-duration:4.5s;opacity:.55} }
 </style>
 </head>
 <body>
@@ -213,8 +222,8 @@ a.reg{cursor:pointer}
     <span class="media"><img src="landing/why.jpg" alt="" width="1084" height="722"></span>
     <span class="tag t-why"><span class="lab">The person</span><span class="sub">An essay on meaning and constraints<small>4-minute read</small></span></span>
   </a>
-  <a class="reg r-cv" data-k="cv" href="files/CV_TomasBecerra.pdf" target="_blank" rel="noopener" aria-label="CV, the road so far, one page PDF, opens in a new tab">
-    <span class="media"><img src="landing/cv.jpg" alt="" width="1200" height="1698"></span>
+  <a class="reg r-cv" data-k="cv" href="files/CV_TomasBecerra.pdf?v=2210" target="_blank" rel="noopener" aria-label="CV, the road so far, one page PDF, opens in a new tab">
+    <span class="media"><img src="landing/cv.jpg?v=2210" alt="" width="1200" height="1698"></span>
     <span class="tag t-cv"><span class="lab">CV</span><span class="sub">The road so far</span></span>
   </a>
   <div class="reg r-toa" data-k="toa" id="toa" role="group" aria-label="Tomás on adventure, electric music experiments, 2025">
@@ -282,7 +291,9 @@ const BORDERS = [
 ];
 // where each territory says its name, and where the music's dot sits
 const TAGS = { kon: [17, 41], up: [70, 15], why: [50, 49], cv: [13, 82], toa: [86, 47] };
-const TAGS_P = { kon: [24, 38], up: [16, 58], why: [48, 52], cv: [84, 57], toa: [66, 62] };   // phones: the wall turned on its side
+// phones: the wall turned on its side. Every second label stays unfolded there (Tomás, 22/10), so the names are spread
+// out of each other's way, and the CV's goes up to the top of its territory (before: kon 24,38 · up 16,58 · why 48,52 · cv 84,57 · toa 66,62)
+const TAGS_P = { kon: [32, 32.5], up: [24, 63.5], why: [50, 47.5], cv: [77, 6], toa: [72, 64] };
 const PLAYER = [82, 69], PLAYER_P = [62, 79];
 // the signature, on its scrap, pasted over the printed name at the top of the CV
 const SIG = { x: 21, y: 67, w: 23, rot: -5 }, SIG_P = { x: 70, y: 30, w: 50, rot: -7 };
