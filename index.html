@@ -185,11 +185,18 @@ a.reg{cursor:pointer}
    They unfold one after another when the wall arrives; the CV's name goes up to the top of its territory. */
 @media (hover:none) and (orientation:portrait){
   .tag .sub{display:block;max-width:56vw;padding:.38em .6em .42em;clip-path:inset(-4px -4px -4px -4px);animation:unf .5s cubic-bezier(.3,.7,.2,1) both}
-  .t-kon .sub,.t-why .sub{font-size:14px}.t-up .lab{white-space:nowrap}.t-up .sub{font-size:13px;max-width:44vw}.t-why .sub{max-width:46vw}.t-cv .sub{font-size:14px}.t-toa .sub{font-size:13.5px;gap:9px;padding:.4em .7em .4em .4em}
+  .t-kon .sub,.t-why .sub{font-size:14px}.t-kon .sub{max-width:38vw}.t-why .sub{max-width:176px}.t-up .lab{white-space:nowrap}.t-up .sub{font-size:13px;max-width:44vw}.t-cv .lab{font-size:42px!important}.t-cv .sub{font-size:17.5px}.t-toa .sub{font-size:13.5px;gap:9px;padding:.4em .7em .4em .4em}
   .t-toa .sub{display:flex}.t-toa .disc{width:52px}.t-toa .txt{max-width:150px}
-  .t-kon .sub{animation-delay:.35s}.t-cv .sub{animation-delay:.6s}.t-why .sub{animation-delay:.85s}.t-up .sub{animation-delay:1.1s}.t-toa .sub{animation-delay:1.35s}
+  /* so they read as places to touch (Tomás, 22/10): one at a time, a name folds its second label, goes, and comes back
+     unfolding it again. Each takes its turn every 12.5 s, so four of the five are always there. */
+  .tag .lab{animation:blink 12.5s ease-in-out var(--bl) infinite}
+  .tag .sub{animation:unf .5s cubic-bezier(.3,.7,.2,1) both,fold 12.5s cubic-bezier(.3,.7,.2,1) var(--bl) infinite}
+  .t-kon{--bl:3.5s}.t-cv{--bl:6s}.t-why{--bl:8.5s}.t-up{--bl:11s}.t-toa{--bl:13.5s}
+  .t-kon .sub{animation-delay:.35s,var(--bl)}.t-cv .sub{animation-delay:.6s,var(--bl)}.t-why .sub{animation-delay:.85s,var(--bl)}.t-up .sub{animation-delay:1.1s,var(--bl)}.t-toa .sub{animation-delay:1.35s,var(--bl)}
 }
 @keyframes unf{from{clip-path:inset(0 0 100% 0)}}
+@keyframes fold{0%,22%,100%{clip-path:inset(-4px -4px -4px -4px)}5%,17%{clip-path:inset(0 0 100% 0)}}
+@keyframes blink{0%,5%,21%,100%{opacity:1;transform:none}9%,14%{opacity:0;transform:scale(.9)}18%{opacity:1;transform:scale(1.07)}}
 @media (max-width:600px){
   .tag .lab{white-space:normal;text-align:center;max-width:38vw}
   .t-kon .lab,.t-up .lab{font-size:19px}.t-why .lab{font-size:15px}.t-cv .lab{font-size:30px}.t-toa .lab{font-size:17px}
@@ -203,7 +210,7 @@ a.reg{cursor:pointer}
   .player.rest .trk,.player.cast .trk{max-width:190px}
   .eps{display:none}
 }
-@media (prefers-reduced-motion:reduce){ .tag .sub{animation:none} .player.cast{animation:none} .player.cast .w{animation-name:wFade;animation-duration:.3s} @keyframes wFade{to{opacity:1}} .media>video,.tag,.tag .sub{transition:none} .disc::after{animation:none} .r-cv.on .scan{animation-duration:4.5s;opacity:.55} }
+@media (prefers-reduced-motion:reduce){ .tag .sub,.tag .lab{animation:none!important} .player.cast{animation:none} .player.cast .w{animation-name:wFade;animation-duration:.3s} @keyframes wFade{to{opacity:1}} .media>video,.tag,.tag .sub{transition:none} .disc::after{animation:none} .r-cv.on .scan{animation-duration:4.5s;opacity:.55} }
 </style>
 </head>
 <body>
@@ -293,8 +300,8 @@ const BORDERS = [
 const TAGS = { kon: [17, 41], up: [70, 15], why: [50, 49], cv: [13, 82], toa: [86, 47] };
 // phones: the wall turned on its side. Every second label stays unfolded there (Tomás, 22/10), so the names are spread
 // out of each other's way, and the CV's goes up to the top of its territory (before: kon 24,38 · up 16,58 · why 48,52 · cv 84,57 · toa 66,62)
-const TAGS_P = { kon: [32, 32.5], up: [24, 63.5], why: [50, 47.5], cv: [77, 6], toa: [72, 64] };
-const PLAYER = [82, 69], PLAYER_P = [62, 79];
+const TAGS_P = { kon: [24, 34], up: [24, 63.5], why: [72, 62], cv: [74, 7.5], toa: [71, 76] };
+const PLAYER = [82, 69], PLAYER_P = [62, 88];   // phones: lower since 22/10, so the names above it breathe (before 62,79)
 // the signature, on its scrap, pasted over the printed name at the top of the CV
 const SIG = { x: 21, y: 67, w: 23, rot: -5 }, SIG_P = { x: 70, y: 30, w: 50, rot: -7 };
 
