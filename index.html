@@ -137,10 +137,15 @@ a.reg{cursor:pointer}
 .ep.cur{outline:2px solid #fff6c9;outline-offset:2px}
 .player :focus-visible{outline:2px dashed #fff6c9;outline-offset:3px}
 
-/* a whisper on the frame: how to reach him */
-.mail{position:absolute;right:clamp(16px,2.4vw,32px);bottom:clamp(2px,.4vw,6px);z-index:7;font-size:11.5px;font-stretch:90%;letter-spacing:.02em;
-  color:rgba(244,236,216,.72);text-decoration:none}
-.mail:hover,.mail:focus-visible{color:var(--cream);text-decoration:underline;outline:none}
+/* how to reach him: a label taped over the frame, at the foot of the wall */
+.mail{position:absolute;right:clamp(18px,3vw,44px);bottom:clamp(4px,.6vw,9px);z-index:7;display:flex;align-items:baseline;gap:.6em;
+  padding:.38em .8em .42em;background:#121212;color:var(--cream);text-decoration:none;transform:rotate(-1.2deg);
+  font-family:'Archivo',sans-serif;font-size:clamp(14px,1.08vw,16.5px);letter-spacing:.01em;
+  box-shadow:0 0 0 1.5px #f4ecd8,3px 3px 0 1.5px var(--green),0 6px 14px rgba(0,0,0,.45);transition:transform .25s ease,box-shadow .25s ease}
+.mail .k{font-family:'Permanent Marker',cursive;font-size:.92em;color:#fff6c9;letter-spacing:.02em}
+.mail .m{font-stretch:92%;border-bottom:1px solid rgba(244,236,216,.35);padding-bottom:1px}
+.mail:hover,.mail:focus-visible{transform:rotate(0deg) translateY(-2px);outline:none;box-shadow:0 0 0 1.5px #f4ecd8,4px 4px 0 1.5px var(--purple),0 8px 18px rgba(0,0,0,.5)}
+.mail:hover .m,.mail:focus-visible .m{border-bottom-color:var(--cream)}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
 @media (hover:none){ .tag{opacity:1} .tag .sub{display:none} }
@@ -150,6 +155,7 @@ a.reg{cursor:pointer}
 }
 @media (max-width:1180px){ .eps{display:none} }
 @media (max-width:600px){
+  .mail{left:50%;right:auto;transform:translateX(-50%) rotate(-1.2deg);font-size:14px}
   .player{gap:8px;padding:6px 10px 6px 6px}
   .dot{width:48px;height:48px}
   .trk{max-width:120px}.trk .tt{font-size:14px}
@@ -199,7 +205,7 @@ a.reg{cursor:pointer}
     </span>
   </div>
 
-  <a class="mail" href="mailto:tomas22becerra@gmail.com">tomas22becerra@gmail.com</a>
+  <a class="mail" href="mailto:tomas22becerra@gmail.com" aria-label="Contact: tomas22becerra@gmail.com"><span class="k">Contact</span><span class="m">tomas22becerra@gmail.com</span></a>
 </main>
 <audio id="au" preload="none"></audio>
 
