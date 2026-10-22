@@ -136,9 +136,13 @@ a.reg{cursor:pointer}
   box-shadow:0 0 0 2px #141633,0 0 0 calc(2px + var(--lv) * 12px) rgba(255,246,201,.25),0 4px 14px rgba(0,0,0,.4);transition:transform .2s ease}
 .dot:hover{transform:scale(1.06)}
 .dot svg{width:18px;height:18px;fill:#141633}
+/* on An Outfit the dot is Spotify's door: its green, its three arcs */
+.player.spot .dot{background:#1db954}
+.player.spot .dot svg{width:24px;height:24px;fill:none;stroke:#121212;stroke-width:2.3;stroke-linecap:round}
+.player.spot .tm{color:#7ee2a1}
 .trk{min-width:0;max-width:220px;line-height:1.25}
 .trk .tt{display:block;font-family:'Permanent Marker',cursive;font-size:17px;color:#fff6c9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.trk .tm{display:block;font-size:12px;font-stretch:86%;color:#b9b7d8;font-variant-numeric:tabular-nums}
+.trk .tm{display:block;white-space:nowrap;font-size:12px;font-stretch:86%;color:#b9b7d8;font-variant-numeric:tabular-nums}
 .skip{flex:none;width:30px;height:30px;border:0;background:none;cursor:pointer;padding:0;display:grid;place-items:center}
 .skip svg{width:13px;height:13px;fill:#e9e7f5}
 .eps{display:flex;gap:6px}
@@ -207,13 +211,13 @@ a.reg{cursor:pointer}
 
   <div class="player" id="player">
     <button class="dot" id="pp" type="button" aria-label="Play Tomás on adventure"><svg viewBox="0 0 24 24" id="ppIcon"><path d="M7 4.5v15l12.5-7.5z"/></svg></button>
-    <span class="trk"><span class="tt" id="tt">Compass reach</span><span class="tm" id="tm">Tomás on adventure</span></span>
+    <span class="trk"><span class="tt" id="tt">Give it a listen!</span><span class="tm" id="tm"></span></span>
     <button class="skip" id="next" type="button" aria-label="Next track"><svg viewBox="0 0 24 24"><path d="M4 4.5v15L15 12zM16.5 4.5h3v15h-3z"/></svg></button>
     <span class="eps" role="group" aria-label="EPs">
       <button class="ep" type="button" data-ep="cartography" aria-label="Play Cartography"><img src="landing/ep-cartography-s.jpg" alt="" width="52" height="52"></button>
       <button class="ep" type="button" data-ep="quantum" aria-label="Play Something wrong with the quantum machine"><img src="landing/ep-quantum-machine-s.jpg" alt="" width="52" height="52"></button>
-      <a class="ep" data-ep="sillage" href="https://open.spotify.com/artist/0u3MztL3JelbFfD4odTNO4" target="_blank" rel="noopener" aria-label="Madame Sillage, on Spotify"><img src="landing/ep-madame-sillage-s.jpg" alt="" width="52" height="52"></a>
-      <a class="ep" data-ep="outfit" href="https://open.spotify.com/artist/0u3MztL3JelbFfD4odTNO4" target="_blank" rel="noopener" aria-label="An Outfit, on Spotify"><img src="landing/ep-an-outfit-s.jpg" alt="" width="52" height="52"></a>
+      <button class="ep" type="button" data-ep="sillage" aria-label="Play Madame Sillage"><img src="landing/ep-madame-sillage-s.jpg" alt="" width="52" height="52"></button>
+      <button class="ep" type="button" data-ep="outfit" aria-label="An Outfit, on Spotify"><img src="landing/ep-an-outfit-s.jpg" alt="" width="52" height="52"></button>
     </span>
   </div>
 
@@ -635,10 +639,15 @@ const TRACKS = [
   { title: 'So much natural machinery', ep: 'cartography', src: 'music/so-much-natural-machinery.m4a', gain: 1 },
   { title: 'Royal beasts', ep: 'cartography', src: 'music/royal-beasts.m4a', gain: .79 },   // mastered 2 dB louder than the rest
   { title: 'A blue extension', ep: 'quantum', src: 'music/a-blue-extension.m4a', gain: 1 },
+  { title: 'Lavender magma', ep: 'sillage', src: 'music/lavender-magma.m4a', gain: 1 },   // 22/10, at the same -11.5 LUFS as the rest
+  // An Outfit has no file here (too heavy to send, Tomás 22/10): its stop on the way is a door to Spotify
+  { title: 'An Outfit', ep: 'outfit', spotify: 'https://open.spotify.com/artist/0u3MztL3JelbFfD4odTNO4' },
 ];
-const toa = $('#toa'), au = $('#au'), pp = $('#pp'), ppIcon = $('#ppIcon'), tt = $('#tt'), tm = $('#tm'), nextBtn = $('#next');
+const toa = $('#toa'), player = $('#player'), au = $('#au'), pp = $('#pp'), ppIcon = $('#ppIcon'), tt = $('#tt'), tm = $('#tm'), nextBtn = $('#next');
 const cover = $('#cover'), osc = $('#osc'), epBtns = [...document.querySelectorAll('.ep')];
 const ICON_PLAY = 'M7 4.5v15l12.5-7.5z', ICON_PAUSE = 'M6.5 4.5h4v15h-4zM13.5 4.5h4v15h-4z';
+// the three arcs of Spotify's mark, drawn as strokes inside the dot (which turns Spotify green)
+const ICON_SPOTIFY = 'M5.2 9.2c4.4-1.5 9.3-1.1 13.6 1.2M6 12.6c3.6-1.1 7.5-.8 10.9 1M6.9 15.8c2.8-.8 5.7-.6 8.3.8';
 let ti = 0, actx = null, analyser = null, gainNode = null, fbuf = null, pendingStart = null, started = false;
 let avg = -1, dev = .05, lastT = 0, warmFrom = 0;
 function markEP(key) { for (const b of epBtns) b.classList.toggle('cur', b.dataset.ep === key); }
@@ -652,13 +661,26 @@ cover.addEventListener('load', () => cover.classList.remove('swap'));
 const fmt = s => isFinite(s) ? `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}` : '0:00';
 function setTrack(i, autoplay, at) {
   ti = (i + TRACKS.length) % TRACKS.length;
+  const T = TRACKS[ti];
+  if (T.spotify) { toSpotify(T); return; }
+  player.classList.remove('spot');
   pendingStart = at || null;
-  au.src = TRACKS[ti].src + (at ? `#t=${at}` : '');
-  tt.textContent = TRACKS[ti].title; tm.textContent = EPS[TRACKS[ti].ep].title;
-  showEP(TRACKS[ti].ep);
+  au.src = T.src + (at ? `#t=${at}` : '');
+  tt.textContent = T.title; tm.textContent = EPS[T.ep].title;
+  showEP(T.ep);
   if ('mediaSession' in navigator) navigator.mediaSession.metadata = new MediaMetadata({ title: TRACKS[ti].title, artist: 'Tomás on adventure', album: EPS[TRACKS[ti].ep].title });
   if (autoplay) play();
 }
+// An Outfit: the music stops, its cover comes up, and the dot becomes Spotify's door
+function toSpotify(T) {
+  au.pause(); au.removeAttribute('src'); au.load(); pendingStart = null;
+  player.classList.add('spot');
+  tt.textContent = T.title; tm.textContent = 'Listen on Spotify ↗';
+  showEP(T.ep);
+  ppIcon.firstElementChild.setAttribute('d', ICON_SPOTIFY);
+  pp.setAttribute('aria-label', 'An Outfit, on Spotify (opens in a new tab)');
+}
+function openSpotify() { window.open(TRACKS[ti].spotify, '_blank', 'noopener'); }
 function ensureAudioGraph() {
   if (actx) return;
   try {
@@ -683,19 +705,21 @@ function play() {
   if (actx && actx.state === 'suspended') actx.resume();
   fadeIn(); au.play().catch(() => {});
 }
-function toggle() { au.paused ? play() : au.pause(); }
+function toggle() { if (TRACKS[ti].spotify) { openSpotify(); return; } au.paused ? play() : au.pause(); }
 function reflect() {
   playing = !au.paused;
   toa.classList.toggle('playing', playing); document.body.classList.toggle('playing-now', playing);
-  ppIcon.firstElementChild.setAttribute('d', playing ? ICON_PAUSE : ICON_PLAY);
-  pp.setAttribute('aria-label', `${playing ? 'Pause' : 'Play'} Tomás on adventure`);
+  if (!TRACKS[ti].spotify) {
+    ppIcon.firstElementChild.setAttribute('d', playing ? ICON_PAUSE : ICON_PLAY);
+    pp.setAttribute('aria-label', `${playing ? 'Pause' : 'Play'} Tomás on adventure`);
+  }
   if (playing) wake(); else render();
 }
 pp.addEventListener('click', toggle);
 nextBtn.addEventListener('click', () => { started = true; setTrack(ti + 1, true); });
 au.addEventListener('play', reflect); au.addEventListener('pause', reflect);
 au.addEventListener('ended', () => setTrack(ti + 1, true));
-au.addEventListener('timeupdate', () => { tm.textContent = `${fmt(au.currentTime)} / ${fmt(au.duration)}`; });
+au.addEventListener('timeupdate', () => { if (TRACKS[ti].spotify || !au.src) return; tm.textContent = `${fmt(au.currentTime)} / ${fmt(au.duration)}`; });
 au.addEventListener('loadedmetadata', () => { if (pendingStart != null && Math.abs(au.currentTime - pendingStart) > .5) au.currentTime = pendingStart; pendingStart = null; });
 if ('mediaSession' in navigator) {
   navigator.mediaSession.setActionHandler('play', play);
@@ -704,11 +728,10 @@ if ('mediaSession' in navigator) {
   navigator.mediaSession.setActionHandler('previoustrack', () => { started = true; setTrack(ti - 1, true); });
 }
 for (const e of epBtns) {
-  e.title = EPS[e.dataset.ep].title + (e.tagName === 'A' ? ', on Spotify' : '');
-  if (e.tagName !== 'BUTTON') continue;
+  e.title = EPS[e.dataset.ep].title + (e.dataset.ep === 'outfit' ? ', on Spotify' : '');
   e.addEventListener('click', () => {
     const k = e.dataset.ep;
-    if (started && TRACKS[ti].ep === k) { toggle(); return; }
+    if (started && TRACKS[ti].ep === k) { toggle(); return; }   // on An Outfit, a second click opens Spotify
     if (!started && k === TRACKS[0].ep) { play(); return; }   // the first play still drops into Compass reach at 1:05
     started = true; setTrack(TRACKS.findIndex(t => t.ep === k), true);
   });
