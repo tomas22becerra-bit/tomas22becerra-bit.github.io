@@ -141,8 +141,13 @@ a.reg{cursor:pointer}
 .player.spot .dot svg{width:24px;height:24px;fill:none;stroke:#121212;stroke-width:2.3;stroke-linecap:round}
 .player.spot .tm{color:#7ee2a1}
 .trk{min-width:0;max-width:220px;line-height:1.25;display:flex;flex-direction:column}
+@media (min-width:601px){ .trk{width:212px} }   /* one width for the spell, the cast and the tracks: the pill is centred, so a width that changes makes it jump */
 /* before the first play the cat on the cover casts the spell (Tomás, 22/10): the caster small above, the spell big */
-.player.rest .tm{order:-1;font-size:12.5px;color:#d9d6f0}
+.player.rest .tm{order:-1;font-size:14px;font-weight:700;color:#d9d6f0}
+.player.rest .tm .who{color:#74e4ff}   /* the blue of the lightning he casts on the cover */
+/* the first play: the spell lands, as in the old monster-catching games, then the track takes over */
+.player.cast .tt{color:#fff;animation:cast .9s cubic-bezier(.3,1.6,.5,1) both;transform-origin:0 50%}
+@keyframes cast{0%{transform:scale(.6);opacity:0;text-shadow:0 0 0 #74e4ff}35%{opacity:1;text-shadow:0 0 14px #74e4ff}60%{transform:scale(1.08) translateX(2px)}70%{transform:scale(1.04) translateX(-2px)}100%{transform:none;text-shadow:0 0 4px rgba(116,228,255,.5)}}
 .trk .tt{display:block;font-family:'Permanent Marker',cursive;font-size:17px;color:#fff6c9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .trk .tm{display:block;white-space:nowrap;font-size:12px;font-stretch:86%;color:#b9b7d8;font-variant-numeric:tabular-nums}
 .skip{flex:none;width:30px;height:30px;border:0;background:none;cursor:pointer;padding:0;display:grid;place-items:center}
@@ -180,7 +185,7 @@ a.reg{cursor:pointer}
   .player.rest .trk{max-width:190px}
   .eps{display:none}
 }
-@media (prefers-reduced-motion:reduce){ .media>video,.tag,.tag .sub{transition:none} .disc::after{animation:none} .r-cv.on .scan{animation-duration:4.5s;opacity:.55} }
+@media (prefers-reduced-motion:reduce){ .player.cast .tt{animation:none} .media>video,.tag,.tag .sub{transition:none} .disc::after{animation:none} .r-cv.on .scan{animation-duration:4.5s;opacity:.55} }
 </style>
 </head>
 <body>
@@ -214,7 +219,7 @@ a.reg{cursor:pointer}
 
   <div class="player rest" id="player">
     <button class="dot" id="pp" type="button" aria-label="Play Tomás on adventure"><svg viewBox="0 0 24 24" id="ppIcon"><path d="M7 4.5v15l12.5-7.5z"/></svg></button>
-    <span class="trk"><span class="tt" id="tt">“Press play button” 🎶</span><span class="tm" id="tm">Wizard kitten casts</span></span>
+    <span class="trk"><span class="tt" id="tt">“Press play button” 🎶</span><span class="tm" id="tm"><b class="who">Wizard kitten</b> casts</span></span>
     <button class="skip" id="next" type="button" aria-label="Next track"><svg viewBox="0 0 24 24"><path d="M4 4.5v15L15 12zM16.5 4.5h3v15h-3z"/></svg></button>
     <span class="eps" role="group" aria-label="EPs">
       <button class="ep" type="button" data-ep="cartography" aria-label="Play Cartography"><img src="landing/ep-cartography-s.jpg" alt="" width="52" height="52"></button>
@@ -651,6 +656,7 @@ const cover = $('#cover'), osc = $('#osc'), epBtns = [...document.querySelectorA
 const ICON_PLAY = 'M7 4.5v15l12.5-7.5z', ICON_PAUSE = 'M6.5 4.5h4v15h-4zM13.5 4.5h4v15h-4z';
 // the three arcs of Spotify's mark, drawn as strokes inside the dot (which turns Spotify green)
 const ICON_SPOTIFY = 'M5.2 9.2c4.4-1.5 9.3-1.1 13.6 1.2M6 12.6c3.6-1.1 7.5-.8 10.9 1M6.9 15.8c2.8-.8 5.7-.6 8.3.8';
+let castT = 0, castDone = false;
 let ti = 0, actx = null, analyser = null, gainNode = null, fbuf = null, pendingStart = null, started = false;
 let avg = -1, dev = .05, lastT = 0, warmFrom = 0;
 function markEP(key) { for (const b of epBtns) b.classList.toggle('cur', b.dataset.ep === key); }
@@ -666,7 +672,7 @@ function setTrack(i, autoplay, at) {
   ti = (i + TRACKS.length) % TRACKS.length;
   const T = TRACKS[ti];
   if (T.spotify) { toSpotify(T); return; }
-  player.classList.remove('spot', 'rest');
+  player.classList.remove('spot', 'rest', 'cast'); clearTimeout(castT);
   pendingStart = at || null;
   au.src = T.src + (at ? `#t=${at}` : '');
   tt.textContent = T.title; tm.textContent = EPS[T.ep].title;
@@ -677,11 +683,17 @@ function setTrack(i, autoplay, at) {
 // An Outfit: the music stops, its cover comes up, and the dot becomes Spotify's door
 function toSpotify(T) {
   au.pause(); au.removeAttribute('src'); au.load(); pendingStart = null;
-  player.classList.remove('rest'); player.classList.add('spot');
+  player.classList.remove('rest', 'cast'); clearTimeout(castT); player.classList.add('spot');
   tt.textContent = T.title; tm.textContent = 'Listen on Spotify ↗';
   showEP(T.ep);
   ppIcon.firstElementChild.setAttribute('d', ICON_SPOTIFY);
   pp.setAttribute('aria-label', 'An Outfit, on Spotify (opens in a new tab)');
+}
+// the first time the music starts, the kitten's spell lands: «It's super effective!», then the track
+function cast() {
+  castDone = true; player.classList.add('cast');
+  tt.textContent = 'It\'s super effective!'; tm.textContent = '';
+  castT = setTimeout(() => { player.classList.remove('cast'); const T = TRACKS[ti]; tt.textContent = T.title; tm.textContent = au.src ? `${fmt(au.currentTime)} / ${fmt(au.duration)}` : EPS[T.ep].title; }, 2000);
 }
 function openSpotify() { window.open(TRACKS[ti].spotify, '_blank', 'noopener'); }
 function ensureAudioGraph() {
@@ -711,6 +723,7 @@ function play() {
 function toggle() { if (TRACKS[ti].spotify) { openSpotify(); return; } au.paused ? play() : au.pause(); }
 function reflect() {
   playing = !au.paused;
+  if (playing && !castDone) cast();
   toa.classList.toggle('playing', playing); document.body.classList.toggle('playing-now', playing);
   if (!TRACKS[ti].spotify) {
     ppIcon.firstElementChild.setAttribute('d', playing ? ICON_PAUSE : ICON_PLAY);
@@ -722,7 +735,7 @@ pp.addEventListener('click', toggle);
 nextBtn.addEventListener('click', () => { started = true; setTrack(ti + 1, true); });
 au.addEventListener('play', reflect); au.addEventListener('pause', reflect);
 au.addEventListener('ended', () => setTrack(ti + 1, true));
-au.addEventListener('timeupdate', () => { if (TRACKS[ti].spotify || !au.src) return; tm.textContent = `${fmt(au.currentTime)} / ${fmt(au.duration)}`; });
+au.addEventListener('timeupdate', () => { if (TRACKS[ti].spotify || !au.src || player.classList.contains('cast')) return; tm.textContent = `${fmt(au.currentTime)} / ${fmt(au.duration)}`; });
 au.addEventListener('loadedmetadata', () => { if (pendingStart != null && Math.abs(au.currentTime - pendingStart) > .5) au.currentTime = pendingStart; pendingStart = null; });
 if ('mediaSession' in navigator) {
   navigator.mediaSession.setActionHandler('play', play);
