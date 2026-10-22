@@ -24,6 +24,7 @@
 @font-face{font-family:'Anton';src:url(landing/fonts/anton-latin-400-normal.woff2) format('woff2');font-display:swap}
 @font-face{font-family:'Permanent Marker';src:url(landing/fonts/permanent-marker-latin-400-normal.woff2) format('woff2');font-display:swap}
 @font-face{font-family:'Alegreya';font-style:italic;src:url(landing/fonts/alegreya-latin-400-italic.woff2) format('woff2');font-display:swap}
+@font-face{font-family:'Alegreya';font-style:italic;font-weight:700;src:url(landing/fonts/alegreya-latin-700-italic.woff2) format('woff2');font-display:swap}
 @font-face{font-family:'Special Elite';src:url(landing/fonts/special-elite-latin-400-normal.woff2) format('woff2');font-display:swap}
 @font-face{font-family:'Spectral';font-style:italic;src:url(landing/fonts/spectral-latin-400-italic.woff2) format('woff2');font-display:swap}
 @font-face{font-family:'Courier Prime';font-weight:700;src:url(landing/fonts/courier-prime-latin-700-normal.woff2) format('woff2');font-display:swap}
@@ -89,6 +90,8 @@ a.reg{cursor:pointer}
 /* each name is a label from its own world */
 .t-kon{--r:-2deg;--r2:1.2deg}
 .t-kon .lab{font-family:'Pirata One',serif;font-size:clamp(22px,2.3vw,34px);color:#f1d48a;background:#24180f;border:1px solid #7b5b3a}
+/* the current project says so, in the wall's green (Tomás, 22/10) */
+.t-kon .sub .now{font-weight:700;color:var(--green);white-space:nowrap}
 .t-kon .sub{font-family:'Alegreya',serif;font-style:italic;font-size:clamp(15.5px,1.25vw,18px);color:#efe3c4;background:#3a2a1b;border:1px solid #7b5b3a}
 .t-up{--r:1.5deg;--r2:-1.6deg}
 .t-up .lab{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;font-size:clamp(22px,2.3vw,34px);color:#5a1830;background:#f5dce3}
@@ -179,7 +182,7 @@ a.reg{cursor:pointer}
 
   <a class="reg r-kon" data-k="kon" href="kingdom-of-none.html" aria-label="Kingdom of None, a turn-based roguelite card RPG about power, love, war and the mundane, in development">
     <span class="media"><img src="landing/kon-sq.jpg" alt="" width="1100" height="1100"><video muted loop playsinline preload="none" data-src="landing/kon.mp4"></video></span>
-    <span class="tag t-kon"><span class="lab">Kingdom of None</span><span class="sub">A turn-based roguelite card RPG about power, love, war and the mundane. In development.</span></span>
+    <span class="tag t-kon"><span class="lab">Kingdom of None</span><span class="sub">A turn-based roguelite card RPG about power, love, war and the mundane. <b class="now">In development.</b></span></span>
   </a>
   <a class="reg r-up" data-k="up" href="unfinished-paragraphs.html" aria-label="Unfinished Paragraphs, short fiction: horror, dark fantasy, sci-fi">
     <span class="media"><canvas class="op" id="op"></canvas></span>
@@ -259,7 +262,7 @@ const BORDERS = [
 // where each territory says its name, and where the music's dot sits
 const TAGS = { kon: [17, 41], up: [70, 15], why: [50, 49], cv: [13, 82], toa: [86, 47] };
 const TAGS_P = { kon: [24, 38], up: [16, 58], why: [48, 52], cv: [84, 57], toa: [66, 62] };   // phones: the wall turned on its side
-const PLAYER = [79, 79], PLAYER_P = [62, 79];
+const PLAYER = [82, 69], PLAYER_P = [62, 79];
 // the signature, on its scrap, pasted over the printed name at the top of the CV
 const SIG = { x: 21, y: 67, w: 23, rot: -5 }, SIG_P = { x: 70, y: 30, w: 50, rot: -7 };
 
