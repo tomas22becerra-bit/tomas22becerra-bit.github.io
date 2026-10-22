@@ -60,6 +60,11 @@ a.reg{cursor:pointer}
   mask-image:linear-gradient(to right,#000 80%,transparent),linear-gradient(to bottom,transparent,#000 9%,#000 80%,transparent);mask-composite:intersect}
 .r-why .media>img{object-position:44% 50%}
 .r-cv .media>img{object-position:50% 47%}
+/* the copier's light that runs down the CV while you stay on it */
+.r-cv .scan{position:absolute;inset:0;pointer-events:none;opacity:0;mix-blend-mode:screen;
+  background:linear-gradient(to bottom,transparent 38%,rgba(227,57,43,.16) 47%,rgba(244,236,216,.62) 49.6%,rgba(244,236,216,.9) 50%,transparent 50.6%)}
+.r-cv.on .scan{opacity:1;animation:scan 1.9s cubic-bezier(.45,0,.55,1) infinite}
+@keyframes scan{from{transform:translateY(-52%)}to{transform:translateY(52%)}}
 .r-toa{pointer-events:none}
 .r-toa .media>img{transition:filter .8s ease,opacity .5s ease}
 .r-toa.playing .media>img{filter:brightness(.42) saturate(.85)}
@@ -161,7 +166,7 @@ a.reg{cursor:pointer}
   .trk{max-width:120px}.trk .tt{font-size:14px}
   .eps{display:none}
 }
-@media (prefers-reduced-motion:reduce){ .media>video,.tag,.tag .sub{transition:none} .disc::after{animation:none} }
+@media (prefers-reduced-motion:reduce){ .media>video,.tag,.tag .sub{transition:none} .disc::after{animation:none} .r-cv.on .scan{animation-duration:4.5s;opacity:.55} }
 </style>
 </head>
 <body>
@@ -435,9 +440,77 @@ function settle() {
   requestAnimationFrame(step);
 }
 
-const PANS = {
-  cv: { frames: [{ objectPosition: '50% 47%' }, { objectPosition: '50% 90%' }, { objectPosition: '50% 30%' }], dur: 18000 },
-  why: { frames: [{ objectPosition: '44% 50%' }, { objectPosition: '78% 40%' }, { objectPosition: '20% 60%' }], dur: 15000 },
+/* ---------- each territory moves in its own current while you stay on it ----------
+   These also run when the browser asks for less motion (Windows with its animation effects off says so, and
+   Tomás's Bangho does): until 22/10 they were switched off there, so on his machine only KoN moved. The
+   visitor starts them by coming close and stops them by leaving, as with the music, so they only go gentler.
+   The old pans (15 and 18 s each way) hardly showed in the few seconds a pointer stays: these show at once. */
+const soft = reduce;
+function unwind(el) {   // back to rest from wherever it is, without a jump
+  const t = getComputedStyle(el).transform;
+  el.getAnimations().forEach(a => a.cancel());
+  if (t && t !== 'none') el.animate([{ transform: t }, { transform: 'none' }], { duration: 450, easing: 'ease-out' });
+}
+// the CV cuts between the places of the sheet, as [x%, y%] of the image
+const CUTS = [[22, 34], [84, 44], [68, 53], [19, 52], [47, 84], [17, 95], [80, 82]];
+if (regs.cv) regs.cv.media.insertAdjacentHTML('beforeend', '<i class="scan"></i>');
+const MOVES = {
+  // The person: a documentary camera, pushing in on the man with the pipe, then crossing the bar to the waitress
+  // The territory shows only a sliver of the drawing, and where it falls changes with the screen: a fixed zoom
+  // point pushed the face out of sight (first test, 22/10). So each detail is carried to the middle of what is seen.
+  why: {
+    on(R) {
+      const z = soft ? 1.18 : 1.5, img = R.img, box = R.media.getBoundingClientRect(); if (!box.width) return;
+      const iw = img.naturalWidth || 1084, ih = img.naturalHeight || 722, s = Math.max(box.width / iw, box.height / ih);
+      const dw = iw * s / box.width, dh = ih * s / box.height, ox = (1 - dw) * .44, oy = (1 - dh) * .5;   // object-position 44% 50%
+      // where to bring it: the middle of the territory as it ends up once it has pushed its borders, and below its
+      // label, which sits right on that middle and covered the face in the second test
+      const ps = REGIONS.why.map(n => tgt[n]);
+      const cx = (ps.reduce((a, p) => a + p[0], 0) / ps.length / 100 * W - box.left) / box.width;
+      const lab = R.tag.getBoundingClientRect(), low = Math.max(...ps.map(p => p[1])) / 100 * H;
+      const cy = ((lab.bottom + low) / 2 - box.top) / box.height;
+      const at = (px, py) => {   // the drawing's point (px, py) in the middle, without showing past its edges
+        const tx = Math.min(-z * ox, Math.max(1 - z * (ox + dw), cx - z * (ox + px * dw)));
+        const ty = Math.min(-z * oy, Math.max(1 - z * (oy + dh), cy - z * (oy + py * dh)));
+        return { transform: `translate(${(tx * 100).toFixed(2)}%, ${(ty * 100).toFixed(2)}%) scale(${z})` };
+      };
+      img.style.transformOrigin = '0 0';
+      img.animate([
+        { transform: 'translate(0, 0) scale(1)', easing: 'cubic-bezier(.2,.65,.3,1)' },
+        { ...at(.5, .6), offset: .38, easing: 'ease-in-out' },    // the man's mouth, the pipe and its smoke
+        at(.71, .76),                                              // along the bar, the bottle marked XX and the glass
+      ], { duration: soft ? 18000 : 12000, direction: 'alternate', iterations: Infinity });
+    },
+    off(R) { unwind(R.img); },
+  },
+  // CV: brutalism does not glide; it cuts from block to block, and a copier's light runs down the sheet
+  cv: {
+    on(R) {
+      const s = soft ? 1.45 : 1.85, st = R.img.style;
+      let i = Math.floor(Math.random() * CUTS.length);
+      const cut = () => {
+        i = (i + 1) % CUTS.length; const [x, y] = CUTS[i];
+        // object-position and the origin on the same point keep that point where it falls in the box
+        st.objectPosition = `${x}% ${y}%`; st.transformOrigin = `${x}% ${y}%`; st.transform = `scale(${s})`;
+      };
+      R._t0 = setTimeout(() => { cut(); R._iv = setInterval(cut, soft ? 1300 : 640); }, 120);
+    },
+    off(R) { clearTimeout(R._t0); clearInterval(R._iv); const st = R.img.style; st.objectPosition = st.transformOrigin = st.transform = ''; },
+  },
+  // Tomás on adventure: the cat drifts in orbit, something floating in space (the play button is the rest)
+  toa: {
+    on(R) {
+      const img = R.img, a = soft ? .7 : 2.2, z = soft ? 1.06 : 1.14, g = soft ? .4 : 1.3, N = 12;
+      const fr = Array.from({ length: N + 1 }, (_, j) => {
+        const u = j / N * Math.PI * 2;
+        return { transform: `scale(${z}) translate(${(Math.sin(u) * a).toFixed(2)}%, ${(-Math.cos(u) * a).toFixed(2)}%) rotate(${(-Math.cos(u) * g).toFixed(2)}deg)` };
+      });
+      img.style.transformOrigin = '50% 55%';
+      const intro = img.animate([{ transform: 'none' }, fr[0]], { duration: 900, easing: 'cubic-bezier(.3,.6,.3,1)', fill: 'forwards' });
+      intro.onfinish = () => { if (active !== R) return; intro.cancel(); img.animate(fr, { duration: soft ? 16000 : 9000, iterations: Infinity }); };
+    },
+    off(R) { unwind(R.img); },
+  },
 };
 function activate(k, viaFocus) {
   const R = regs[k]; if (!R) return;
@@ -451,14 +524,14 @@ function activate(k, viaFocus) {
     if (!R.video.src) { R.video.src = R.video.dataset.src; R.video.preload = 'auto'; }
     R.video.play().then(() => { if (active === R) R.video.classList.add('live'); }).catch(() => {});
   }
-  if (PANS[k] && !reduce) R._pan = R.img.animate(PANS[k].frames, { duration: PANS[k].dur, easing: 'ease-in-out', direction: 'alternate', iterations: Infinity });
+  if (MOVES[k]) MOVES[k].on(R);
   if (k === 'up') opRun(true);
 }
 function deactivate(k) {
   const R = regs[k]; if (!R) return;
   R.el.classList.remove('on'); if (!touchOnly) R.tag.classList.remove('on');
   if (R.video) { R.video.pause(); R.video.classList.remove('live'); }
-  if (R._pan) { R._pan.cancel(); R._pan = null; }
+  if (MOVES[k]) MOVES[k].off(R);
   if (k === 'up') opRun(false);
   if (active === R) { active = null; wall.classList.remove('has-on'); focusRing.style.opacity = 0; pushFor(null); settle(); }
 }
@@ -493,7 +566,7 @@ const STORIES = [   // background and ink of each story, from the page's own pal
   ['#d6e5c9', '#36702f'], ['#161815', '#8fb36c'], ['#121c27', '#e5a852'],
 ];
 const FIELDS = [{ cv: $('#op'), reg: 'up', turn: false }];
-let opPhase = 0, opOn = false, opLast = 0;
+let opPhase = 0, opOn = false, opLast = 0, opAmp = 1, opHeld = 0, opTick = 0;
 function drawField(F, phase) {
   const box = regs[F.reg].media.getBoundingClientRect(); if (!box.width) return;
   const d = Math.min(2, devicePixelRatio || 1), w = Math.round(box.width * d), h = Math.round(box.height * d);
@@ -515,7 +588,7 @@ function drawField(F, phase) {
     c.beginPath();
     for (let x = 0; x <= fw; x += 4 * d) {
       const u = x / fw, swell = Math.pow(Math.sin(Math.PI * (u * 1.3 + .1 + .05 * Math.sin(i * .21 + ph * .4))), 2);
-      const y = y0 + swell * 11 * d * Math.sin(u * 22 + i * .33 + ph);
+      const y = y0 + swell * 11 * d * opAmp * Math.sin(u * 22 + i * .33 + ph);
       x ? c.lineTo(x, y) : c.moveTo(x, y);
     }
     c.stroke();
@@ -523,9 +596,21 @@ function drawField(F, phase) {
   c.restore();
 }
 function drawOp(phase) { FIELDS.forEach(F => drawField(F, phase)); }
+// The field answers the stay: the longer the pointer rests on it, the higher the waves rise and the faster they
+// run; when it leaves, they calm down before stopping. (Gentler when the browser asks for less motion.)
 function opRun(on) {
-  opOn = on && !reduce;
-  if (opOn) { opLast = performance.now(); requestAnimationFrame(function tick(t) { if (!opOn) return; opPhase += (t - opLast) / 1000 * 1.1; opLast = t; drawOp(opPhase); requestAnimationFrame(tick); }); }
+  opOn = on; if (!on) opHeld = 0;
+  if (!opTick) { opLast = performance.now(); opTick = requestAnimationFrame(opStep); }
+}
+function opStep(t) {
+  const dt = Math.min(.1, (t - opLast) / 1000); opLast = t;
+  if (opOn) opHeld += dt;
+  const goal = opOn ? 1 + Math.min(1, opHeld / 3.5) * (soft ? .45 : 1.3) : 1;
+  opAmp += (goal - opAmp) * Math.min(1, dt * (opOn ? 1.6 : 3));
+  opPhase += dt * (soft ? .45 : 1.1 * (1 + .45 * (opAmp - 1)));
+  drawOp(opPhase);
+  if (opOn || opAmp > 1.01) opTick = requestAnimationFrame(opStep);
+  else { opTick = 0; opAmp = 1; drawOp(opPhase); }
 }
 
 /* ---------- Tomás on adventure ---------- */
