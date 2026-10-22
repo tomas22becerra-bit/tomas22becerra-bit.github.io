@@ -146,8 +146,17 @@ a.reg{cursor:pointer}
 .player.rest .tm{order:-1;font-size:14px;font-weight:700;color:#d9d6f0}
 .player.rest .tm .who{color:#74e4ff}   /* the blue of the lightning he casts on the cover */
 /* the first play: the spell lands, as in the old monster-catching games, then the track takes over */
-.player.cast .tt{color:#ff4a3a;overflow:visible;animation:cast .9s cubic-bezier(.3,1.6,.5,1) both;transform-origin:0 50%}
-@keyframes cast{0%{transform:scale(.6);opacity:0;text-shadow:0 0 0 #ff4a3a}35%{opacity:1;text-shadow:0 0 14px #ff4a3a}60%{transform:scale(1.08) translateX(2px)}70%{transform:scale(1.04) translateX(-2px)}100%{transform:none;text-shadow:0 0 5px rgba(255,74,58,.55)}}
+/* The reward for pressing play (Tomás, 22/10, as a game designer: every button we make the player press pays back).
+   Three beats over 3.4 s: «It's» slides in, «SUPER» drops in huge, «effective!!» hits and the pill shakes; each with its whoosh. */
+.player.cast .tt{color:#ff4a3a;overflow:visible;text-shadow:0 0 6px rgba(255,74,58,.55)}
+.player.cast .w{display:inline-block;opacity:0;animation:wIn .38s cubic-bezier(.2,1.5,.4,1) forwards}
+.player.cast .w1{animation-delay:0s}
+.player.cast .w2{font-size:1.18em;animation-name:wSuper;animation-duration:.45s;animation-delay:.75s}
+.player.cast .w3{animation-delay:1.5s}
+.player.cast{animation:hit .42s ease-out 1.78s}
+@keyframes wIn{0%{opacity:0;transform:translateX(46px) skewX(-24deg);filter:blur(3px)}60%{opacity:1;filter:none}100%{opacity:1;transform:none}}
+@keyframes wSuper{0%{opacity:0;transform:scale(2.6);text-shadow:0 0 0 #ff4a3a}50%{opacity:1;transform:scale(.88);text-shadow:0 0 18px #ff4a3a}100%{opacity:1;transform:none;text-shadow:0 0 7px rgba(255,74,58,.6)}}
+@keyframes hit{0%{transform:translate(-50%,-50%)}20%{transform:translate(calc(-50% - 6px),calc(-50% + 2px)) rotate(-1.2deg)}40%{transform:translate(calc(-50% + 5px),calc(-50% - 2px)) rotate(1deg)}60%{transform:translate(calc(-50% - 3px),-50%) rotate(-.5deg)}80%{transform:translate(calc(-50% + 2px),-50%)}100%{transform:translate(-50%,-50%)}}
 .trk .tt{display:block;font-family:'Permanent Marker',cursive;font-size:17px;color:#fff6c9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .trk .tm{display:block;white-space:nowrap;font-size:12px;font-stretch:86%;color:#b9b7d8;font-variant-numeric:tabular-nums}
 .skip{flex:none;width:30px;height:30px;border:0;background:none;cursor:pointer;padding:0;display:grid;place-items:center}
@@ -185,7 +194,7 @@ a.reg{cursor:pointer}
   .player.rest .trk,.player.cast .trk{max-width:190px}
   .eps{display:none}
 }
-@media (prefers-reduced-motion:reduce){ .player.cast .tt{animation:none} .media>video,.tag,.tag .sub{transition:none} .disc::after{animation:none} .r-cv.on .scan{animation-duration:4.5s;opacity:.55} }
+@media (prefers-reduced-motion:reduce){ .player.cast{animation:none} .player.cast .w{animation-name:wFade;animation-duration:.3s} @keyframes wFade{to{opacity:1}} .media>video,.tag,.tag .sub{transition:none} .disc::after{animation:none} .r-cv.on .scan{animation-duration:4.5s;opacity:.55} }
 </style>
 </head>
 <body>
@@ -585,7 +594,22 @@ const STORIES = [   // background and ink of each story, from the page's own pal
   ['#d6e5c9', '#36702f'], ['#161815', '#8fb36c'], ['#121c27', '#e5a852'],
 ];
 const FIELDS = [{ cv: $('#op'), reg: 'up', turn: false }];
-let opPhase = 0, opOn = false, opLast = 0, opAmp = 1, opHeld = 0, opTick = 0;
+let opPhase = 0, opOn = false, opLast = 0, opAmp = 1, opHeld = 0, opTick = 0, opHue = 0;
+/* While the pointer stays, the filaments change colour (Tomás, 22/10): each band walks through the inks of the
+   other stories, but only those that read on its own ground (light inks on the dark grounds, dark inks on the
+   light ones), so the waves never vanish into their band. opHue counts the steps; between two, the inks blend. */
+const hex = h => [1, 3, 5].map(k => parseInt(h.slice(k, k + 2), 16));
+const lum = h => { const [r, g, b] = hex(h); return .2126 * r + .7152 * g + .0722 * b; };
+const INK_WALK = STORIES.map(([b, a]) => {
+  const dark = lum(b) < 128, pool = STORIES.map(s => s[1]).filter(c => (lum(c) > 128) === dark);
+  const k = pool.indexOf(a); return k < 0 ? [a, ...pool] : [...pool.slice(k), ...pool.slice(0, k)];
+});
+function inkOf(i) {
+  const w = INK_WALK[i], n = Math.floor(opHue), f = opHue - n, e = f * f * (3 - 2 * f);
+  if (!f) return w[n % w.length];
+  const A = hex(w[n % w.length]), B = hex(w[(n + 1) % w.length]);
+  return `rgb(${A.map((v, j) => Math.round(v + (B[j] - v) * e)).join(',')})`;
+}
 function drawField(F, phase) {
   const box = regs[F.reg].media.getBoundingClientRect(); if (!box.width) return;
   const d = Math.min(2, devicePixelRatio || 1), w = Math.round(box.width * d), h = Math.round(box.height * d);
@@ -597,7 +621,7 @@ function drawField(F, phase) {
   if (F.turn) { c.translate(w, 0); c.rotate(Math.PI / 2); fw = h; fh = w; }
   const order = F.turn ? [...STORIES].reverse() : STORIES;
   const bg = c.createLinearGradient(0, fh * .2, fw, fh * .8), ink = c.createLinearGradient(0, fh * .2, fw, fh * .8);
-  order.forEach(([b, a], i) => { const s0 = i / 7, s1 = (i + 1) / 7; bg.addColorStop(s0, b); bg.addColorStop(s1 - .001, b); ink.addColorStop(s0, a); ink.addColorStop(s1 - .001, a); });
+  order.forEach(([b], i) => { const s0 = i / 7, s1 = (i + 1) / 7, a = inkOf(F.turn ? 6 - i : i); bg.addColorStop(s0, b); bg.addColorStop(s1 - .001, b); ink.addColorStop(s0, a); ink.addColorStop(s1 - .001, a); });
   c.fillStyle = bg; c.fillRect(0, 0, fw, fh);
   // Riley's waves: parallel lines whose swing swells and narrows across the field
   const gap = 7 * d, n = Math.ceil(fh / gap) + 6, ph = phase + (F.turn ? 2.1 : 0);
@@ -622,13 +646,15 @@ function opRun(on) {
   if (!opTick) { opLast = performance.now(); opTick = requestAnimationFrame(opStep); }
 }
 function opStep(t) {
-  const dt = Math.min(.1, (t - opLast) / 1000); opLast = t;
-  if (opOn) opHeld += dt;
+  // the first frame's time can come slightly before opLast: a negative step walked the inks to index -1
+  const dt = Math.max(0, Math.min(.1, (t - opLast) / 1000)); opLast = t;
+  if (opOn) { opHeld += dt; opHue += dt * (soft ? .3 : .75); }
+  else if (opHue % 1) { const t = Math.ceil(opHue); opHue = Math.min(t, opHue + dt * 1.5); }   // on leaving, finish the blend it was in and rest there
   const goal = opOn ? 1 + Math.min(1, opHeld / 3.5) * (soft ? .45 : 1.3) : 1;
   opAmp += (goal - opAmp) * Math.min(1, dt * (opOn ? 1.6 : 3));
   opPhase += dt * (soft ? .45 : 1.1 * (1 + .45 * (opAmp - 1)));
   drawOp(opPhase);
-  if (opOn || opAmp > 1.01) opTick = requestAnimationFrame(opStep);
+  if (opOn || opAmp > 1.01 || opHue % 1) opTick = requestAnimationFrame(opStep);
   else { opTick = 0; opAmp = 1; drawOp(opPhase); }
 }
 
@@ -692,8 +718,29 @@ function toSpotify(T) {
 // the first time the music starts, the kitten's spell lands: «It's super effective!», then the track
 function cast() {
   castDone = true; player.classList.add('cast');
-  tt.textContent = 'It\'s SUPER effective!!'; tm.textContent = '';
-  castT = setTimeout(() => { player.classList.remove('cast'); const T = TRACKS[ti]; tt.textContent = T.title; tm.textContent = au.src ? `${fmt(au.currentTime)} / ${fmt(au.duration)}` : EPS[T.ep].title; }, 2000);
+  tt.innerHTML = '<span class="w w1">It\'s</span> <span class="w w2">SUPER</span> <span class="w w3">effective!!</span>'; tm.textContent = '';
+  // the whooshes, on the same beats as the words (seconds after now): small, bigger, and the hit with a low thump
+  whoosh(-.12, .5, .55); whoosh(.62, .55, .9); whoosh(1.36, .6, 1.36); thump(1.78);   // measured 22/10: the last whoosh about 9 dB under the music, peaks near -5 dBFS
+  castT = setTimeout(() => { player.classList.remove('cast'); const T = TRACKS[ti]; tt.textContent = T.title; tm.textContent = au.src ? `${fmt(au.currentTime)} / ${fmt(au.duration)}` : EPS[T.ep].title; }, 3400);
+}
+// A whoosh made on the spot: white noise through a band-pass that sweeps up, swelling then cut short.
+// It goes straight to the speakers, not through the music's level.
+let noiseBuf = null;
+function whoosh(at, dur, peak) {
+  if (!actx) return;
+  if (!noiseBuf) { noiseBuf = actx.createBuffer(1, actx.sampleRate, actx.sampleRate); const d = noiseBuf.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1; }
+  const t0 = actx.currentTime + Math.max(0, at), n = actx.createBufferSource(), f = actx.createBiquadFilter(), g = actx.createGain();
+  n.buffer = noiseBuf; f.type = 'bandpass'; f.Q.value = 1.1;
+  f.frequency.setValueAtTime(320, t0); f.frequency.exponentialRampToValueAtTime(3200, t0 + dur * .85);
+  g.gain.setValueAtTime(0.0001, t0); g.gain.exponentialRampToValueAtTime(peak * MASTER, t0 + dur * .7); g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+  n.connect(f); f.connect(g); g.connect(actx.destination); n.start(t0); n.stop(t0 + dur + .02);
+}
+function thump(at) {   // the landing: a short sine that drops in pitch
+  if (!actx) return;
+  const t0 = actx.currentTime + at, o = actx.createOscillator(), g = actx.createGain();
+  o.type = 'sine'; o.frequency.setValueAtTime(110, t0); o.frequency.exponentialRampToValueAtTime(42, t0 + .22);
+  g.gain.setValueAtTime(0.0001, t0); g.gain.exponentialRampToValueAtTime(.55 * MASTER, t0 + .015); g.gain.exponentialRampToValueAtTime(0.0001, t0 + .3);
+  o.connect(g); g.connect(actx.destination); o.start(t0); o.stop(t0 + .32);
 }
 function openSpotify() { window.open(TRACKS[ti].spotify, '_blank', 'noopener'); }
 function ensureAudioGraph() {
