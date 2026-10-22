@@ -140,7 +140,9 @@ a.reg{cursor:pointer}
 .player.spot .dot{background:#1db954}
 .player.spot .dot svg{width:24px;height:24px;fill:none;stroke:#121212;stroke-width:2.3;stroke-linecap:round}
 .player.spot .tm{color:#7ee2a1}
-.trk{min-width:0;max-width:220px;line-height:1.25}
+.trk{min-width:0;max-width:220px;line-height:1.25;display:flex;flex-direction:column}
+/* before the first play the cat on the cover casts the spell (Tomás, 22/10): the caster small above, the spell big */
+.player.rest .tm{order:-1;font-size:12.5px;color:#d9d6f0}
 .trk .tt{display:block;font-family:'Permanent Marker',cursive;font-size:17px;color:#fff6c9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .trk .tm{display:block;white-space:nowrap;font-size:12px;font-stretch:86%;color:#b9b7d8;font-variant-numeric:tabular-nums}
 .skip{flex:none;width:30px;height:30px;border:0;background:none;cursor:pointer;padding:0;display:grid;place-items:center}
@@ -175,6 +177,7 @@ a.reg{cursor:pointer}
   .player{gap:8px;padding:6px 10px 6px 6px}
   .dot{width:48px;height:48px}
   .trk{max-width:120px}.trk .tt{font-size:14px}
+  .player.rest .trk{max-width:190px}
   .eps{display:none}
 }
 @media (prefers-reduced-motion:reduce){ .media>video,.tag,.tag .sub{transition:none} .disc::after{animation:none} .r-cv.on .scan{animation-duration:4.5s;opacity:.55} }
@@ -209,9 +212,9 @@ a.reg{cursor:pointer}
   <div class="tags" id="tags" aria-hidden="true"></div>
   <div class="sig" id="sig" aria-hidden="true"><span class="scrap" id="sigScrap"><span class="ink" id="sigInk"></span></span></div>
 
-  <div class="player" id="player">
+  <div class="player rest" id="player">
     <button class="dot" id="pp" type="button" aria-label="Play Tomás on adventure"><svg viewBox="0 0 24 24" id="ppIcon"><path d="M7 4.5v15l12.5-7.5z"/></svg></button>
-    <span class="trk"><span class="tt" id="tt">Give it a listen!</span><span class="tm" id="tm"></span></span>
+    <span class="trk"><span class="tt" id="tt">“Press play button” 🎶</span><span class="tm" id="tm">Wizard kitten casts</span></span>
     <button class="skip" id="next" type="button" aria-label="Next track"><svg viewBox="0 0 24 24"><path d="M4 4.5v15L15 12zM16.5 4.5h3v15h-3z"/></svg></button>
     <span class="eps" role="group" aria-label="EPs">
       <button class="ep" type="button" data-ep="cartography" aria-label="Play Cartography"><img src="landing/ep-cartography-s.jpg" alt="" width="52" height="52"></button>
@@ -663,7 +666,7 @@ function setTrack(i, autoplay, at) {
   ti = (i + TRACKS.length) % TRACKS.length;
   const T = TRACKS[ti];
   if (T.spotify) { toSpotify(T); return; }
-  player.classList.remove('spot');
+  player.classList.remove('spot', 'rest');
   pendingStart = at || null;
   au.src = T.src + (at ? `#t=${at}` : '');
   tt.textContent = T.title; tm.textContent = EPS[T.ep].title;
@@ -674,7 +677,7 @@ function setTrack(i, autoplay, at) {
 // An Outfit: the music stops, its cover comes up, and the dot becomes Spotify's door
 function toSpotify(T) {
   au.pause(); au.removeAttribute('src'); au.load(); pendingStart = null;
-  player.classList.add('spot');
+  player.classList.remove('rest'); player.classList.add('spot');
   tt.textContent = T.title; tm.textContent = 'Listen on Spotify ↗';
   showEP(T.ep);
   ppIcon.firstElementChild.setAttribute('d', ICON_SPOTIFY);
