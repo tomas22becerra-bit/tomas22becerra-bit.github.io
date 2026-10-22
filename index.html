@@ -129,7 +129,8 @@ a.reg{cursor:pointer}
 .player{position:absolute;transform:translate(-50%,-50%);display:flex;align-items:center;gap:12px;padding:8px 14px 8px 8px;border-radius:999px;
   background:rgba(10,12,30,.62);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:6}
 .dot{flex:none;width:58px;height:58px;border-radius:50%;border:0;background:#fff6c9;display:grid;place-items:center;cursor:pointer;padding:0;
-  box-shadow:0 0 0 calc(var(--lv) * 12px) rgba(255,246,201,.25),0 4px 14px rgba(0,0,0,.4);transition:transform .2s ease}
+  border:3px solid var(--purple);box-sizing:border-box;
+  box-shadow:0 0 0 2px #141633,0 0 0 calc(2px + var(--lv) * 12px) rgba(255,246,201,.25),0 4px 14px rgba(0,0,0,.4);transition:transform .2s ease}
 .dot:hover{transform:scale(1.06)}
 .dot svg{width:18px;height:18px;fill:#141633}
 .trk{min-width:0;max-width:220px;line-height:1.25}
@@ -150,8 +151,8 @@ a.reg{cursor:pointer}
   font-family:'Archivo',sans-serif;font-size:clamp(14px,1.08vw,16.5px);letter-spacing:.01em;
   box-shadow:0 0 0 1.5px #f4ecd8,3px 3px 0 1.5px var(--green),0 6px 14px rgba(0,0,0,.45);transition:transform .25s ease,box-shadow .25s ease}
 /* how to reach him: sober, in a letter no territory uses (Tomás, 22/10) */
-.mail .k{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-size:1.22em;color:#fff6c9;letter-spacing:.01em;white-space:nowrap}
-.mail .m{font-family:'Instrument Serif',Georgia,serif;font-size:1.2em;letter-spacing:.02em;border-bottom:1px solid rgba(244,236,216,.35);padding-bottom:1px}
+.mail .k{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-size:1.02em;color:#fff6c9;letter-spacing:.01em;white-space:nowrap}
+.mail .m{font-family:'Instrument Serif',Georgia,serif;font-size:1.02em;letter-spacing:.02em;border-bottom:1px solid rgba(244,236,216,.35);padding-bottom:1px}
 .mail:hover,.mail:focus-visible{transform:rotate(0deg) translateY(-2px);outline:none;box-shadow:0 0 0 1.5px #f4ecd8,4px 4px 0 1.5px var(--purple),0 8px 18px rgba(0,0,0,.5)}
 .mail:hover .m,.mail:focus-visible .m{border-bottom-color:var(--cream)}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
@@ -256,9 +257,9 @@ const BORDERS = [
   { pts: ['p3', 'y4'], color: 'var(--red)' },
 ];
 // where each territory says its name, and where the music's dot sits
-const TAGS = { kon: [17, 41], up: [70, 15], why: [50, 49], cv: [13, 82], toa: [82, 51] };
+const TAGS = { kon: [17, 41], up: [70, 15], why: [50, 49], cv: [13, 82], toa: [86, 47] };
 const TAGS_P = { kon: [24, 38], up: [16, 58], why: [48, 52], cv: [84, 57], toa: [66, 62] };   // phones: the wall turned on its side
-const PLAYER = [79, 76], PLAYER_P = [62, 79];
+const PLAYER = [79, 79], PLAYER_P = [62, 79];
 // the signature, on its scrap, pasted over the printed name at the top of the CV
 const SIG = { x: 21, y: 67, w: 23, rot: -5 }, SIG_P = { x: 70, y: 30, w: 50, rot: -7 };
 
