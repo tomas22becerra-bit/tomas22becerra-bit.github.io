@@ -146,8 +146,8 @@ a.reg{cursor:pointer}
 .player.rest .tm{order:-1;font-size:14px;font-weight:700;color:#d9d6f0}
 .player.rest .tm .who{color:#74e4ff}   /* the blue of the lightning he casts on the cover */
 /* the first play: the spell lands, as in the old monster-catching games, then the track takes over */
-.player.cast .tt{color:#fff;animation:cast .9s cubic-bezier(.3,1.6,.5,1) both;transform-origin:0 50%}
-@keyframes cast{0%{transform:scale(.6);opacity:0;text-shadow:0 0 0 #74e4ff}35%{opacity:1;text-shadow:0 0 14px #74e4ff}60%{transform:scale(1.08) translateX(2px)}70%{transform:scale(1.04) translateX(-2px)}100%{transform:none;text-shadow:0 0 4px rgba(116,228,255,.5)}}
+.player.cast .tt{color:#ff4a3a;overflow:visible;animation:cast .9s cubic-bezier(.3,1.6,.5,1) both;transform-origin:0 50%}
+@keyframes cast{0%{transform:scale(.6);opacity:0;text-shadow:0 0 0 #ff4a3a}35%{opacity:1;text-shadow:0 0 14px #ff4a3a}60%{transform:scale(1.08) translateX(2px)}70%{transform:scale(1.04) translateX(-2px)}100%{transform:none;text-shadow:0 0 5px rgba(255,74,58,.55)}}
 .trk .tt{display:block;font-family:'Permanent Marker',cursive;font-size:17px;color:#fff6c9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .trk .tm{display:block;white-space:nowrap;font-size:12px;font-stretch:86%;color:#b9b7d8;font-variant-numeric:tabular-nums}
 .skip{flex:none;width:30px;height:30px;border:0;background:none;cursor:pointer;padding:0;display:grid;place-items:center}
@@ -182,7 +182,7 @@ a.reg{cursor:pointer}
   .player{gap:8px;padding:6px 10px 6px 6px}
   .dot{width:48px;height:48px}
   .trk{max-width:120px}.trk .tt{font-size:14px}
-  .player.rest .trk{max-width:190px}
+  .player.rest .trk,.player.cast .trk{max-width:190px}
   .eps{display:none}
 }
 @media (prefers-reduced-motion:reduce){ .player.cast .tt{animation:none} .media>video,.tag,.tag .sub{transition:none} .disc::after{animation:none} .r-cv.on .scan{animation-duration:4.5s;opacity:.55} }
@@ -692,7 +692,7 @@ function toSpotify(T) {
 // the first time the music starts, the kitten's spell lands: «It's super effective!», then the track
 function cast() {
   castDone = true; player.classList.add('cast');
-  tt.textContent = 'It\'s super effective!'; tm.textContent = '';
+  tt.textContent = 'It\'s SUPER effective!!'; tm.textContent = '';
   castT = setTimeout(() => { player.classList.remove('cast'); const T = TRACKS[ti]; tt.textContent = T.title; tm.textContent = au.src ? `${fmt(au.currentTime)} / ${fmt(au.duration)}` : EPS[T.ep].title; }, 2000);
 }
 function openSpotify() { window.open(TRACKS[ti].spotify, '_blank', 'noopener'); }
