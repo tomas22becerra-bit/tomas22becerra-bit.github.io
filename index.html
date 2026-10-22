@@ -595,17 +595,18 @@ const STORIES = [   // background and ink of each story, from the page's own pal
 ];
 const FIELDS = [{ cv: $('#op'), reg: 'up', turn: false }];
 let opPhase = 0, opOn = false, opLast = 0, opAmp = 1, opHeld = 0, opTick = 0, opHue = 0;
-/* While the pointer stays, the filaments change colour (Tomás, 22/10): each band walks through the inks of the
-   other stories, but only those that read on its own ground (light inks on the dark grounds, dark inks on the
-   light ones), so the waves never vanish into their band. opHue counts the steps; between two, the inks blend. */
+/* While the pointer stays, the grounds of the bands change colour (Tomás, 22/10; the waves keep their inks):
+   each band walks through the grounds of the other stories, but only those its own ink reads on (dark grounds
+   under the light inks, light grounds under the dark ones), so the waves never vanish into their band.
+   opHue counts the steps; between two, the grounds blend. (A first version walked the inks: not what he meant.) */
 const hex = h => [1, 3, 5].map(k => parseInt(h.slice(k, k + 2), 16));
 const lum = h => { const [r, g, b] = hex(h); return .2126 * r + .7152 * g + .0722 * b; };
-const INK_WALK = STORIES.map(([b, a]) => {
-  const dark = lum(b) < 128, pool = STORIES.map(s => s[1]).filter(c => (lum(c) > 128) === dark);
-  const k = pool.indexOf(a); return k < 0 ? [a, ...pool] : [...pool.slice(k), ...pool.slice(0, k)];
+const GROUND_WALK = STORIES.map(([b]) => {
+  const dark = lum(b) < 128, pool = STORIES.map(s => s[0]).filter(c => (lum(c) < 128) === dark);
+  const k = pool.indexOf(b); return [...pool.slice(k), ...pool.slice(0, k)];
 });
-function inkOf(i) {
-  const w = INK_WALK[i], n = Math.floor(opHue), f = opHue - n, e = f * f * (3 - 2 * f);
+function groundOf(i) {
+  const w = GROUND_WALK[i], n = Math.floor(opHue), f = opHue - n, e = f * f * (3 - 2 * f);
   if (!f) return w[n % w.length];
   const A = hex(w[n % w.length]), B = hex(w[(n + 1) % w.length]);
   return `rgb(${A.map((v, j) => Math.round(v + (B[j] - v) * e)).join(',')})`;
@@ -621,7 +622,7 @@ function drawField(F, phase) {
   if (F.turn) { c.translate(w, 0); c.rotate(Math.PI / 2); fw = h; fh = w; }
   const order = F.turn ? [...STORIES].reverse() : STORIES;
   const bg = c.createLinearGradient(0, fh * .2, fw, fh * .8), ink = c.createLinearGradient(0, fh * .2, fw, fh * .8);
-  order.forEach(([b], i) => { const s0 = i / 7, s1 = (i + 1) / 7, a = inkOf(F.turn ? 6 - i : i); bg.addColorStop(s0, b); bg.addColorStop(s1 - .001, b); ink.addColorStop(s0, a); ink.addColorStop(s1 - .001, a); });
+  order.forEach(([, a], i) => { const s0 = i / 7, s1 = (i + 1) / 7, b = groundOf(F.turn ? 6 - i : i); bg.addColorStop(s0, b); bg.addColorStop(s1 - .001, b); ink.addColorStop(s0, a); ink.addColorStop(s1 - .001, a); });
   c.fillStyle = bg; c.fillRect(0, 0, fw, fh);
   // Riley's waves: parallel lines whose swing swells and narrows across the field
   const gap = 7 * d, n = Math.ceil(fh / gap) + 6, ph = phase + (F.turn ? 2.1 : 0);
@@ -646,7 +647,7 @@ function opRun(on) {
   if (!opTick) { opLast = performance.now(); opTick = requestAnimationFrame(opStep); }
 }
 function opStep(t) {
-  // the first frame's time can come slightly before opLast: a negative step walked the inks to index -1
+  // the first frame's time can come slightly before opLast: a negative step walked the colours to index -1
   const dt = Math.max(0, Math.min(.1, (t - opLast) / 1000)); opLast = t;
   if (opOn) { opHeld += dt; opHue += dt * (soft ? .3 : .75); }
   else if (opHue % 1) { const t = Math.ceil(opHue); opHue = Math.min(t, opHue + dt * 1.5); }   // on leaving, finish the blend it was in and rest there
