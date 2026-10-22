@@ -28,6 +28,8 @@
 @font-face{font-family:'Spectral';font-style:italic;src:url(landing/fonts/spectral-latin-400-italic.woff2) format('woff2');font-display:swap}
 @font-face{font-family:'Courier Prime';font-weight:700;src:url(landing/fonts/courier-prime-latin-700-normal.woff2) format('woff2');font-display:swap}
 @font-face{font-family:'Syne';font-weight:600;src:url(landing/fonts/syne-latin-600-normal.woff2) format('woff2');font-display:swap}
+@font-face{font-family:'Instrument Serif';src:url(landing/fonts/instrument-serif-latin-400-normal.woff2) format('woff2');font-display:swap}
+@font-face{font-family:'Instrument Serif';font-style:italic;src:url(landing/fonts/instrument-serif-latin-400-italic.woff2) format('woff2');font-display:swap}
 @font-face{font-family:'Archivo';font-weight:100 900;font-stretch:62% 125%;src:url(landing/archivo.woff2) format('woff2');font-display:swap}
 
 :root{
@@ -147,8 +149,9 @@ a.reg{cursor:pointer}
   padding:.38em .8em .42em;background:#121212;color:var(--cream);text-decoration:none;transform:rotate(-1.2deg);
   font-family:'Archivo',sans-serif;font-size:clamp(14px,1.08vw,16.5px);letter-spacing:.01em;
   box-shadow:0 0 0 1.5px #f4ecd8,3px 3px 0 1.5px var(--green),0 6px 14px rgba(0,0,0,.45);transition:transform .25s ease,box-shadow .25s ease}
-.mail .k{font-family:'Permanent Marker',cursive;font-size:.92em;color:#fff6c9;letter-spacing:.02em;white-space:nowrap}
-.mail .m{font-stretch:92%;border-bottom:1px solid rgba(244,236,216,.35);padding-bottom:1px}
+/* how to reach him: sober, in a letter no territory uses (Tomás, 22/10) */
+.mail .k{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-size:1.22em;color:#fff6c9;letter-spacing:.01em;white-space:nowrap}
+.mail .m{font-family:'Instrument Serif',Georgia,serif;font-size:1.2em;letter-spacing:.02em;border-bottom:1px solid rgba(244,236,216,.35);padding-bottom:1px}
 .mail:hover,.mail:focus-visible{transform:rotate(0deg) translateY(-2px);outline:none;box-shadow:0 0 0 1.5px #f4ecd8,4px 4px 0 1.5px var(--purple),0 8px 18px rgba(0,0,0,.5)}
 .mail:hover .m,.mail:focus-visible .m{border-bottom-color:var(--cream)}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
@@ -210,7 +213,7 @@ a.reg{cursor:pointer}
     </span>
   </div>
 
-  <a class="mail" href="mailto:tomas22becerra@gmail.com" aria-label="Fancy a conversation? tomas22becerra@gmail.com"><span class="k">Fancy a conversation?</span><span class="m">tomas22becerra@gmail.com</span></a>
+  <a class="mail" href="mailto:tomas22becerra@gmail.com" aria-label="Fancy a conversation? tomas22becerra@gmail.com"><span class="k">Fancy a conversation? 🍺</span><span class="m">tomas22becerra@gmail.com</span></a>
 </main>
 <audio id="au" preload="none"></audio>
 
